@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace PurgarNET.AAConnector.Client
+namespace PurgarNET.AAConnector.ConsoleControls
 {
-    public class AAClient
+    public class Class1
     {
     }
 }

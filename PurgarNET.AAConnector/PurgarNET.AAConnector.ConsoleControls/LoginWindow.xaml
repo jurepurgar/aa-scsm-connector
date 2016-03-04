@@ -1,0 +1,29 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+        xmlns:Custom="http://schemas.microsoft.com/SystemCenter/Common/UI/Views" 
+        xmlns:local="clr-namespace:PurgarNET.AAConnector.ConsoleControls" 
+        x:Class="PurgarNET.AAConnector.ConsoleControls.LoginWindow" 
+        mc:Ignorable="d" 
+        d:DesignHeight="300" d:DesignWidth="300" WindowStartupLocation="CenterOwner" Title="Login to Azure"
+    >
+    <Window.Resources>
+        
+    </Window.Resources>
+    <Grid >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <WebBrowser x:Name="LoginBrowser" Margin="2" Navigating="LoginBrowser_Navigating"/>
+
+
+
+        <Button Grid.Row="1" x:Name="CancelButton" Content="Cancel" Width="50" HorizontalAlignment="Right" />
+       
+    </Grid>
+</Window>
+
