@@ -55,7 +55,13 @@
     <Compile Include="AAClientBase.cs" />
     <Compile Include="AAServiceClient.cs" />
     <Compile Include="AAUserClient.cs" />
+    <Compile Include="ApiException.cs" />
     <Compile Include="AuthorizationManager.cs" />
+    <Compile Include="Models\ApiError.cs" />
+    <Compile Include="Models\ApiResponse.cs" />
+    <Compile Include="Models\AutomationAccount.cs" />
+    <Compile Include="Models\Subscription.cs" />
+    <Compile Include="Models\Tenant.cs" />
     <Compile Include="Models\Token.cs" />
     <Compile Include="Parameters.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

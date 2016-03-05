@@ -88,13 +88,25 @@ namespace PurgarNET.AAConnector.Client
             //TODO: throw error if not successuf
         }
 
-        public async Task<T> Get<T>(string resource) where T : new()
+
+        //api calls
+        protected async Task<T> Get<T>(string resource) where T : new()
         {
             var req = new RestRequest(resource, Method.GET);
-            var res = await _client.GetResponseAsync<T>(req);
 
-            return default(T);
+            var res = await _client.GetResponseAsync<ApiResponse<T>>(req); // TODO: handle other type of errors, like no internet, etc...
+
+            if (res.Data.Error != null)
+                throw new ApiException(res.Data.Error.Code, res.Data.Error.Message);
+            else
+                return res.Data.Value;
         }
-        
+
+        protected async Task<List<T>> GetList<T>(string resource)
+        {
+            return await Get<List<T>>(resource);
+        }
+
+
     }
 }

@@ -37,7 +37,15 @@ namespace PurgarNET.AAConnector.TestApp
 
             await cl.InitializeAsync(default(Guid));
 
-            var r = await cl.Get<Client.Models.Token>("subscriptions");
+            //var r = await cl.Get<Client.Models.Token>("subscriptions");
+
+            var r1 = await cl.GetTenants();
+
+            var r2 = await cl.GetSubscriptions();
+
+            var s = r2.First();
+
+            var r3 = await cl.GetAutomationAccounts(s.SubscriptionId);
 
             var b = "res";
 
