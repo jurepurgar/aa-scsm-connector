@@ -9,7 +9,7 @@ namespace PurgarNET.AAConnector.Client.Models
     public class Subscription
     {
         [DataMember(Name = "subscriptionId")]
-        public Guid Id { get; set; }
+        public Guid SubscriptionId { get; set; }
         [DataMember(Name = "displayName")]
         public string DisplayName { get; set; }
         [DataMember(Name = "state")]

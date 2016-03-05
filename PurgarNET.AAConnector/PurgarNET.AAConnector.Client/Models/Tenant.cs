@@ -9,7 +9,7 @@ namespace PurgarNET.AAConnector.Client.Models
     public class Tenant
     {
         [DataMember(Name = "tenantId")]
-        public Guid Id { get; set; }
+        public Guid TenantId { get; set; }
     }
 
 }

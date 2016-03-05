@@ -23,34 +23,42 @@ namespace PurgarNET.AAConnector.TestApp
     /// </summary>
     public partial class MainWindow : Window
     {
+
+        AAConfigClient cl;
         public MainWindow()
         {
             InitializeComponent();
+
+            cl = new AAConfigClient();
         }
 
         private async void LoginButton_Click(object sender, RoutedEventArgs e)
         {
-            var code = LoginWindow.InitializeLogin();
-
-            var cl = new AAUserClient();
-            cl.SetAuthorizationCode(code);
-
-            await cl.InitializeAsync(default(Guid));
+            
+            cl.AuthorizationCodeRequired += Cl_AuthorizationCodeRequired;
 
             //var r = await cl.Get<Client.Models.Token>("subscriptions");
 
-            var r1 = await cl.GetTenants();
+            for (var i = 1; i <= 10; i++)
+            {
+                var r1 = await cl.GetTenants();
 
-            var r2 = await cl.GetSubscriptions();
+                var r2 = await cl.GetSubscriptions();
 
-            var s = r2.First();
+                var s = r2.First();
 
-            var r3 = await cl.GetAutomationAccounts(s.SubscriptionId);
+                var r3 = await cl.GetAutomationAccounts(s.SubscriptionId);
 
-            var b = "res";
+            }
+
+            var r = "res";
 
        
         }
 
+        private void Cl_AuthorizationCodeRequired(object sender, AuthorizationCodeRequiredEventArgs e)
+        {
+            e.Code = LoginWindow.InitializeLogin();
+        }
     }
 }

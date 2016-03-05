@@ -52,9 +52,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AAAccountClientBase.cs" />
     <Compile Include="AAClientBase.cs" />
-    <Compile Include="AAServiceClient.cs" />
-    <Compile Include="AAUserClient.cs" />
+    <Compile Include="AAUserClientBase.cs" />
+    <Compile Include="AAWorkflowClient.cs" />
+    <Compile Include="AAConfigClient.cs" />
     <Compile Include="ApiException.cs" />
     <Compile Include="AuthorizationManager.cs" />
     <Compile Include="Models\ApiError.cs" />
