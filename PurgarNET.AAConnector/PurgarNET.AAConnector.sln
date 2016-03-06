@@ -1,0 +1,56 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{D4B43EB3-688B-4EEE-86BD-088F0B28ABB3}") = "PurgarNET.AAConnector.Library", "PurgarNET.AAConnector.Library\PurgarNET.AAConnector.Library.mpproj", "{226FB22B-8F04-404D-8D24-F10E8F40002C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PurgarNET.AAConnector.Client", "PurgarNET.AAConnector.Client\PurgarNET.AAConnector.Client.csproj", "{C023EA8D-D9EC-4A7E-A877-DEF4B9ED345C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PurgarNET.AAConnector.ConsoleControls", "PurgarNET.AAConnector.ConsoleControls\PurgarNET.AAConnector.ConsoleControls.csproj", "{949202F5-F792-4BC2-BA98-BAF20FD1BBD0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PurgarNET.AAConnector.TestApp", "PurgarNET.AAClient.TestApp\PurgarNET.AAConnector.TestApp.csproj", "{832DE145-CBFD-4D67-9170-C60813846EDD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{226FB22B-8F04-404D-8D24-F10E8F40002C}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{226FB22B-8F04-404D-8D24-F10E8F40002C}.Debug|x86.ActiveCfg = Debug|x86
+		{226FB22B-8F04-404D-8D24-F10E8F40002C}.Debug|x86.Build.0 = Debug|x86
+		{226FB22B-8F04-404D-8D24-F10E8F40002C}.Release|Any CPU.ActiveCfg = Release|x86
+		{226FB22B-8F04-404D-8D24-F10E8F40002C}.Release|x86.ActiveCfg = Release|x86
+		{226FB22B-8F04-404D-8D24-F10E8F40002C}.Release|x86.Build.0 = Release|x86
+		{C023EA8D-D9EC-4A7E-A877-DEF4B9ED345C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C023EA8D-D9EC-4A7E-A877-DEF4B9ED345C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C023EA8D-D9EC-4A7E-A877-DEF4B9ED345C}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C023EA8D-D9EC-4A7E-A877-DEF4B9ED345C}.Debug|x86.Build.0 = Debug|Any CPU
+		{C023EA8D-D9EC-4A7E-A877-DEF4B9ED345C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C023EA8D-D9EC-4A7E-A877-DEF4B9ED345C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C023EA8D-D9EC-4A7E-A877-DEF4B9ED345C}.Release|x86.ActiveCfg = Release|Any CPU
+		{C023EA8D-D9EC-4A7E-A877-DEF4B9ED345C}.Release|x86.Build.0 = Release|Any CPU
+		{949202F5-F792-4BC2-BA98-BAF20FD1BBD0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{949202F5-F792-4BC2-BA98-BAF20FD1BBD0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{949202F5-F792-4BC2-BA98-BAF20FD1BBD0}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{949202F5-F792-4BC2-BA98-BAF20FD1BBD0}.Debug|x86.Build.0 = Debug|Any CPU
+		{949202F5-F792-4BC2-BA98-BAF20FD1BBD0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{949202F5-F792-4BC2-BA98-BAF20FD1BBD0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{949202F5-F792-4BC2-BA98-BAF20FD1BBD0}.Release|x86.ActiveCfg = Release|Any CPU
+		{949202F5-F792-4BC2-BA98-BAF20FD1BBD0}.Release|x86.Build.0 = Release|Any CPU
+		{832DE145-CBFD-4D67-9170-C60813846EDD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{832DE145-CBFD-4D67-9170-C60813846EDD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{832DE145-CBFD-4D67-9170-C60813846EDD}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{832DE145-CBFD-4D67-9170-C60813846EDD}.Debug|x86.Build.0 = Debug|Any CPU
+		{832DE145-CBFD-4D67-9170-C60813846EDD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{832DE145-CBFD-4D67-9170-C60813846EDD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{832DE145-CBFD-4D67-9170-C60813846EDD}.Release|x86.ActiveCfg = Release|Any CPU
+		{832DE145-CBFD-4D67-9170-C60813846EDD}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
