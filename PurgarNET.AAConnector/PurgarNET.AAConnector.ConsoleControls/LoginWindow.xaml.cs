@@ -12,7 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace PurgarNET.AAConnector.ConsoleControls
+namespace PurgarNET.AAConnector.Console
 {
     /// <summary>
     /// Interaction logic for LoginWindow.xaml

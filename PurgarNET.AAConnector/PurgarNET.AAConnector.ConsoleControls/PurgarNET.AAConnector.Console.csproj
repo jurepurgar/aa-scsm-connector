@@ -7,8 +7,8 @@
     <ProjectGuid>{949202F5-F792-4BC2-BA98-BAF20FD1BBD0}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>PurgarNET.AAConnector.ConsoleControls</RootNamespace>
-    <AssemblyName>PurgarNET.AAConnector.ConsoleControls</AssemblyName>
+    <RootNamespace>PurgarNET.AAConnector.Console</RootNamespace>
+    <AssemblyName>PurgarNET.AAConnector.Console</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -44,6 +44,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class1.cs" />
+    <Compile Include="SettingsWindow.xaml.cs">
+      <DependentUpon>SettingsWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="LoginWindow.xaml.cs">
       <DependentUpon>LoginWindow.xaml</DependentUpon>
     </Compile>
@@ -56,6 +59,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="SettingsWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="LoginWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

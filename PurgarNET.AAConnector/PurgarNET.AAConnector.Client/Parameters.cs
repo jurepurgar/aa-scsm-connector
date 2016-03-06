@@ -19,6 +19,10 @@ namespace PurgarNET.AAConnector.Client
         public static string GRAPH_RESOURCE = "https://graph.windows.net/";
 
         public static string POWERSHELL_CLIENT_ID = "1950a258-227b-4e31-a9cf-717495945fc2";
+        
+        
+
+
 
         private static string USER_LOGIN_URL = "https://login.windows.net/{0}/oauth2/authorize?resource={1}&client_id={2}&response_type=code&redirect_uri={3}&display=popup&site_id=501358";
 

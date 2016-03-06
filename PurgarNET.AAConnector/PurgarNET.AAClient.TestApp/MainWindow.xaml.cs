@@ -1,4 +1,4 @@
-﻿using PurgarNET.AAConnector.ConsoleControls;
+﻿using PurgarNET.AAConnector.Console;
 using System;
 using System.Collections.Generic;
 using System.Linq;

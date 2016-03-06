@@ -5,19 +5,20 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
     xmlns:Custom="http://schemas.microsoft.com/SystemCenter/Common/UI/Views" 
     xmlns:local="clr-namespace:PurgarNET.AAConnector.Console" 
-    x:Class="PurgarNET.AAConnector.Console.LoginWindow" 
+    x:Class="PurgarNET.AAConnector.Console.SettingsWindow" 
     mc:Ignorable="d" 
-    d:DesignHeight="300" d:DesignWidth="300" 
-    Width="550"
-    Height="650"
-    WindowStartupLocation="CenterOwner"
-    Title="Login to Azure" ResizeMode="NoResize" ShowInTaskbar="False" Topmost="True"
+    d:DesignHeight="300" d:DesignWidth="300" WindowStartupLocation="CenterOwner" Title="Login to Azure"
     >
     <Window.Resources>
         
     </Window.Resources>
     <Grid >
-        <WebBrowser x:Name="LoginBrowser" Margin="2" Navigating="LoginBrowser_Navigating"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+       
+       
     </Grid>
 </Window>
 

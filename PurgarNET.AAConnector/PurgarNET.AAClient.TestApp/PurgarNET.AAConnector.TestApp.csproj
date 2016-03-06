@@ -104,9 +104,9 @@
       <Project>{c023ea8d-d9ec-4a7e-a877-def4b9ed345c}</Project>
       <Name>PurgarNET.AAConnector.Client</Name>
     </ProjectReference>
-    <ProjectReference Include="..\PurgarNET.AAConnector.ConsoleControls\PurgarNET.AAConnector.ConsoleControls.csproj">
+    <ProjectReference Include="..\PurgarNET.AAConnector.ConsoleControls\PurgarNET.AAConnector.Console.csproj">
       <Project>{949202f5-f792-4bc2-ba98-baf20fd1bbd0}</Project>
-      <Name>PurgarNET.AAConnector.ConsoleControls</Name>
+      <Name>PurgarNET.AAConnector.Console</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
