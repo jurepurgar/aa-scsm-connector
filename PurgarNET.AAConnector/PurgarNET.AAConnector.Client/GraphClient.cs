@@ -21,7 +21,7 @@ namespace PurgarNET.AAConnector.Client
             return new Uri(url);
         }
 
-        public async Task<List<string>> GetApplications() todo //TODO: Do JSON to C# string is not OK
+        public async Task<List<string>> GetApplications() //odo //TODO: Do JSON to C# string is not OK
         {
             return await GetList<string>($"applications");
         }
