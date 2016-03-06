@@ -59,6 +59,7 @@
     <Compile Include="AAConfigClient.cs" />
     <Compile Include="ApiException.cs" />
     <Compile Include="AuthorizationManager.cs" />
+    <Compile Include="GraphClient.cs" />
     <Compile Include="Models\ApiError.cs" />
     <Compile Include="Models\ApiResponse.cs" />
     <Compile Include="Models\AutomationAccount.cs" />

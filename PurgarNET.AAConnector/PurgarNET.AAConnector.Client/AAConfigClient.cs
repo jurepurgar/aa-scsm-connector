@@ -10,11 +10,12 @@ namespace PurgarNET.AAConnector.Client
 {
     public class AAConfigClient : AAClientBase
     {
-        public AAConfigClient() : base(Parameters.API_ENDPOINT_URI, default(Guid), AuthenticationType.Code, Parameters.POWERSHELL_CLIENT_ID, null)
+        public AAConfigClient() : base(Parameters.AZURE_API_URI, default(Guid), Parameters.AZURE_RESOURCE, Parameters.AZURE_API_VERSION, AuthenticationType.Code, Parameters.POWERSHELL_CLIENT_ID, null)
         { }
 
-        
         //Api methods
+
+
         public async Task<List<Tenant>> GetTenants()
         {
             return await GetList<Tenant>("tenants");

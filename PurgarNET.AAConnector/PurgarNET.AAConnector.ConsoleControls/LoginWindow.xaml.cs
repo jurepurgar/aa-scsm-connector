@@ -30,12 +30,12 @@ namespace PurgarNET.AAConnector.ConsoleControls
 
         private static Exception _err = null;
 
-        public static string InitializeLogin()
+        public static string InitializeLogin(Guid tenantId = default(Guid))
         {
             _code = null;
             _err = null;
             _wnd = new LoginWindow();
-            _wnd.LoginBrowser.Navigate(Client.Parameters.GetUserLoginUri());
+            _wnd.LoginBrowser.Navigate(Client.Parameters.GetUserLoginUri(tenantId));
             _wnd.ShowDialog();
 
             if (_err != null)

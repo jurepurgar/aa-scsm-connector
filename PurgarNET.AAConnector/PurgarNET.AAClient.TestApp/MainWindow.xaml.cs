@@ -30,17 +30,18 @@ namespace PurgarNET.AAConnector.TestApp
             InitializeComponent();
 
             cl = new AAConfigClient();
+            cl.AuthorizationCodeRequired += Cl_AuthorizationCodeRequired;
         }
 
         private async void LoginButton_Click(object sender, RoutedEventArgs e)
         {
             
-            cl.AuthorizationCodeRequired += Cl_AuthorizationCodeRequired;
+            
 
             //var r = await cl.Get<Client.Models.Token>("subscriptions");
 
-            for (var i = 1; i <= 10; i++)
-            {
+           // for (var i = 1; i <= 10; i++)
+            //{
                 var r1 = await cl.GetTenants();
 
                 var r2 = await cl.GetSubscriptions();
@@ -49,11 +50,25 @@ namespace PurgarNET.AAConnector.TestApp
 
                 var r3 = await cl.GetAutomationAccounts(s.SubscriptionId);
 
-            }
+            var graphClient = new GraphClient(r1.First().TenantId);
+
+            graphClient.AuthorizationCodeRequired += GraphClient_AuthorizationCodeRequired;
+
+            var apps = await graphClient.GetApplications();
+
+            
+
+
+            //}
 
             var r = "res";
 
        
+        }
+
+        private void GraphClient_AuthorizationCodeRequired(object sender, AuthorizationCodeRequiredEventArgs e)
+        {
+            e.Code = LoginWindow.InitializeLogin(e.TenantId);
         }
 
         private void Cl_AuthorizationCodeRequired(object sender, AuthorizationCodeRequiredEventArgs e)

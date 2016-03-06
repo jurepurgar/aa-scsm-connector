@@ -17,6 +17,8 @@ namespace PurgarNET.AAConnector.Client
         private RestClient _tokenClient = null;
         private string _clientSecret = null;
         private string _clientId = null;
+        private string _resource = null;
+        private Guid _tenantId = default(Guid);
 
         private AuthenticationType _authType = AuthenticationType.Undefined;
 
@@ -24,20 +26,22 @@ namespace PurgarNET.AAConnector.Client
         private object _lck = new object();
         private Task _tokenTask = null;
 
-        public AAClientBase(Uri baseUri, Guid tenantId, AuthenticationType authType, string clientId, string clientSecret)
+        public AAClientBase(Uri baseUri, Guid tenantId, string resource, string apiVersion, AuthenticationType authType, string clientId, string clientSecret)
         {
             _authType = authType;
             _clientId = clientId;
             _clientSecret = clientSecret;
+            _resource = resource;
+            _tenantId = tenantId;
 
             //TODO: verify parameters based on authType
 
             _client = new RestClient(baseUri);
             _client.AddDefaultHeader("Accept", "application/json");
-            _client.AddDefaultParameter("api-version", "2015-10-31", ParameterType.QueryString);
+            _client.AddDefaultParameter("api-version", apiVersion, ParameterType.QueryString);
 
             //init the tokenClient
-            _tokenClient = new RestClient(Parameters.GetTokenUri(tenantId));
+            _tokenClient = new RestClient(Parameters.GetTokenUri(_tenantId));
             _tokenClient.AddDefaultHeader("Accept", "application/json;odata=verbose;charset=utf-8");
             _tokenClient.Encoding = Encoding.UTF8;
         }
@@ -92,6 +96,7 @@ namespace PurgarNET.AAConnector.Client
                 else
                 {
                     var args = new AuthorizationCodeRequiredEventArgs();
+                    args.TenantId = _tenantId;
                     AuthorizationCodeRequired(this, args);
                     if (args.Code == null)
                         throw new InvalidOperationException("AuthorizationCode retreived is null.");
@@ -113,7 +118,7 @@ namespace PurgarNET.AAConnector.Client
 
         private async Task AssureTokenByRequestAsync(RestRequest request)
         {
-            request.AddParameter("resource", Parameters.RESOURCE);
+            request.AddParameter("resource", _resource);
             
 
             var res = await _tokenClient.GetResponseAsync<Token>(request);
@@ -151,6 +156,8 @@ namespace PurgarNET.AAConnector.Client
     public class AuthorizationCodeRequiredEventArgs : EventArgs
     {
         public string Code { get; set; }
+
+        public Guid TenantId { get; set; }
     }
 
 }
