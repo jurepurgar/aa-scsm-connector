@@ -1,0 +1,50 @@
+﻿<ManagementPackFragment SchemaVersion="SM2.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Categories>
+    <Category ID="PurgarNET.AAConnector.MonitorSmaJobsWorkflowRuleCategory" Target="PurgarNET.AAConnector.MonitorJobsWorkflowRule" Value="Administration!Microsoft.EnterpriseManagement.ServiceManager.Rules.WorkflowSubscriptions" />
+  </Categories>
+  <Monitoring>
+    <Rules>
+      <Rule ID="PurgarNET.AAConnector.MonitorJobsWorkflowRule" Enabled="true" Target="Library!Microsoft.SystemCenter.SubscriptionWorkflowTarget" ConfirmDelivery="true" Remotable="true" Priority="Normal" DiscardLevel="100">
+        <Category>System</Category>
+        <DataSources>
+          <DataSource ID="DS" TypeID="System!System.Scheduler">
+            <Scheduler>
+              <SimpleReccuringSchedule>
+                <Interval Unit="Minutes">5</Interval>
+                <SyncTime>14:15</SyncTime>
+              </SimpleReccuringSchedule>
+              <ExcludeDates />
+            </Scheduler>
+          </DataSource>
+        </DataSources>
+        <WriteActions>
+          <WriteAction ID="WA" TypeID="Subscriptions!Microsoft.EnterpriseManagement.SystemCenter.Subscription.WindowsWorkflowTaskWriteAction">
+            <Subscription>
+              <EnableBatchProcessing>true</EnableBatchProcessing>
+              <WindowsWorkflowConfiguration>
+                <AssemblyName>PurgarNET.AAConnector.Workflows</AssemblyName>
+                <WorkflowTypeName>PurgarNET.AAConnector.Workflows.MonitorJobs</WorkflowTypeName>
+                <WorkflowParameters>
+                  <WorkflowParameter Name="ClientId" Type="guid">$RunAs[Name="PurgarNET.AAConnector.ConnectorCredential"]/UserName$</WorkflowParameter>
+                  <WorkflowParameter Name="ClientSecret" Type="guid">$RunAs[Name="PurgarNET.AAConnector.ConnectorCredential"]/Password$</WorkflowParameter>
+                </WorkflowParameters>
+                <RetryExceptions />
+                <RetryDelaySeconds>60</RetryDelaySeconds>
+                <MaximumRunningTimeSeconds>7200</MaximumRunningTimeSeconds>
+              </WindowsWorkflowConfiguration>
+            </Subscription>
+          </WriteAction>
+        </WriteActions>
+      </Rule>
+    </Rules>
+  </Monitoring>
+  <LanguagePacks>
+    <LanguagePack ID="ENU" >
+      <DisplayStrings>
+        <DisplayString ElementID="PurgarNET.AAConnector.MonitorJobsWorkflowRule">
+          <Name>Monitor SMA Jobs Workflow</Name>
+        </DisplayString>
+      </DisplayStrings>
+    </LanguagePack>
+  </LanguagePacks>  
+</ManagementPackFragment>

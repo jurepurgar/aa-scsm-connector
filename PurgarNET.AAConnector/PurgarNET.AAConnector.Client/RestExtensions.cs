@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PurgarNET.AAConnector.Client
+namespace PurgarNET.AAConnector.Shared
 {
     public static class RestExtensions
     {

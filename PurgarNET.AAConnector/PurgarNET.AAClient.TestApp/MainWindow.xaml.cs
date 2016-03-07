@@ -1,4 +1,5 @@
 ﻿using PurgarNET.AAConnector.Console;
+using PurgarNET.AAConnector.Shared.AutomationClient;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,8 +14,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using RestSharp;
-using PurgarNET.AAConnector.Client;
+
+
 
 namespace PurgarNET.AAConnector.TestApp
 {
@@ -24,40 +25,23 @@ namespace PurgarNET.AAConnector.TestApp
     public partial class MainWindow : Window
     {
 
-        AAConfigClient cl;
+        AAUserClient cl;
         public MainWindow()
         {
             InitializeComponent();
 
-            cl = new AAConfigClient();
+            cl = new AAUserClient("kolektor.com", new Guid("5c8eb01e-d914-41f1-bb3a-e7ff67fe8cbe"), "kolit-resources-prod", "kolit-automation-prod", "71daa18d-2e2a-4417-8903-b084e0d7ae44");
             cl.AuthorizationCodeRequired += Cl_AuthorizationCodeRequired;
         }
 
         private async void LoginButton_Click(object sender, RoutedEventArgs e)
         {
-            
-            
 
             //var r = await cl.Get<Client.Models.Token>("subscriptions");
 
            // for (var i = 1; i <= 10; i++)
             //{
-                var r1 = await cl.GetTenants();
-
-                var r2 = await cl.GetSubscriptions();
-
-                var s = r2.First();
-
-                var r3 = await cl.GetAutomationAccounts(s.SubscriptionId);
-
-            var graphClient = new GraphClient(r1.First().TenantId);
-
-            graphClient.AuthorizationCodeRequired += GraphClient_AuthorizationCodeRequired;
-
-            var apps = await graphClient.GetApplications();
-
-            
-
+                var r1 = await cl.GetRunbooks();
 
             //}
 
@@ -66,14 +50,10 @@ namespace PurgarNET.AAConnector.TestApp
        
         }
 
-        private void GraphClient_AuthorizationCodeRequired(object sender, AuthorizationCodeRequiredEventArgs e)
-        {
-            e.Code = LoginWindow.InitializeLogin(e.TenantId);
-        }
 
         private void Cl_AuthorizationCodeRequired(object sender, AuthorizationCodeRequiredEventArgs e)
         {
-            e.Code = LoginWindow.InitializeLogin();
+            e.Code = LoginWindow.InitializeLogin(e.LoginUri);
         }
     }
 }

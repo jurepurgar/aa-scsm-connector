@@ -5,9 +5,9 @@ using System.Net;
 using System.Text;
 using RestSharp;
 using System.Threading.Tasks;
-using PurgarNET.AAConnector.Client.Models;
+using PurgarNET.AAConnector.Shared.AutomationClient.Models;
 
-namespace PurgarNET.AAConnector.Client
+namespace PurgarNET.AAConnector.Shared.AutomationClient
 {
     public enum AuthenticationType { Undefined, Code, ClientSecret }
 
@@ -17,8 +17,8 @@ namespace PurgarNET.AAConnector.Client
         private RestClient _tokenClient = null;
         private string _clientSecret = null;
         private string _clientId = null;
-        private string _resource = null;
-        private Guid _tenantId = default(Guid);
+        //private string _resource = null;
+        private string _tenant = null;
 
         private AuthenticationType _authType = AuthenticationType.Undefined;
 
@@ -26,22 +26,24 @@ namespace PurgarNET.AAConnector.Client
         private object _lck = new object();
         private Task _tokenTask = null;
 
-        public AAClientBase(Uri baseUri, Guid tenantId, string resource, string apiVersion, AuthenticationType authType, string clientId, string clientSecret)
+        public AAClientBase(string tenant, Guid subscriptionId, string resourceGroup, string automationAccountName, AuthenticationType authType, string clientId, string clientSecret)
         {
             _authType = authType;
             _clientId = clientId;
             _clientSecret = clientSecret;
-            _resource = resource;
-            _tenantId = tenantId;
+            //_resource = resource;
+            _tenant = tenant;
 
             //TODO: verify parameters based on authType
+            var uri = new Uri($"{Parameters.AZURE_API_URI}/subscriptions/{subscriptionId.ToString()}/resourceGroups/{resourceGroup}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/");
 
-            _client = new RestClient(baseUri);
+            _client = new RestClient(uri);
+
             _client.AddDefaultHeader("Accept", "application/json");
-            _client.AddDefaultParameter("api-version", apiVersion, ParameterType.QueryString);
+            _client.AddDefaultParameter("api-version", Parameters.AZURE_API_VERSION, ParameterType.QueryString);
 
             //init the tokenClient
-            _tokenClient = new RestClient(Parameters.GetTokenUri(_tenantId));
+            _tokenClient = new RestClient(Parameters.GetTokenUri(_tenant));
             _tokenClient.AddDefaultHeader("Accept", "application/json;odata=verbose;charset=utf-8");
             _tokenClient.Encoding = Encoding.UTF8;
         }
@@ -96,7 +98,7 @@ namespace PurgarNET.AAConnector.Client
                 else
                 {
                     var args = new AuthorizationCodeRequiredEventArgs();
-                    args.TenantId = _tenantId;
+                    args.LoginUri = new Uri(string.Format(Parameters.USER_LOGIN_URL, _tenant, Parameters.GetUrlEncodedResource(), _clientId, Parameters.REDIRECT_URI.ToString()));
                     AuthorizationCodeRequired(this, args);
                     if (args.Code == null)
                         throw new InvalidOperationException("AuthorizationCode retreived is null.");
@@ -118,7 +120,7 @@ namespace PurgarNET.AAConnector.Client
 
         private async Task AssureTokenByRequestAsync(RestRequest request)
         {
-            request.AddParameter("resource", _resource);
+            request.AddParameter("resource", Parameters.AZURE_RESOURCE);
             
 
             var res = await _tokenClient.GetResponseAsync<Token>(request);
@@ -151,13 +153,16 @@ namespace PurgarNET.AAConnector.Client
         }
 
 
+
+
+
     }
 
     public class AuthorizationCodeRequiredEventArgs : EventArgs
     {
         public string Code { get; set; }
 
-        public Guid TenantId { get; set; }
+        public Uri LoginUri { get; set; }
     }
 
 }

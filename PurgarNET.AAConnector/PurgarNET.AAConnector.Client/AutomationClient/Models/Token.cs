@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Runtime.Serialization;
 
-namespace PurgarNET.AAConnector.Client.Models
+namespace PurgarNET.AAConnector.Shared.AutomationClient.Models
 {
     public class Token
     {

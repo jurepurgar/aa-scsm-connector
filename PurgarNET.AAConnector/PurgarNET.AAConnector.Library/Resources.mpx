@@ -1,0 +1,7 @@
+﻿<ManagementPackFragment SchemaVersion="SM2.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Resources>
+    <DeployableAssembly ID="PurgarNET.AAConnector.Shared" Accessibility="Public" FileName="PurgarNET.AAConnector.Shared.dll" HasNullStream="false" QualifiedName="PurgarNET.AAConnector.Shared, Version=1.0.0.0" />
+    <DeployableAssembly ID="PurgarNET.AAConnector.Console" Accessibility="Public" FileName="PurgarNET.AAConnector.Console.dll" HasNullStream="false" QualifiedName="PurgarNET.AAConnector.Console, Version=1.0.0.0" />
+    <!--<DeployableAssembly ID="PurgarNET.AAConnector.Console" Accessibility="Public" FileName="Newtonsoft.Json.dll" HasNullStream="false" QualifiedName="Newtonsoft.Json, Version=6.0.0.0" /> -->
+  </Resources>
+</ManagementPackFragment>

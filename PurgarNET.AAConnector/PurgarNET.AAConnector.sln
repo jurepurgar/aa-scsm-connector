@@ -5,13 +5,15 @@ VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{D4B43EB3-688B-4EEE-86BD-088F0B28ABB3}") = "PurgarNET.AAConnector.Library", "PurgarNET.AAConnector.Library\PurgarNET.AAConnector.Library.mpproj", "{226FB22B-8F04-404D-8D24-F10E8F40002C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PurgarNET.AAConnector.Client", "PurgarNET.AAConnector.Client\PurgarNET.AAConnector.Client.csproj", "{C023EA8D-D9EC-4A7E-A877-DEF4B9ED345C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PurgarNET.AAConnector.Shared", "PurgarNET.AAConnector.Client\PurgarNET.AAConnector.Shared.csproj", "{C023EA8D-D9EC-4A7E-A877-DEF4B9ED345C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PurgarNET.AAConnector.Console", "PurgarNET.AAConnector.ConsoleControls\PurgarNET.AAConnector.Console.csproj", "{949202F5-F792-4BC2-BA98-BAF20FD1BBD0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PurgarNET.AAConnector.TestApp", "PurgarNET.AAClient.TestApp\PurgarNET.AAConnector.TestApp.csproj", "{832DE145-CBFD-4D67-9170-C60813846EDD}"
 EndProject
 Project("{F5034706-568F-408A-B7B3-4D38C6DB8A32}") = "PurgarNET.AAConnector.PowerShell", "PurgarNET.AAConnector.PowerShell\PurgarNET.AAConnector.PowerShell.pssproj", "{6CAFC0C6-A428-4D30-A9F9-700E829FEA51}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PurgarNET.AAConnector.Workflows", "PurgarNET.AAConnector.Workflow\PurgarNET.AAConnector.Workflows.csproj", "{2E442F44-C726-4174-9353-47C773688059}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -59,6 +61,14 @@ Global
 		{6CAFC0C6-A428-4D30-A9F9-700E829FEA51}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6CAFC0C6-A428-4D30-A9F9-700E829FEA51}.Release|x86.ActiveCfg = Release|Any CPU
 		{6CAFC0C6-A428-4D30-A9F9-700E829FEA51}.Release|x86.Build.0 = Release|Any CPU
+		{2E442F44-C726-4174-9353-47C773688059}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2E442F44-C726-4174-9353-47C773688059}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2E442F44-C726-4174-9353-47C773688059}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{2E442F44-C726-4174-9353-47C773688059}.Debug|x86.Build.0 = Debug|Any CPU
+		{2E442F44-C726-4174-9353-47C773688059}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2E442F44-C726-4174-9353-47C773688059}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2E442F44-C726-4174-9353-47C773688059}.Release|x86.ActiveCfg = Release|Any CPU
+		{2E442F44-C726-4174-9353-47C773688059}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

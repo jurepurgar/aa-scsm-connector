@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PurgarNET.AAConnector.Shared;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -30,12 +31,12 @@ namespace PurgarNET.AAConnector.Console
 
         private static Exception _err = null;
 
-        public static string InitializeLogin(Guid tenantId = default(Guid))
+        public static string InitializeLogin(Uri loginUri)
         {
             _code = null;
             _err = null;
             _wnd = new LoginWindow();
-            _wnd.LoginBrowser.Navigate(Client.Parameters.GetUserLoginUri(tenantId));
+            _wnd.LoginBrowser.Navigate(loginUri);
             _wnd.ShowDialog();
 
             if (_err != null)
@@ -46,7 +47,7 @@ namespace PurgarNET.AAConnector.Console
 
         private void LoginBrowser_Navigating(object sender, NavigatingCancelEventArgs e)
         {
-            if (e.Uri.AbsolutePath == Client.Parameters.REDIRECT_URI.AbsolutePath)
+            if (e.Uri.AbsolutePath == Parameters.REDIRECT_URI.AbsolutePath)
             {
                 try
                 {
