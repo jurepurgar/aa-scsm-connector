@@ -100,7 +100,7 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\PurgarNET.AAConnector.Client\PurgarNET.AAConnector.Shared.csproj">
+    <ProjectReference Include="..\PurgarNET.AAConnector.Shared\PurgarNET.AAConnector.Shared.csproj">
       <Project>{c023ea8d-d9ec-4a7e-a877-def4b9ed345c}</Project>
       <Name>PurgarNET.AAConnector.Shared</Name>
     </ProjectReference>

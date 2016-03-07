@@ -5,7 +5,7 @@ VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{D4B43EB3-688B-4EEE-86BD-088F0B28ABB3}") = "PurgarNET.AAConnector.Library", "PurgarNET.AAConnector.Library\PurgarNET.AAConnector.Library.mpproj", "{226FB22B-8F04-404D-8D24-F10E8F40002C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PurgarNET.AAConnector.Shared", "PurgarNET.AAConnector.Client\PurgarNET.AAConnector.Shared.csproj", "{C023EA8D-D9EC-4A7E-A877-DEF4B9ED345C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PurgarNET.AAConnector.Shared", "PurgarNET.AAConnector.Shared\PurgarNET.AAConnector.Shared.csproj", "{C023EA8D-D9EC-4A7E-A877-DEF4B9ED345C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PurgarNET.AAConnector.Console", "PurgarNET.AAConnector.ConsoleControls\PurgarNET.AAConnector.Console.csproj", "{949202F5-F792-4BC2-BA98-BAF20FD1BBD0}"
 EndProject
