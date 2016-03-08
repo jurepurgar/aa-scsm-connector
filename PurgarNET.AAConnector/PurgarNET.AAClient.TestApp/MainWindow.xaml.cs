@@ -36,18 +36,20 @@ namespace PurgarNET.AAConnector.TestApp
 
         private async void LoginButton_Click(object sender, RoutedEventArgs e)
         {
-
             //var r = await cl.Get<Client.Models.Token>("subscriptions");
 
            // for (var i = 1; i <= 10; i++)
             //{
                 var r1 = await cl.GetRunbooks();
 
+            var r2 = await cl.GetHybridRunbookWorkerGroups();
+
+            var r3 = await cl.GetJob(new Guid("7bb89564-6703-4d32-b24f-20b8ddc1b5c2"));
+
             //}
 
             var r = "res";
 
-       
         }
 
 

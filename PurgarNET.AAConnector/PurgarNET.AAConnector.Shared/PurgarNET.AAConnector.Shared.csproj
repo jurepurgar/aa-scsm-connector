@@ -52,6 +52,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AutomationClient\Models\HybridRunbookWorkerGroup.cs" />
+    <Compile Include="AutomationClient\Models\Job.cs" />
     <Compile Include="AutomationClient\Models\Runbook.cs" />
     <Compile Include="AutomationClient\AAClientBase.cs" />
     <Compile Include="AutomationClient\AAUserClient.cs" />

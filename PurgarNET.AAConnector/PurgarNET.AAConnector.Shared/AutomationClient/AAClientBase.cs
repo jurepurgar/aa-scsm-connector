@@ -35,7 +35,7 @@ namespace PurgarNET.AAConnector.Shared.AutomationClient
             _tenant = tenant;
 
             //TODO: verify parameters based on authType
-            var uri = new Uri($"{Parameters.AZURE_API_URI}/subscriptions/{subscriptionId.ToString()}/resourceGroups/{resourceGroup}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/");
+            var uri = new Uri($"{Parameters.AZURE_API_URI}subscriptions/{subscriptionId.ToString()}/resourceGroups/{resourceGroup}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/");
 
             _client = new RestClient(uri);
 

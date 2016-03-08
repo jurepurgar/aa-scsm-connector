@@ -15,6 +15,7 @@ namespace PurgarNET.AAConnector.Shared.AutomationClient.Models
         {
             [DataMember(Name = "runbookType")]
             public string RunbookType { get; set; }
+
             [DataMember(Name = "state")]
             public RunbookState State { get; set; }
             //public bool logVerbose { get; set; }
@@ -26,8 +27,8 @@ namespace PurgarNET.AAConnector.Shared.AutomationClient.Models
 
         [DataMember(Name = "id")]
         public string Id { get; set; }
-        [DataMember(Name = "location")]
-        public string Location { get; set; }
+        /*[DataMember(Name = "location")]
+        public string Location { get; set; }*/
 
         [DataMember(Name = "name")]
         public string Name { get; set; }

@@ -13,5 +13,8 @@ namespace PurgarNET.AAConnector.Shared.AutomationClient.Models
 
         [DataMember(Name = "value")]
         public T Value { get; set; }
+
+        [DataMember(Name = "nextLink")]
+        public Uri NextLink { get; set; }
     }
 }
