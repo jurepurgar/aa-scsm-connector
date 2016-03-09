@@ -40,6 +40,7 @@ namespace PurgarNET.AAConnector.Workflows
             {
                 if (_smClient == null)
                     _smClient = new SMClient("localhost");
+
                 _smClient.KeepAlive();
             }
 
