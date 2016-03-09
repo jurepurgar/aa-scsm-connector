@@ -1,0 +1,19 @@
+﻿<ManagementPackFragment SchemaVersion="SM2.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <TypeDefinitions>
+   <SecureReferences>
+      
+      <SecureReference ID="PurgarNET.AAConnector.ConnectorCredential" Comment="Service principal credentials used to connectot to AzureAutomation" Accessibility="Public" Context="System!System.Entity"/>
+    </SecureReferences>
+  </TypeDefinitions>
+
+  <LanguagePacks>
+    <LanguagePack ID="ENU" IsDefault="true">
+      <DisplayStrings>
+        <DisplayString ElementID="PurgarNET.AAConnector.ConnectorCredential">
+          <Name>AAConnector Client Secret</Name>
+          <Description>AAConnector Client Secret</Description>
+        </DisplayString>
+      </DisplayStrings>
+    </LanguagePack>
+  </LanguagePacks>
+</ManagementPackFragment>

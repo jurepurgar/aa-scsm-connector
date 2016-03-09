@@ -10,9 +10,15 @@
     <Name>PurgarNET.AAConnector.PowerShell</Name>
     <ClrVersion />
     <PowerShellHostVersion />
-    <PowerShellVersion />
+    <PowerShellVersion>v4</PowerShellVersion>
     <ProcessorArchitecture />
     <RequiredModules />
+    <FormatsToProcess />
+    <FunctionsToProcess>Register-AAConnectorAutomationAccount</FunctionsToProcess>
+    <ModuleList />
+    <ModuleToProcess />
+    <NestedModules />
+    <TypesToProcess />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>

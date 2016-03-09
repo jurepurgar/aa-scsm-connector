@@ -20,10 +20,21 @@ namespace PurgarNET.AAConnector.Workflows
             InitializeComponent();
         }
 
+        public string ClientId { get; set; }
+        public string ClientSecret { get; set; }
+
         public void MonitorJobsCodeActivity_ExecuteCode(object sender, EventArgs e)
         {
 
-            
+            using (System.IO.StreamWriter outputFile = new System.IO.StreamWriter(@"C:\Windows\Temp\TestWorkflow.txt", true))
+            {
+                outputFile.WriteLine(" ");
+                outputFile.WriteLine("Date: " + DateTime.Now.ToString());
+                outputFile.WriteLine("Id: " + ClientId);
+                outputFile.WriteLine("Secret: " + ClientSecret);
+
+                outputFile.WriteLine(" ");
+            }
 
 
             /*var activities = ScsmHelpers.GetInProgressAutomationActivities();

@@ -1,6 +1,6 @@
 ﻿<ManagementPackFragment SchemaVersion="SM2.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Categories>
-    <Category ID="PurgarNET.AAConnector.MonitorSmaJobsWorkflowRuleCategory" Target="PurgarNET.AAConnector.MonitorJobsWorkflowRule" Value="Administration!Microsoft.EnterpriseManagement.ServiceManager.Rules.WorkflowSubscriptions" />
+    <Category ID="PurgarNET.AAConnector.MonitorJobsWorkflowRuleCategory" Target="PurgarNET.AAConnector.MonitorJobsWorkflowRule" Value="Administration!Microsoft.EnterpriseManagement.ServiceManager.Rules.WorkflowSubscriptions" />
   </Categories>
   <Monitoring>
     <Rules>
@@ -25,8 +25,8 @@
                 <AssemblyName>PurgarNET.AAConnector.Workflows</AssemblyName>
                 <WorkflowTypeName>PurgarNET.AAConnector.Workflows.MonitorJobs</WorkflowTypeName>
                 <WorkflowParameters>
-                  <WorkflowParameter Name="ClientId" Type="guid">$RunAs[Name="PurgarNET.AAConnector.ConnectorCredential"]/UserName$</WorkflowParameter>
-                  <WorkflowParameter Name="ClientSecret" Type="guid">$RunAs[Name="PurgarNET.AAConnector.ConnectorCredential"]/Password$</WorkflowParameter>
+                  <WorkflowParameter Name="ClientId" Type="string">$RunAs[Name="PurgarNET.AAConnector.ConnectorCredential"]/UserName$</WorkflowParameter>
+                  <WorkflowParameter Name="ClientSecret" Type="string">$RunAs[Name="PurgarNET.AAConnector.ConnectorCredential"]/Password$</WorkflowParameter>
                 </WorkflowParameters>
                 <RetryExceptions />
                 <RetryDelaySeconds>60</RetryDelaySeconds>
@@ -38,13 +38,14 @@
       </Rule>
     </Rules>
   </Monitoring>
+  
   <LanguagePacks>
-    <LanguagePack ID="ENU" >
+     <LanguagePack ID="ENU" >
       <DisplayStrings>
         <DisplayString ElementID="PurgarNET.AAConnector.MonitorJobsWorkflowRule">
-          <Name>Monitor SMA Jobs Workflow</Name>
+          <Name>Azure Automation Jobs Monitor Workflow</Name>
         </DisplayString>
       </DisplayStrings>
-    </LanguagePack>
-  </LanguagePacks>  
+    </LanguagePack> 
+  </LanguagePacks>
 </ManagementPackFragment>

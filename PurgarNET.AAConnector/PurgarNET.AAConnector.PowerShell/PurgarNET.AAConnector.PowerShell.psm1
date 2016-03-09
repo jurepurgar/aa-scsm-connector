@@ -6,6 +6,12 @@ $AppUrlPrefix = "https://servicemanager.managementgroup/"
 $Global:SCSession = $null
 $Global:ManagementGroupId = [Guid]::Empty
 
+$SecureReferenceName = "PurgarNET.AAConnector.ConnectorCredential"
+$SecureReferenceOverrideName = "$SecureReferenceName.Override"
+
+$ConfigurationManagementPackName = "PurgarNET.AAConnector.Configuration"
+$ConfigurationManagementPackDisplayName = "PurgarNET Azure Automation Connector Configuration"
+
 function Get-SCModulePath
 {
 	$SMDIR = (Get-ItemProperty 'hklm:/software/microsoft/System Center/2010/Service Manager/Setup').InstallDirectory
@@ -48,6 +54,8 @@ function Assure-AzureRMSubscription
     Select-AzureRmSubscription -SubscriptionId $SubscriptionId
 }
 
+
+
 function Assure-SCSession
 {
     param(
@@ -71,7 +79,8 @@ function Assure-SCSession
             $Global:SCSession = New-SCManagementGroupConnection -ComputerName $SCSMServerName -PassThru
         }
     }
-    $Global:ManagementGroupId = [Microsoft.EnterpriseManagement.EnterpriseManagementGroup]::Connect($Global:SCSession.Settings).Id
+    $Global:ManagementGroupID = [Microsoft.EnterpriseManagement.EnterpriseManagementGroup]::Connect($Global:SCSession.Settings).Id
+    $Global:ManagementGroup = [Microsoft.EnterpriseManagement.EnterpriseManagementGroup]::Connect($Global:SCSession.Settings)
     $Global:SCSession
 }
 
@@ -85,14 +94,21 @@ function New-AAConnectorServicePrincipal
         [parameter(Mandatory=$true)]
         [string]$ManagementGroupName,
         [parameter(Mandatory=$true)]
-        [DateTime]$Expires,
-        [parameter()]
+        [TimeSpan]$ValidFor,
+        [parameter(Mandatory=$false)]
         [Switch]$RemoveExisting
     )
+
+    if (-not $ValidFor -or $ValidFor -eq [TimeSpan]::Zero) {
+        $ValidFor = [TimeSpan]::FromDays(365 * 5)
+    }
+
+    $expires = $((Get-Date) + $ValidFor)
 
     if ($RemoveExisting) {
         Remove-AAConnectorServicePrincipal -ManagementGroupId $ManagementGroupId
     }
+    
 
     $appUrl = $AppUrlPrefix + $ManagementGroupId.ToString()
     $appDisplayName = $AppDisplayNamePrefix + $ManagementGroupName
@@ -100,7 +116,7 @@ function New-AAConnectorServicePrincipal
     $password = "bulabulabula"
 
 
-    $app = New-AzureRmADApplication -DisplayName $appDisplayName -HomePage $appUrl -IdentifierUris $appUrl -Password $password -EndDate $Expires
+    $app = New-AzureRmADApplication -DisplayName $appDisplayName -HomePage $appUrl -IdentifierUris $appUrl -Password $password -EndDate $expires
     $princ = New-AzureRmADServicePrincipal -ApplicationId $app.ApplicationId
     Start-Sleep -Seconds 10
 
@@ -109,6 +125,7 @@ function New-AAConnectorServicePrincipal
     return @{
         "ClientID"=$app.ApplicationId
         "Password"=$password
+        "Expires"=$expires
     }
 }
 
@@ -122,7 +139,7 @@ function Remove-AAConnectorServicePrincipal
     $appUrl = $AppUrlPrefix + $ManagementGroupId.ToString()
 
     $app = $null
-    $app = Get-AzureRmADApplication -IdentifierUri $appUrl
+    $app = Get-AzureRmADApplication -IdentifierUri $appUrl 
 
     if ($app) {
         $princ = $null
@@ -134,7 +151,84 @@ function Remove-AAConnectorServicePrincipal
     }
 }
 
+function Get-AAAccountOrDie
+{
+    param (
+        [parameter(Mandatory=$true)]
+        [string]$AutomationAccountName
+    )
+    $a = $null
+    $a = Get-AzureRmAutomationAccount | Where-Object { $_.AutomationAccountName -like $AutomationAccountName }
+
+    if (-not ($a)) {
+        throw "Automation account with name '" + $AutomationAccountName + "' was not found!"
+    }
+    $a
+}
+
+function Assure-ConfigManagementPack
+{
+    $confMP = $null
+    $confMp = Get-SCManagementPack -Name $ConfigurationManagementPackName
+    
+    if (-not $confMP) {
+        $ver = New-Object -TypeName Version -ArgumentList (1, 0 , 0, 0)
+        $confMP = New-Object -TypeName Microsoft.EnterpriseManagement.Configuration.ManagementPack -ArgumentList ($ConfigurationManagementPackName, $ConfigurationManagementPackName, $ver,  $Global:ManagementGroup)
+        $confMP.DisplayName = $ConfigurationManagementPackDisplayName
+        $confMP.AcceptChanges()
+        $Global:ManagementGroup.ManagementPacks.ImportManagementPack($confMP)
+    }
+    $confMP
+}
+
+function Save-ServiceCredential
+{
+    param(
+        [parameter(Mandatory=$true)]
+        [string]$ClientId,
+        [parameter(Mandatory=$true)]
+        [SecureString]$SecureSecret
+    )
+
+    $mg = $Global:ManagementGroup
+
+    $secData = $null
+    $secData = $mg.Security.GetSecureData() | where Name -like $SecureReferenceName
+    $inserted = [bool]$secData
+
+    if (-not $secData) {
+        $secData = New-Object -TypeName Microsoft.EnterpriseManagement.Security.BasicCredentialSecureData
+    }
+
+    $secData.UserName = $ClientId
+    $secData.Data = $SecureSecret
+    $secData.Name = $SecureReferenceName
+
+    if (-not $inserted) {
+        $mg.Security.InsertSecureData($secData)
+    }
+
+    $secData.Update()
+
+    $secRef = (Get-SCRunasAccount -Name $SecureReferenceName).SecureReference
+
+    $secRefOver = $mg.Overrides.GetOverrides() | where { $_.Name -like $SecureReferenceOverrideName } 
+    if (-not $secRefOver) {
+        $confMp = Assure-ConfigManagementPack
+        $secRefOver = New-Object -TypeName Microsoft.EnterpriseManagement.Configuration.ManagementPackSecureReferenceOverride -ArgumentList ($confMp, $SecureReferenceOverrideName)
+    }
+    $secRefOver.SecureReference = $secRef
+    $secRefOver.DisplayName = "$SecureReferenceOverrideName"
+    $secRefOver.Context = Get-SCClass -Name "System.Entity"
+
+    $secRefOver.Value = [BitConverter]::ToString($secData.SecureStorageId, 0, $secData.SecureStorageId.Length).Replace("-", "")
+
+    $secRefOver.GetManagementPack().AcceptChanges()
+
+}
+
 ## public
+
 function Register-AAConnectorAutomationAccount 
 {
 	param (
@@ -154,25 +248,23 @@ function Register-AAConnectorAutomationAccount
         [PSCredential]$SCSMCredential,
 
         [parameter(Mandatory=$false)]
-        [PSCredential]$AzureCredential
+        [PSCredential]$AzureCredential,
+
+        [parameter(Mandatory = $false)]
+        [TimeSpan]$ServicePrincipalValidFor
     )
+
+    if (-not $ServicePrincipalValidFor) { $ServicePrincipalValidFor = [TImeSpan]::Zero }
+    
     
     Assure-AzureRMSubscription -SubscriptionId $SubscriptionId -AzureCredential $AzureAzureCredential | Out-Null
     Assure-SCSession -SCSMServerName $SCSMServerName -SCSMCredential $SCSMCredential | Out-Null
   
-    $account = $null
-    $account = Get-AzureRmAutomationAccount | Where-Object { $_.AutomationAccountName -like $AutomationAccountName }
+    $account = Get-AAAccountOrDie -AutomationAccountName $AutomationAccountName
 
-    if (-not ($account)) {
-        throw "Automation account with name '" + $account.AutomationAccountName + "' was not found!"
-    }
+    $client = New-AAConnectorServicePrincipal -AutomationAccount $account -ManagementGroupId $Global:ManagementGroupId -ManagementGroupName $Global:SCSession.ManagementGroupName -ValidFor $ServicePrincipalValidFor -RemoveExisting
 
-    $client = New-AAConnectorServicePrincipal -AutomationAccount $account -ManagementGroupId $Global:ManagementGroupId -Expires (Get-Date).AddYears(10) -ManagementGroupName $Global:SCSession.ManagementGroupName -RemoveExisting
-
-    $client.ClientID
-    $client.Password
-       
-
+    Save-ServiceCredential -ClientId $client.ClientId -SecureSecret (ConvertTo-SecureString -String $client.Password -AsPlainText -Force)
 
 }
 
@@ -180,3 +272,11 @@ Import-Module (Get-SCModulePath)
 Import-Module "AzureRM.Automation"
 Import-Module "AzureRM.Resources"
 Import-Module "AzureRM.Profile"
+
+
+
+
+
+#sec data
+
+

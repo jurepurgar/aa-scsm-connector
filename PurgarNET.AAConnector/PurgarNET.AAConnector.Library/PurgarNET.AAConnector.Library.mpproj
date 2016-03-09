@@ -32,7 +32,7 @@
   </PropertyGroup>
   <ItemGroup>
     <ManagementPackReference Include="Microsoft.EnterpriseManagement.ServiceManager.UI.Administration">
-      <HintPath>C:\Users\jure.purgar\Source\Repos\aa-scsm-connector\PurgarNET.AAConnector\PurgarNET.AAConnector.Library\MPReferences\Microsoft.EnterpriseManagement.ServiceManager.UI.Administration.mpb</HintPath>
+      <HintPath>C:\Users\jure.purgar\Source\Repos\aa-scsm-connector\PurgarNET.AAConnector\MPReferences\Microsoft.EnterpriseManagement.ServiceManager.UI.Administration.mpb</HintPath>
       <Alias>Administration</Alias>
       <MinVersion>7.5.3079.236</MinVersion>
       <PackageToBundle>False</PackageToBundle>
@@ -42,13 +42,13 @@
       <PackageToBundle>False</PackageToBundle>
     </ManagementPackReference>
     <ManagementPackReference Include="Microsoft.SystemCenter.Subscriptions">
-      <HintPath>C:\Users\jure.purgar\Source\Repos\aa-scsm-connector\PurgarNET.AAConnector\PurgarNET.AAConnector.Library\MPReferences\Microsoft.SystemCenter.Subscriptions.mp</HintPath>
+      <HintPath>C:\Users\jure.purgar\Source\Repos\aa-scsm-connector\PurgarNET.AAConnector\MPReferences\Microsoft.SystemCenter.Subscriptions.mp</HintPath>
       <Alias>Subscriptions</Alias>
       <MinVersion>7.5.3079.0</MinVersion>
       <PackageToBundle>False</PackageToBundle>
     </ManagementPackReference>
     <ManagementPackReference Include="System.AdminItem.Library">
-      <HintPath>C:\Users\jure.purgar\Source\Repos\aa-scsm-connector\PurgarNET.AAConnector\PurgarNET.AAConnector.Library\MPReferences\System.AdminItem.Library.mp</HintPath>
+      <HintPath>C:\Users\jure.purgar\Source\Repos\aa-scsm-connector\PurgarNET.AAConnector\MPReferences\System.AdminItem.Library.mp</HintPath>
       <Alias>AdminItem</Alias>
       <MinVersion>7.5.8501.0</MinVersion>
       <PackageToBundle>False</PackageToBundle>
@@ -68,11 +68,20 @@
     <Compile Include="Resources.mpx">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="SecureReference.mpx">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\PurgarNET.AAConnector.ConsoleControls\PurgarNET.AAConnector.Console.csproj">
       <Name>PurgarNET.AAConnector.Console</Name>
       <Project>{949202f5-f792-4bc2-ba98-baf20fd1bbd0}</Project>
+      <Private>True</Private>
+      <PackageToBundle>True</PackageToBundle>
+    </ProjectReference>
+    <ProjectReference Include="..\PurgarNET.AAConnector.Shared\PurgarNET.AAConnector.Shared.csproj">
+      <Name>PurgarNET.AAConnector.Shared</Name>
+      <Project>{c023ea8d-d9ec-4a7e-a877-def4b9ed345c}</Project>
       <Private>True</Private>
       <PackageToBundle>True</PackageToBundle>
     </ProjectReference>
