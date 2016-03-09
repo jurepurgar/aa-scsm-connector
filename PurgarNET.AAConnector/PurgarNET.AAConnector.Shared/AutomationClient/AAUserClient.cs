@@ -10,7 +10,7 @@ namespace PurgarNET.AAConnector.Shared.AutomationClient
 {
     public class AAUserClient : AAClientBase
     {
-        public AAUserClient(string tenant, Guid subscriptionId, string resourceGroup, string automationAccountName, string clientId) : base(tenant, subscriptionId, resourceGroup, automationAccountName,  AuthenticationType.Code, clientId, null)
+        public AAUserClient(Guid tenant, Guid subscriptionId, string resourceGroup, string automationAccountName, string clientId) : base(tenant, subscriptionId, resourceGroup, automationAccountName,  AuthenticationType.Code, clientId, null)
         {
 
         }

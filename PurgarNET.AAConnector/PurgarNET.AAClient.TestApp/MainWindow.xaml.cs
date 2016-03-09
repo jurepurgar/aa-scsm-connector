@@ -31,10 +31,10 @@ namespace PurgarNET.AAConnector.TestApp
         {
             InitializeComponent();
 
-            cl = new AAUserClient("kolektor.com", new Guid("5c8eb01e-d914-41f1-bb3a-e7ff67fe8cbe"), "kolit-resources-prod", "kolit-automation-prod", "71daa18d-2e2a-4417-8903-b084e0d7ae44");
+            cl = new AAUserClient(new Guid("a577f43f-f7b8-42c9-ba99-27708e35b62b"), new Guid("5c8eb01e-d914-41f1-bb3a-e7ff67fe8cbe"), "kolit-resources-prod", "kolit-automation-prod", "71daa18d-2e2a-4417-8903-b084e0d7ae44");
             cl.AuthorizationCodeRequired += Cl_AuthorizationCodeRequired;
 
-            wcl = new AAWorkflowClient("kolektor.com", new Guid("5c8eb01e-d914-41f1-bb3a-e7ff67fe8cbe"), "kolit-resources-prod", "kolit-automation-prod", "bd432e3f-a25c-4d92-b2ed-bd87d7392421", "");
+            wcl = new AAWorkflowClient(new Guid("a577f43f-f7b8-42c9-ba99-27708e35b62b"), new Guid("5c8eb01e-d914-41f1-bb3a-e7ff67fe8cbe"), "kolit-resources-prod", "kolit-automation-prod", "bd432e3f-a25c-4d92-b2ed-bd87d7392421", "");
         }
 
         private async void LoginButton_Click(object sender, RoutedEventArgs e)
@@ -45,7 +45,7 @@ namespace PurgarNET.AAConnector.TestApp
             //{
 
             
-            var wr1 = await wcl.GetRunbooks();
+            //var wr1 = await wcl.GetRunbooks();
 
 
 

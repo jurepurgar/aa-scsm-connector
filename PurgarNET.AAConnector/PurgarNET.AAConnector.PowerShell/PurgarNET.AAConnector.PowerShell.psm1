@@ -12,6 +12,8 @@ $SecureReferenceOverrideName = "$SecureReferenceName.Override"
 $ConfigurationManagementPackName = "PurgarNET.AAConnector.Configuration"
 $ConfigurationManagementPackDisplayName = "PurgarNET Azure Automation Connector Configuration"
 
+$SettingsClassName = "PurgarNET.AAConnector.ConnectorSettings"
+
 function Get-SCModulePath
 {
 	$SMDIR = (Get-ItemProperty 'hklm:/software/microsoft/System Center/2010/Service Manager/Setup').InstallDirectory
@@ -51,7 +53,8 @@ function Assure-AzureRMSubscription
     )
 
     $context = Assure-AzureRmLogin -AzureCredential $AzureCredential
-    Select-AzureRmSubscription -SubscriptionId $SubscriptionId
+    Select-AzureRmSubscription -SubscriptionId $SubscriptionId 
+    Get-AzureRmSubscription -SubscriptionId $SubscriptionId
 }
 
 
@@ -227,8 +230,20 @@ function Save-ServiceCredential
 
 }
 
-## public
 
+
+function Get-AAConnectorSettings 
+{
+    $cl = Get-SCClass -Name $SettingsClassName
+    if (-not $cl) {
+        throw "Class '$SettingsClassName' not found. Management Pack might not be imported!"
+    }
+
+    return Get-SCClassInstance -Class $cl
+}
+
+
+## public
 function Register-AAConnectorAutomationAccount 
 {
 	param (
@@ -250,14 +265,17 @@ function Register-AAConnectorAutomationAccount
         [parameter(Mandatory=$false)]
         [PSCredential]$AzureCredential,
 
-        [parameter(Mandatory = $false)]
-        [TimeSpan]$ServicePrincipalValidFor
+        [parameter(Mandatory=$false)]
+        [TimeSpan]$ServicePrincipalValidFor,
+
+        [parameter(Mandatory=$false)]
+        [TimeSpan]$UserAppId
     )
 
     if (-not $ServicePrincipalValidFor) { $ServicePrincipalValidFor = [TImeSpan]::Zero }
     
-    
-    Assure-AzureRMSubscription -SubscriptionId $SubscriptionId -AzureCredential $AzureAzureCredential | Out-Null
+    $subscription = $null
+    $subscription = Assure-AzureRMSubscription -SubscriptionId $SubscriptionId -AzureCredential $AzureAzureCredential
     Assure-SCSession -SCSMServerName $SCSMServerName -SCSMCredential $SCSMCredential | Out-Null
   
     $account = Get-AAAccountOrDie -AutomationAccountName $AutomationAccountName
@@ -266,6 +284,19 @@ function Register-AAConnectorAutomationAccount
 
     Save-ServiceCredential -ClientId $client.ClientId -SecureSecret (ConvertTo-SecureString -String $client.Password -AsPlainText -Force)
 
+    $instance = Get-AAConnectorSettings
+
+    $instance.TenantId = [Guid]$subscription.TenantId
+    $instance.SubscriptionId =  [Guid]$account.SubscriptionId
+    $instance.ResourceGroup = $account.ResourceGroupName
+    $instance.AutomationAccountName = $account.AutomationAccountName
+
+    if ($UserAppId) {
+        $instance.UserAppId = $UserAppId
+    }
+    
+    Update-SCClassInstance -Instance $instance
+
 }
 
 Import-Module (Get-SCModulePath)
@@ -273,10 +304,5 @@ Import-Module "AzureRM.Automation"
 Import-Module "AzureRM.Resources"
 Import-Module "AzureRM.Profile"
 
-
-
-
-
-#sec data
 
 

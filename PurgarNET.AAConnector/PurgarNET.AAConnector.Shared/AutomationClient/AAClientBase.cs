@@ -18,7 +18,7 @@ namespace PurgarNET.AAConnector.Shared.AutomationClient
         private string _clientSecret = null;
         private string _clientId = null;
         //private string _resource = null;
-        private string _tenant = null;
+        private Guid _tenantId = Guid.Empty;
 
         private AuthenticationType _authType = AuthenticationType.Undefined;
 
@@ -26,13 +26,13 @@ namespace PurgarNET.AAConnector.Shared.AutomationClient
         private object _lck = new object();
         private Task _tokenTask = null;
 
-        public AAClientBase(string tenant, Guid subscriptionId, string resourceGroup, string automationAccountName, AuthenticationType authType, string clientId, string clientSecret)
+        public AAClientBase(Guid tenantId, Guid subscriptionId, string resourceGroup, string automationAccountName, AuthenticationType authType, string clientId, string clientSecret)
         {
             _authType = authType;
             _clientId = clientId;
             _clientSecret = clientSecret;
             //_resource = resource;
-            _tenant = tenant;
+            _tenantId = tenantId;
 
             //TODO: verify parameters based on authType
             var uri = new Uri($"{Parameters.AZURE_API_URI}subscriptions/{subscriptionId.ToString()}/resourceGroups/{resourceGroup}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/");
@@ -43,7 +43,7 @@ namespace PurgarNET.AAConnector.Shared.AutomationClient
             _client.AddDefaultParameter("api-version", Parameters.AZURE_API_VERSION, ParameterType.QueryString);
 
             //init the tokenClient
-            _tokenClient = new RestClient(Parameters.GetTokenUri(_tenant));
+            _tokenClient = new RestClient(Parameters.GetTokenUri(_tenantId));
             _tokenClient.AddDefaultHeader("Accept", "application/json;odata=verbose;charset=utf-8");
             _tokenClient.Encoding = Encoding.UTF8;
         }
@@ -98,7 +98,11 @@ namespace PurgarNET.AAConnector.Shared.AutomationClient
                 else
                 {
                     var args = new AuthorizationCodeRequiredEventArgs();
-                    args.LoginUri = new Uri(string.Format(Parameters.USER_LOGIN_URL, _tenant, Parameters.GetUrlEncodedResource(), _clientId, Parameters.REDIRECT_URI.ToString()));
+                    string tenant = "common";
+                    if (_tenantId != Guid.Empty)
+                        tenant = _tenantId.ToString();
+
+                    args.LoginUri = new Uri(string.Format(Parameters.USER_LOGIN_URL, tenant, Parameters.GetUrlEncodedResource(), _clientId, Parameters.REDIRECT_URI.ToString()));
                     AuthorizationCodeRequired(this, args);
                     if (args.Code == null)
                         throw new InvalidOperationException("AuthorizationCode retreived is null.");

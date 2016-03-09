@@ -34,14 +34,14 @@ namespace PurgarNET.AAConnector.Shared
             return new Uri(string.Format(USER_LOGIN_URL, tenant, GetUrlEncodedResource(), POWERSHELL_CLIENT_ID, REDIRECT_URI.ToString()));
         } */
 
-        /*internal static Uri GetTokenUri(Guid tenantId)
+        internal static Uri GetTokenUri(Guid tenantId)
         {
             var tenantStr = tenantId.ToString();
             if (tenantId == default(Guid))
                 tenantStr = null;
                 
             return GetTokenUri(tenantStr);
-        }*/
+        }
 
         internal static Uri GetTokenUri(string tenant = null)
         {
