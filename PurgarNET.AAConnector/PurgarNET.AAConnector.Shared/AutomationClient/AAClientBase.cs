@@ -11,12 +11,12 @@ namespace PurgarNET.AAConnector.Shared.AutomationClient
 {
     public enum AuthenticationType { Undefined, Code, ClientSecret }
 
-    public abstract class AAClientBase
+    public abstract class AAClientBase 
     {
         private RestClient _client = null;
         private RestClient _tokenClient = null;
         private string _clientSecret = null;
-        private string _clientId = null;
+        private Guid _clientId = Guid.Empty;
         //private string _resource = null;
         private Guid _tenantId = Guid.Empty;
 
@@ -26,7 +26,7 @@ namespace PurgarNET.AAConnector.Shared.AutomationClient
         private object _lck = new object();
         private Task _tokenTask = null;
 
-        public AAClientBase(Guid tenantId, Guid subscriptionId, string resourceGroup, string automationAccountName, AuthenticationType authType, string clientId, string clientSecret)
+        public AAClientBase(Guid tenantId, Guid subscriptionId, string resourceGroup, string automationAccountName, AuthenticationType authType, Guid clientId, string clientSecret)
         {
             _authType = authType;
             _clientId = clientId;
@@ -38,7 +38,6 @@ namespace PurgarNET.AAConnector.Shared.AutomationClient
             var uri = new Uri($"{Parameters.AZURE_API_URI}subscriptions/{subscriptionId.ToString()}/resourceGroups/{resourceGroup}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/");
 
             _client = new RestClient(uri);
-
             _client.AddDefaultHeader("Accept", "application/json");
             _client.AddDefaultParameter("api-version", Parameters.AZURE_API_VERSION, ParameterType.QueryString);
 
@@ -57,6 +56,7 @@ namespace PurgarNET.AAConnector.Shared.AutomationClient
             }
             await _tokenTask;
         }
+        
 
         private async Task AssureTokenInternalAsync(bool force = false)
         {
@@ -137,7 +137,26 @@ namespace PurgarNET.AAConnector.Shared.AutomationClient
 
 
         //api calls
-        protected async Task<T> Get<T>(string resource) where T : new()
+
+        protected T Get<T>(string resource) where T : new()
+        {
+            AssureTokenAsync().Wait();
+            var req = new RestRequest(resource, Method.GET);
+            var res = _client.GetResponse<T>(req); // TODO: handle other type of errors, like no internet, etc...
+            return res.Data;
+        }
+
+        protected List<T> GetList<T>(string resource)
+        {
+            var res = Get<ApiResponse<List<T>>>(resource);
+
+            if (res.Error != null)
+                throw new ApiException(res.Error.Code, res.Error.Message);
+            else
+                return res.Value;
+        }
+
+        protected async Task<T> GetAsync<T>(string resource) where T : new()
         {
             await AssureTokenAsync();
 
@@ -148,9 +167,9 @@ namespace PurgarNET.AAConnector.Shared.AutomationClient
             return res.Data;
         }
 
-        protected async Task<List<T>> GetList<T>(string resource)
+        protected async Task<List<T>> GetListAsync<T>(string resource)
         {
-            var res = await Get<ApiResponse<List<T>>>(resource);
+            var res = await GetAsync<ApiResponse<List<T>>>(resource);
             
             if (res.Error != null)
                 throw new ApiException(res.Error.Code, res.Error.Message);
@@ -160,17 +179,20 @@ namespace PurgarNET.AAConnector.Shared.AutomationClient
 
 
 
-        public async Task<Job> GetJob(Guid jobId)
+        public async Task<Job> GetJobAsync(Guid jobId)
         {
-            return await Get<Job>($"jobs/{jobId.ToString()}/");
+            return await GetAsync<Job>($"jobs/{jobId.ToString()}/");
         }
 
-        public async Task<List<Runbook>> GetRunbooks()
+        public async Task<List<Runbook>> GetRunbooksAsync()
         {
-            return await GetList<Runbook>("runbooks");
+            return await GetListAsync<Runbook>("runbooks");
         }
 
-
+        public List<Runbook> GetRunbooks()
+        {
+            return GetList<Runbook>("runbooks");
+        }
     }
 
     public class AuthorizationCodeRequiredEventArgs : EventArgs

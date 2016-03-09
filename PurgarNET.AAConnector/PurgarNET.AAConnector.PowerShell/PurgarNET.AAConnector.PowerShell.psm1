@@ -116,7 +116,7 @@ function New-AAConnectorServicePrincipal
     $appUrl = $AppUrlPrefix + $ManagementGroupId.ToString()
     $appDisplayName = $AppDisplayNamePrefix + $ManagementGroupName
 
-    $password = "bulabulabula"
+    $password = "bulabulabula" #TODO: generate long random password
 
 
     $app = New-AzureRmADApplication -DisplayName $appDisplayName -HomePage $appUrl -IdentifierUris $appUrl -Password $password -EndDate $expires

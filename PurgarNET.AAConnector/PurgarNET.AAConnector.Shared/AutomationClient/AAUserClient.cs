@@ -10,23 +10,31 @@ namespace PurgarNET.AAConnector.Shared.AutomationClient
 {
     public class AAUserClient : AAClientBase
     {
-        public AAUserClient(Guid tenant, Guid subscriptionId, string resourceGroup, string automationAccountName, string clientId) : base(tenant, subscriptionId, resourceGroup, automationAccountName,  AuthenticationType.Code, clientId, null)
+        public AAUserClient(Guid tenant, Guid subscriptionId, string resourceGroup, string automationAccountName, Guid clientId = default(Guid)) :
+            base(tenant, subscriptionId, resourceGroup, automationAccountName,  AuthenticationType.Code, GetClientId(clientId), null)
         {
 
         }
 
+        public static Guid GetClientId(Guid c)
+        {
+            if (c != default(Guid))
+                return c;
+            else
+                return Parameters.CLIENT_ID;
+        }
         
 
         public async Task<List<HybridRunbookWorkerGroup>> GetHybridRunbookWorkerGroups()
         {
-            return await GetList<HybridRunbookWorkerGroup>("hybridRunbookWorkerGroups");
+            return await GetListAsync<HybridRunbookWorkerGroup>("hybridRunbookWorkerGroups");
         }
 
         
 
         public async Task<List<Job>> GetJobs()
         {
-            return await GetList<Job>("jobs");
+            return await GetListAsync<Job>("jobs");
         }
     }
 }

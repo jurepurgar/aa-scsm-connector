@@ -8,7 +8,7 @@ namespace PurgarNET.AAConnector.Shared.AutomationClient
 {
     public class AAWorkflowClient : AAClientBase
     {
-        public AAWorkflowClient(Guid tenant, Guid subscriptionId, string resourceGroup, string automationAccountName, string clientId, string clientSecret) : base(tenant, subscriptionId, resourceGroup, automationAccountName,  AuthenticationType.ClientSecret, clientId, clientSecret)
+        public AAWorkflowClient(Guid tenant, Guid subscriptionId, string resourceGroup, string automationAccountName, Guid clientId, string clientSecret) : base(tenant, subscriptionId, resourceGroup, automationAccountName,  AuthenticationType.ClientSecret, clientId, clientSecret)
         {
 
         }

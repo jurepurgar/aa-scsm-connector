@@ -25,15 +25,20 @@ namespace PurgarNET.AAConnector.Workflows
 
         public void MonitorJobsCodeActivity_ExecuteCode(object sender, EventArgs e)
         {
-
-            using (System.IO.StreamWriter outputFile = new System.IO.StreamWriter(@"C:\Windows\Temp\TestWorkflow.txt", true))
+            using (System.IO.StreamWriter outputFile = new System.IO.StreamWriter(@"C:\Windows\Temp\TestWorkflowPass.txt", true))
             {
-                outputFile.WriteLine(" ");
+                outputFile.WriteLine("");
                 outputFile.WriteLine("Date: " + DateTime.Now.ToString());
+
                 outputFile.WriteLine("Id: " + ClientId);
                 outputFile.WriteLine("Secret: " + ClientSecret);
 
                 outputFile.WriteLine(" ");
+            }
+
+            if (WorkflowHandler.Initialize(ClientId, ClientSecret))
+            {
+                WorkflowHandler.ProcessActivities();
             }
 
 

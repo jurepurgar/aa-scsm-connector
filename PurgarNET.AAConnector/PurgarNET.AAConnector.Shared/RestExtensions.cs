@@ -10,7 +10,7 @@ namespace PurgarNET.AAConnector.Shared
     public static class RestExtensions
     {
 
-        public static Task<IRestResponse> GetResponseAsync(this RestClient client, IRestRequest request)
+        /*public static Task<IRestResponse> GetResponseAsync(this RestClient client, IRestRequest request)
         {
             var tsc = new TaskCompletionSource<IRestResponse>();
 
@@ -20,6 +20,15 @@ namespace PurgarNET.AAConnector.Shared
             });
 
             return tsc.Task;
+        }*/
+
+
+        public static IRestResponse<T> GetResponse<T>(this RestClient client, IRestRequest request) where T : new()
+        {
+            var response = client.Execute<T>(request);
+            if (response.ErrorException != null)
+                throw response.ErrorException;
+            return response;
         }
 
         public static Task<IRestResponse<T>> GetResponseAsync<T>(this RestClient client, IRestRequest request) where T : new()
