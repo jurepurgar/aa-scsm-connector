@@ -5,47 +5,36 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PurgarNET.AAConnector.Console"
         mc:Ignorable="d"
-        Title="Select runbook" Width="450" Height="500" >
+        Loaded="Window_Loaded"
+        Title="Select runbook" Width="500" Height="500" ShowInTaskbar="False" WindowStartupLocation="CenterOwner" >
     <Window.Resources>
         <ResourceDictionary Source="/PurgarNET.AAConnector.Console;component/Styles.xaml" />
     </Window.Resources>
 
-    <Grid Margin="8">
+    <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <ListView  ItemsSource="{Binding}" x:Name="RunbooksListView" >
+        <ListView  ItemsSource="{Binding}" x:Name="RunbooksListView" SelectionChanged="RunbooksListView_SelectionChanged" >
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
-                    <Setter Property="Height" Value="30" />
+                    <Setter Property="Height" Value="25" />
                 </Style>
             </ListView.ItemContainerStyle>
 
             <ListView.View>
                 <GridView x:Name="gridView">
-                    <GridViewColumn Width="300" Header="Name" DisplayMemberBinding="{Binding Name}" />
-                    <GridViewColumn Width="100" Header="Type"  DisplayMemberBinding="{Binding Type}" />
+                    <GridViewColumn Width="280" Header="Name" DisplayMemberBinding="{Binding Name}" />
+                    <GridViewColumn Width="90" Header="Type"  DisplayMemberBinding="{Binding Properties.RunbookType, Converter={StaticResource RunbookTypeToStringConverter}}" />
+                    <GridViewColumn Width="80" Header="State"  DisplayMemberBinding="{Binding Properties.State}" />
                 </GridView>
             </ListView.View>
         </ListView>
 
 
-        <!--   <ListBox Grid.Row="0"
-		x:Name="RunbooksListBox"
-		ItemsSource="{Binding}"
-		Margin="0,2,0,10"
-		SelectionChanged="RunbooksListBox_SelectionChanged"
-                 
-                >
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <TextBlock Margin="1" Text="{Binding RunbookName}" Foreground="{Binding IsValid, Mode=OneWay, Converter={StaticResource BoolToBrushConverter}}" />
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-
-        </ListBox> -->
+        
 
         <Grid Grid.Row="1" >
             <Grid.RowDefinitions>
@@ -58,8 +47,7 @@
             </Grid.ColumnDefinitions>
 
             <StackPanel x:Name="InvalidRunbookPanel" Visibility="Collapsed">
-                <TextBlock Text="This runbook is invalid:" Foreground="Red" />
-                <TextBlock x:Name="InvalidReasonTextBlock" Foreground="Red" Text="" />
+                <TextBlock x:Name="InvalidReasonTextBlock" Foreground="Red" Text="Selected runbook cannot be used because it is not published!" />
             </StackPanel>
 
             <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,6,0,0">

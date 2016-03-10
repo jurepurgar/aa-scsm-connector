@@ -8,13 +8,14 @@ namespace PurgarNET.AAConnector.Shared.AutomationClient.Models
 {
     
     public enum RunbookState { New, Published, Edit }
+    public enum RunbookType { PowerShell, Script, Graph }
 
     public class Runbook
     {
         public class RunbookProperties
         {
             [DataMember(Name = "runbookType")]
-            public string RunbookType { get; set; }
+            public RunbookType RunbookType { get; set; }
 
             [DataMember(Name = "state")]
             public RunbookState State { get; set; }
@@ -33,8 +34,8 @@ namespace PurgarNET.AAConnector.Shared.AutomationClient.Models
         [DataMember(Name = "name")]
         public string Name { get; set; }
 
-        [DataMember(Name = "type")]
-        public string Type { get; set; }
+        /*[DataMember(Name = "type")]
+        public string Type { get; set; } */
 
         [DataMember(Name = "properties")]
         public RunbookProperties Properties { get; set; } 

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Windows;
@@ -86,14 +87,12 @@ namespace PurgarNET.AAConnector.Console
             LoadRunbooks();
         }
 
-        private void RunbooksListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void RunbooksListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (RunbooksListView.SelectedValue != null && RunbooksListView.SelectedValue is Runbook)
-            {
-                var rb = ((Runbook)RunbooksListView.SelectedValue);
-                //InvalidRunbookPanel.Visibility = rb ? Visibility.Collapsed : Visibility.Visible; check if it is NOT New
-                InvalidReasonTextBlock.Text = "Runbook is not published";
-            }
+            var isValid = RunbooksListView.SelectedValue != null && RunbooksListView.SelectedValue is Runbook && ((Runbook)RunbooksListView.SelectedValue).Properties.State != RunbookState.New;
+
+            InvalidRunbookPanel.Visibility = isValid ? Visibility.Collapsed : Visibility.Visible;
+            OKButton.IsEnabled = isValid;
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)

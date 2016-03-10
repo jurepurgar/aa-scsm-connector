@@ -7,12 +7,14 @@
 
     <convert:ObjToBoolConverter x:Key="ObjToBoolConverter"/>
     <convert:BoolToBrushConverter x:Key="BoolToBrushConverter"/>
+    <convert:RunbookTypeToStringConverter x:Key="RunbookTypeToStringConverter" />
 
     <LinearGradientBrush x:Key="BannerBrush" StartPoint="0.5,0" EndPoint=" 0.5,1">
         <GradientStop Color="LightBlue" Offset="0" />
         <GradientStop Color="Transparent" Offset="1.0" />
     </LinearGradientBrush>
 
+    <!-- styles -->
 
     <Style x:Key="InputPanelStyle" TargetType="StackPanel">
         <Setter Property="Margin" Value="4,0,10,10" />

@@ -79,6 +79,7 @@
     <Compile Include="ConsoleHandler.cs" />
     <Compile Include="Converters\BoolToBrushConverter.cs" />
     <Compile Include="Converters\ObjToBoolConverter.cs" />
+    <Compile Include="Converters\RunbookTypeToStringConverter.cs" />
     <Compile Include="LoginWindow.xaml.cs">
       <DependentUpon>LoginWindow.xaml</DependentUpon>
     </Compile>
