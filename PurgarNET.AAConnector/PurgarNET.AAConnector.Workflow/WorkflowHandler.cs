@@ -91,7 +91,12 @@ namespace PurgarNET.AAConnector.Workflows
             }
 
 
-            var runbooks = _aaClient.Get("Runbooks");
+            var rt = _aaClient.GetRunbooksAsync();
+            var runbooks = rt.Result;
+            string str = string.Empty;
+            foreach (var r in runbooks)
+                str += "\n\r" + r.Name;
+
             using (System.IO.StreamWriter outputFile = new System.IO.StreamWriter(@"C:\Windows\Temp\TestWorkflowRunbooks.txt", true))
             {
                 outputFile.WriteLine(" ");

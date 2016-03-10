@@ -58,6 +58,7 @@ namespace PurgarNET.AAConnector.Console
                     _err = err;
                 }
                 _wnd.Close();
+                
             }
         }
 

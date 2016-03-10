@@ -19,17 +19,49 @@ namespace PurgarNET.AAConnector.Console
 
         private static ConnectorSettings _settings = null;
         private static AAUserClient _aaClient = null;
-        private static EnterpriseManagementGroup _emg = null;
+        //private static EnterpriseManagementGroup _emg = null;
 
         private static object _lck = new object();
         private static bool _isInitialized = false;
 
-        public static bool Initialize()
+
+        public static SMClient SMCLient
+        {
+            get
+            {
+                CheckInitialized();
+                return _smClient;
+            }
+        }
+
+        public static AAUserClient AAClient
+        {
+            get
+            {
+                CheckInitialized();
+                return _aaClient;
+            }
+        }
+
+        public static bool Initialize(string serverName = null)
         {
             lock (_lck)
             {
-                IManagementGroupSession session = FrameworkServices.GetService<IManagementGroupSession>();
-                _emg = session.ManagementGroup;
+                if (_smClient == null)
+                { 
+
+                    if (!string.IsNullOrEmpty(serverName)) //for testing
+                    {
+                        var mg = new EnterpriseManagementGroup(serverName);
+                        _smClient = new SMClient(mg);
+                    }
+                    else
+                    {
+                        IManagementGroupSession session = FrameworkServices.GetService<IManagementGroupSession>();
+                        var emg = session.ManagementGroup;
+                        _smClient = new SMClient(emg);
+                    }
+                }
             }
 
             var s = _smClient.GetSettings();
@@ -40,7 +72,12 @@ namespace PurgarNET.AAConnector.Console
                 {
                     if (_aaClient == null || _settings == null || !_settings.Equals(s))
                     {
+                        if (_aaClient != null)
+                            _aaClient.AuthorizationCodeRequired -= _aaClient_AuthorizationCodeRequired;
                         _aaClient = new AAUserClient(s.TenantId, s.SubscriptionId, s.ResourceGroupName, s.AutomationAccountName, s.UserAppId);
+                        _aaClient.AuthorizationCodeRequired += _aaClient_AuthorizationCodeRequired;
+
+
                         _settings = s;
                         _isInitialized = true;
                     }
@@ -56,19 +93,17 @@ namespace PurgarNET.AAConnector.Console
             return true;
         }
 
+        private static void _aaClient_AuthorizationCodeRequired(object sender, AuthorizationCodeRequiredEventArgs e)
+        {
+            e.Code = LoginWindow.InitializeLogin(e.LoginUri);
+        }
+
         public static void CheckInitialized()
         {
             if (!_isInitialized)
                 throw new InvalidOperationException("WorkflowHandler is not initialized!");
         }
 
-        public static ManagementPackEnumeration GetManagementPackEnumeration(string name)
-        {
-            CheckInitialized();
-            var enums = _emg.EntityTypes.GetEnumerations(new ManagementPackEnumerationCriteria($"Name = '{name}'"));
-            if (enums.Count != 1)
-                throw new ObjectNotFoundException($"MP Enumeration '{name}' not found");
-            return enums.First();
-        }
+        
     }
 }

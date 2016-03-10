@@ -24,14 +24,14 @@ namespace PurgarNET.AAConnector.Shared.AutomationClient
                 return Parameters.CLIENT_ID;
         }
         
-        public List<HybridRunbookWorkerGroup> GetHybridRunbookWorkerGroups()
+        public async Task<List<HybridRunbookWorkerGroup>> GetHybridRunbookWorkerGroupsAsync()
         {
-            return GetList<HybridRunbookWorkerGroup>("hybridRunbookWorkerGroups");
+            return await GetListAsync<HybridRunbookWorkerGroup>("hybridRunbookWorkerGroups");
         }
 
-        public  List<Job> GetJobs()
+        public async Task<List<Job>> GetJobsAsync()
         {
-            return  GetList<Job>("jobs");
+            return await GetListAsync<Job>("jobs");
         }
     }
 }

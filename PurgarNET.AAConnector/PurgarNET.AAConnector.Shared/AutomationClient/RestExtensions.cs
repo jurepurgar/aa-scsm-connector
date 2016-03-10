@@ -24,7 +24,7 @@ namespace PurgarNET.AAConnector.Shared.AutomationClient
         }*/
 
 
-        public static IRestResponse<T> GetResponse<T>(this RestClient client, IRestRequest request) where T : new()
+       /* public static IRestResponse<T> GetResponse<T>(this RestClient client, IRestRequest request) where T : new()
         {
             var response = client.Execute<T>(request);
 
@@ -35,9 +35,9 @@ namespace PurgarNET.AAConnector.Shared.AutomationClient
                 throw response.ErrorException;
 
             return response;
-        }
+        }*/
 
-        /*public static Task<IRestResponse<T>> GetResponseAsync<T>(this RestClient client, IRestRequest request) where T : new()
+        public static Task<IRestResponse<T>> GetResponseAsync<T>(this RestClient client, IRestRequest request) where T : new()
         {
             var tsc = new TaskCompletionSource<IRestResponse<T>>();
 
@@ -53,6 +53,6 @@ namespace PurgarNET.AAConnector.Shared.AutomationClient
             });
 
             return tsc.Task;
-        }*/
+        }
     }
 }

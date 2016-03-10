@@ -24,26 +24,16 @@ namespace PurgarNET.AAConnector.TestApp
     /// </summary>
     public partial class MainWindow : Window
     {
-
-        AAUserClient cl;
         AAWorkflowClient wcl;
         public MainWindow()
         {
             InitializeComponent();
 
-            var tenant = new Guid("a577f43f-f7b8-42c9-ba99-27708e35b62b");
-            var subscription = new Guid("5c8eb01e-d914-41f1-bb3a-e7ff67fe8cbe");
-
             var sm = new SMClient("SCSM02");
-
             var s = sm.GetSettings();
-
-            var s1 = sm.GetSettings();
-
-            cl = new AAUserClient(tenant, subscription, "kolit-resources-prod", "kolit-automation-prod");
-            cl.AuthorizationCodeRequired += Cl_AuthorizationCodeRequired;
-
             wcl = new AAWorkflowClient(s.TenantId, s.SubscriptionId, s.ResourceGroupName, s.AutomationAccountName, new Guid("767125d1-5e6c-43cc-8a8d-f68aad65ad0d"), "bulabulabula");
+
+            ConsoleHandler.Initialize("SCSM02");
         }
 
         private void LoginButton_Click(object sender, RoutedEventArgs e)
@@ -57,7 +47,7 @@ namespace PurgarNET.AAConnector.TestApp
             //var wr1 = await wcl.GetRunbooks();
 
 
-            var runbooks = wcl.Get("Runbooks");
+/*            var runbooks = wcl.Get("Runbooks");
 
                 var r1 = wcl.GetRunbooks();
 
@@ -70,6 +60,9 @@ namespace PurgarNET.AAConnector.TestApp
             //}
 
             var r = "res";
+            */
+
+            var res = RunbookSelector.SelectRunbook();
 
         }
 

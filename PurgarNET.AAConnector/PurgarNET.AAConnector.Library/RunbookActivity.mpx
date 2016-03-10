@@ -47,7 +47,7 @@
     <LanguagePack ID="ENU" IsDefault="true">
       <DisplayStrings>
         <DisplayString ElementID="PurgarNET.AAConnector.RunbookActivity">
-          <Name>SMA Runbook Activity</Name>
+          <Name>Azure Automation Runbook Activity</Name>
           <Description></Description>
         </DisplayString>
       </DisplayStrings>

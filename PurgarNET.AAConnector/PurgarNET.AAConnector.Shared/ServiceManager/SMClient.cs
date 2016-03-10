@@ -65,5 +65,13 @@ namespace PurgarNET.AAConnector.Shared.ServiceManager
             return s;
         }
 
+        public ManagementPackEnumeration GetManagementPackEnumeration(string name)
+        {
+            var enums = _emg.EntityTypes.GetEnumerations(new ManagementPackEnumerationCriteria($"Name = '{name}'"));
+            if (enums.Count != 1)
+                throw new ObjectNotFoundException($"MP Enumeration '{name}' not found");
+            return enums.First();
+        }
+
     }
 }

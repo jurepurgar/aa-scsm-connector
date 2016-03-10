@@ -31,8 +31,8 @@ namespace PurgarNET.AAConnector.Console
             ConsoleHandler.Initialize();
             //classes resolve
             
-            AreaListPicker.ParentCategoryId = ConsoleHandler.GetManagementPackEnumeration("ActivityAreaEnum").Id;
-            StageListPicker.ParentCategoryId = ConsoleHandler.GetManagementPackEnumeration("ActivityStageEnum").Id;
+            AreaListPicker.ParentCategoryId = ConsoleHandler.SMCLient.GetManagementPackEnumeration("ActivityAreaEnum").Id;
+            StageListPicker.ParentCategoryId = ConsoleHandler.SMCLient.GetManagementPackEnumeration("ActivityStageEnum").Id;
 
             AddHandler(FormEvents.PreviewSubmitEvent, new EventHandler<PreviewFormCommandEventArgs>(OnPreviewSubmit));
 
@@ -48,11 +48,10 @@ namespace PurgarNET.AAConnector.Console
 
         private void SelectRunbookButton_Click(object sender, RoutedEventArgs e)
         {
-            /*var r = SelectRunbookWindow.SelectRunbook(
-                SmaConnectionPicker.Instance["WebServiceUrl"].ToString());
+            var r = RunbookSelector.SelectRunbook();
 
             if (r != null)
-                RunbookNameTextBox.Text = r; */
+                RunbookNameTextBox.Text = r.Name; 
         }
 
         private void UserControl_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)

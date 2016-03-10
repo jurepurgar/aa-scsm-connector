@@ -2,6 +2,10 @@
   <Resources>
     <DeployableAssembly ID="PurgarNET.AAConnector.Shared" Accessibility="Public" FileName="PurgarNET.AAConnector.Shared.dll" HasNullStream="false" QualifiedName="PurgarNET.AAConnector.Shared, Version=1.0.0.0" />
     <DeployableAssembly ID="PurgarNET.AAConnector.Console" Accessibility="Public" FileName="PurgarNET.AAConnector.Console.dll" HasNullStream="false" QualifiedName="PurgarNET.AAConnector.Console, Version=1.0.0.0" />
-    <!--<DeployableAssembly ID="PurgarNET.AAConnector.Console" Accessibility="Public" FileName="Newtonsoft.Json.dll" HasNullStream="false" QualifiedName="Newtonsoft.Json, Version=6.0.0.0" /> -->
+    
+    <DeployableAssembly ID="RestSharp" Accessibility="Public" FileName="RestSharp.dll" HasNullStream="false" QualifiedName="RestSharp, Version=105.2.3.0" />
+    <DeployableAssembly ID="AsyncBridge.Net35" Accessibility="Public" FileName="AsyncBridge.Net35.dll" HasNullStream="false" QualifiedName="AsyncBridge.Net35, Version=0.0.0.0" />
+    <DeployableAssembly ID="System.Threading" Accessibility="Public" FileName="System.Threading.dll" HasNullStream="false" QualifiedName="System.Threading, Version=1.0.2856.102" />
+
   </Resources>
 </ManagementPackFragment>
