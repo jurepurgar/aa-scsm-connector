@@ -47,7 +47,7 @@ namespace PurgarNET.AAConnector.Shared.AutomationClient
             _tokenClient.Encoding = Encoding.UTF8;
         }
 
-        public async Task AssureTokenAsync()
+     /*   public async Task AssureTokenAsync()
         {
             lock (_lck)
             {
@@ -55,10 +55,40 @@ namespace PurgarNET.AAConnector.Shared.AutomationClient
                     _tokenTask = AssureTokenInternalAsync(false);
             }
             await _tokenTask;
-        }
-        
+        }*/
 
-        private async Task AssureTokenInternalAsync(bool force = false)
+
+        private void AssureToken(bool force = false)
+        {
+            lock (_lck) { 
+                if (!force && _token != null)
+                {
+                    if (_token.ExpiresOn > DateTime.UtcNow.AddMinutes(1)) //we make token invalid one minute before epiration date
+                    {
+                        return;
+                    }
+                    try
+                    {
+                        if (_token.RefreshToken != null)
+                        {
+                            var refreshReq = new RestRequest(Method.POST);
+                            refreshReq.AddParameter("grant_type", "refresh_token");
+                            refreshReq.AddParameter("refresh_token", _token.RefreshToken);
+                            AssureTokenByRequest(refreshReq);
+                            return;
+                        }
+                    }
+                    catch { }
+                }
+                var req = new RestRequest(Method.POST);
+                AddTokenRequestParameters(req);
+
+                AssureTokenByRequest(req);
+            }
+        }
+
+
+        /*private async Task AssureTokenInternalAsync(bool force = false)
         {
             if (!force && _token != null)
             {
@@ -83,7 +113,7 @@ namespace PurgarNET.AAConnector.Shared.AutomationClient
             AddTokenRequestParameters(req);
 
             await AssureTokenByRequestAsync(req);
-        }
+        }*/
 
 
         private void AddTokenRequestParameters(RestRequest request)
@@ -122,7 +152,7 @@ namespace PurgarNET.AAConnector.Shared.AutomationClient
 
         public event EventHandler<AuthorizationCodeRequiredEventArgs> AuthorizationCodeRequired;
 
-        private async Task AssureTokenByRequestAsync(RestRequest request)
+        /*private async Task AssureTokenByRequestAsync(RestRequest request)
         {
             request.AddParameter("resource", Parameters.AZURE_RESOURCE);
             
@@ -132,15 +162,33 @@ namespace PurgarNET.AAConnector.Shared.AutomationClient
             _client.AddDefaultHeader("Authorization", "Bearer " + _token.AccessToken);
 
             //TODO: throw error if not successuf
+        }*/
+
+        private void AssureTokenByRequest(RestRequest request)
+        {
+            request.AddParameter("resource", Parameters.AZURE_RESOURCE);
+            var res = _tokenClient.GetResponse<Token>(request); //TODO: throw error if not successuf
+            _token = res.Data;
+            _client.AddDefaultHeader("Authorization", "Bearer " + _token.AccessToken);
+
+            
         }
 
 
 
         //api calls
 
-        protected T Get<T>(string resource) where T : new()
+        public string Get(string resource)  //TODO: delete when done testing
         {
-            AssureTokenAsync().Wait();
+            AssureToken();
+            var req = new RestRequest(resource, Method.GET);
+            var res = _client.Execute(req); // TODO: handle other type of errors, like no internet, etc...
+            return res.Content;
+        }
+
+        protected T Get<T>(string resource) where T : new() 
+        {
+            AssureToken();
             var req = new RestRequest(resource, Method.GET);
             var res = _client.GetResponse<T>(req); // TODO: handle other type of errors, like no internet, etc...
             return res.Data;
@@ -156,7 +204,7 @@ namespace PurgarNET.AAConnector.Shared.AutomationClient
                 return res.Value;
         }
 
-        protected async Task<T> GetAsync<T>(string resource) where T : new()
+     /*   protected async Task<T> GetAsync<T>(string resource) where T : new()
         {
             await AssureTokenAsync();
 
@@ -176,18 +224,19 @@ namespace PurgarNET.AAConnector.Shared.AutomationClient
             else
                 return res.Value;
         }
+        */
 
 
-
-        public async Task<Job> GetJobAsync(Guid jobId)
+        public Job GetJob(Guid jobId)
         {
-            return await GetAsync<Job>($"jobs/{jobId.ToString()}/");
+            return Get<Job>($"jobs/{jobId.ToString()}/");
         }
 
-        public async Task<List<Runbook>> GetRunbooksAsync()
+      /*  public async Task<List<Runbook>> GetRunbooksAsync()
         {
             return await GetListAsync<Runbook>("runbooks");
         }
+        */
 
         public List<Runbook> GetRunbooks()
         {

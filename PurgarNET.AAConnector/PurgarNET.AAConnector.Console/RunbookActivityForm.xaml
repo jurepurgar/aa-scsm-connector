@@ -1,0 +1,177 @@
+﻿<UserControl x:Class="PurgarNET.AAConnector.Console.RunbookActivityForm"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:PurgarNET.AAConnector.Console"
+             xmlns:smcontrols="clr-namespace:Microsoft.EnterpriseManagement.UI.WpfControls;assembly=Microsoft.EnterpriseManagement.UI.SMControls"
+             xmlns:toolbox="clr-namespace:Microsoft.EnterpriseManagement.UI.WpfToolbox;assembly=Microsoft.EnterpriseManagement.UI.FormsInfra"
+             mc:Ignorable="d" 
+             d:DesignHeight="400" d:DesignWidth="400"
+             DataContextChanged="UserControl_DataContextChanged">
+    <UserControl.Resources>
+        <ResourceDictionary Source="/PurgarNET.AAConnector.Console;component/Styles.xaml" />
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="80" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Grid x:Name="gridNewBanner">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Rectangle Grid.ColumnSpan="2" x:Name="imgSuperGridBrand" Fill="{StaticResource BannerBrush}" />
+
+            <Label Content="{Binding DisplayName}" Style="{StaticResource BannerLabelStyle}"  />
+
+            <Grid Grid.Column="1" Margin="0,10,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"  />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+
+                <TextBlock Margin="0,0,6,2" Grid.Row="1" Grid.Column="0" Text="Created on:" FontWeight="SemiBold" />
+                <TextBlock Margin="0,0,6,0" Grid.Row="1" Grid.Column="1" Text="{Binding CreatedDate}" />
+
+                <TextBlock Margin="0,0,6,2" Grid.Row="0" Grid.Column="0" Text="Activity status:" FontWeight="SemiBold" />
+                <TextBlock Margin="0,0,6,0" Grid.Row="0" Grid.Column="1" Text="{Binding Status.DisplayName }" />
+
+                <TextBlock Margin="0,0,6,2" Grid.Row="2" Grid.Column="0" Text="Job status:" FontWeight="SemiBold" />
+                <TextBlock Margin="0,0,6,0" Grid.Row="2" Grid.Column="1" Text="{Binding JobStatus}" />
+            </Grid>
+        </Grid>
+
+        <TabControl Grid.Row="1" Margin="0" x:Name="DefaultTabControl" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" >
+            <TabItem Header="General" x:Name="GeneralTabItem">
+                <StackPanel Margin="10,10,0,0">
+                    <Grid >
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+
+                        <StackPanel Style="{StaticResource InputPanelStyle}" Grid.ColumnSpan="2">
+                            <Label Content="Title:" />
+                            <TextBox  Text="{Binding Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" toolbox:Validation.ValueRequired="True" Style="{StaticResource InputBoxStyle}"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Row="1" Grid.ColumnSpan="2" Style="{StaticResource InputPanelStyle}">
+                            <Label Content="Description:" />
+                            <TextBox Text="{Binding Description, Mode=TwoWay}" Style="{StaticResource InputAreaStyle}"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Row="2" Style="{StaticResource InputPanelStyle}" >
+                            <Label Content="Area:" />
+                            <smcontrols:ListPicker x:Name="AreaListPicker"  SelectedItem="{Binding Area, Mode=TwoWay}"  />
+                        </StackPanel>
+
+                        <StackPanel Grid.Row="2" Grid.Column="1" Style="{StaticResource InputPanelStyle}">
+                            <Label Content="Stage:" />
+                            <smcontrols:ListPicker x:Name="StageListPicker" SelectedItem="{Binding Stage, Mode=TwoWay}"  />
+                        </StackPanel>
+
+                    </Grid>
+                </StackPanel>
+            </TabItem>
+            <TabItem Header="Runbook" x:Name="RunbookTab" Margin="-2,-2,2,0">
+
+                <Grid Margin="10,10,10,10" Name="RunbookGrid">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    
+
+                    <StackPanel Style="{StaticResource InputPanelStyle}" Grid.ColumnSpan="2" x:Name="RunbookSelectorPanel" IsEnabled="{Binding Instance, Mode=OneWay, ElementName=SmaConnectionPicker, Converter={StaticResource ObjToBoolConverter}}" >
+                        <Label Content="Runbook name:" />
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <TextBox x:Name="RunbookNameTextBox" Text="{Binding RunbookName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" toolbox:Validation.ValueRequired="True" IsReadOnly="True" Style="{StaticResource InputBoxStyle}"/>
+                            <Button Grid.Column="1" x:Name="SelectRunbookButton" Content="Select" Margin="10,0,0,0" VerticalAlignment="Top" Width="44" Height="24" Click="SelectRunbookButton_Click" />
+                        </Grid>
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="1" >
+                       <!-- <CheckBox Margin="6,6,0,0" x:Name="IncludeAffectedObjectsCheckBox" Content="Include parent WorkItem affected objects in RequestData" IsChecked="{Binding IncludeAffectedObjects, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        <CheckBox Margin="6,6,0,0" x:Name="IncludeRelatedObjectsCheckBox" Content="Include parent WorkItem related objects in RequestData" IsChecked="{Binding IncludeRelatedObjects, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        <CheckBox Margin="6,6,0,0" x:Name="IncludeAffectedUserCheckBox" Content="Include parent WorkItem affected user in RequestData" IsChecked="{Binding IncludeAffectedUser, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />-->
+                    </StackPanel>
+
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="Job" x:Name="JobTabItem">
+                <StackPanel Margin="10,10,0,0">
+                    <Grid >
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="3*" />
+                            <ColumnDefinition Width="4*" />
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Column="0"  Style="{StaticResource InputPanelStyle}">
+                            <Label Content="Job status:" />
+                            <TextBox Text="{Binding JobStatus, Mode=OneWay}" IsReadOnly="True" Style="{StaticResource InputBoxStyle}" />
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="1"  Style="{StaticResource InputPanelStyle}">
+                            <Label Content="Job Id:" />
+                            <TextBox Text="{Binding JobId, Mode=OneWay}" IsReadOnly="True" Style="{StaticResource InputBoxStyle}" />
+                        </StackPanel>
+
+                        <StackPanel Grid.ColumnSpan="2" Grid.Row="1" Style="{StaticResource InputPanelStyle}">
+                            <Label Content="Output:" />
+                            <TextBox Text="{Binding JobOutput, Mode=OneWay}" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto" IsReadOnly="True" Style="{StaticResource InputAreaStyle}"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.ColumnSpan="2" Grid.Row="2" Style="{StaticResource InputPanelStyle}">
+                            <Label Content="Exception:" />
+                            <TextBox Text="{Binding JobException, Mode=OneWay}" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto" IsReadOnly="True" Style="{StaticResource InputAreaStyle}"/>
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+            </TabItem>
+
+            <!--TabItem Header="Properties" x:Name="PropertiesTab">
+                <StackPanel x:Name="PropertiesPanel" Margin="10,10,0,0">
+                    
+                    
+                </StackPanel>
+            </>-->
+
+            <TabItem Header="History" x:Name="HiostoryTabItem">
+                <smcontrols:HistoryTab/>
+            </TabItem>
+        </TabControl>
+
+    </Grid>
+</UserControl>

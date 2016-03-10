@@ -31,38 +31,41 @@ namespace PurgarNET.AAConnector.TestApp
         {
             InitializeComponent();
 
+            var tenant = new Guid("a577f43f-f7b8-42c9-ba99-27708e35b62b");
+            var subscription = new Guid("5c8eb01e-d914-41f1-bb3a-e7ff67fe8cbe");
+
             var sm = new SMClient("SCSM02");
 
             var s = sm.GetSettings();
 
             var s1 = sm.GetSettings();
 
-            cl = new AAUserClient(new Guid("a577f43f-f7b8-42c9-ba99-27708e35b62b"), new Guid("5c8eb01e-d914-41f1-bb3a-e7ff67fe8cbe"), "kolit-resources-prod", "kolit-automation-prod");
+            cl = new AAUserClient(tenant, subscription, "kolit-resources-prod", "kolit-automation-prod");
             cl.AuthorizationCodeRequired += Cl_AuthorizationCodeRequired;
 
-            wcl = new AAWorkflowClient(new Guid("a577f43f-f7b8-42c9-ba99-27708e35b62b"), new Guid("5c8eb01e-d914-41f1-bb3a-e7ff67fe8cbe"), "kolit-resources-prod", "kolit-automation-prod", new Guid("bd432e3f-a25c-4d92-b2ed-bd87d7392421"), "");
+            wcl = new AAWorkflowClient(s.TenantId, s.SubscriptionId, s.ResourceGroupName, s.AutomationAccountName, new Guid("767125d1-5e6c-43cc-8a8d-f68aad65ad0d"), "bulabulabula");
         }
 
-        private async void LoginButton_Click(object sender, RoutedEventArgs e)
+        private void LoginButton_Click(object sender, RoutedEventArgs e)
         {
             //var r = await cl.Get<Client.Models.Token>("subscriptions");
 
             // for (var i = 1; i <= 10; i++)
             //{
 
-            
+
             //var wr1 = await wcl.GetRunbooks();
 
 
+            var runbooks = wcl.Get("Runbooks");
 
+                var r1 = wcl.GetRunbooks();
 
-                var r1 = await cl.GetRunbooksAsync();
+            var rr1 = wcl.GetRunbooks();
 
-            var rr1 = cl.GetRunbooks();
+            var r2 = cl.GetHybridRunbookWorkerGroups();
 
-            var r2 = await cl.GetHybridRunbookWorkerGroups();
-
-            var r3 = await cl.GetJobAsync(new Guid("c9855fda-cc29-4942-9355-131a837f8e39"));
+            var r3 = cl.GetJob(new Guid("c9855fda-cc29-4942-9355-131a837f8e39"));
 
             //}
 

@@ -34,8 +34,6 @@ namespace PurgarNET.AAConnector.Workflows
                 throw e;
             }
             
-            
-
             lock (_lck)
             {
                 if (_smClient == null)
@@ -50,7 +48,7 @@ namespace PurgarNET.AAConnector.Workflows
             {
                 lock (_lck)
                 {
-                    if (_aaClient == null || _settings == null || _settings.Equals(s) || _clientId != clientId || _clientSecret != clientSecret)
+                    if (_aaClient == null || _settings == null || !_settings.Equals(s) || _clientId != clientId || _clientSecret != clientSecret)
                     { 
                         _aaClient = new AAWorkflowClient(s.TenantId, s.SubscriptionId, s.ResourceGroupName, s.AutomationAccountName, clientId, clientSecret);
                         _clientId = clientId;
@@ -93,14 +91,14 @@ namespace PurgarNET.AAConnector.Workflows
             }
 
 
-            var runbooks = _aaClient.GetRunbooks();
+            var runbooks = _aaClient.Get("Runbooks");
             using (System.IO.StreamWriter outputFile = new System.IO.StreamWriter(@"C:\Windows\Temp\TestWorkflowRunbooks.txt", true))
             {
                 outputFile.WriteLine(" ");
                 outputFile.WriteLine("Date: " + DateTime.Now.ToString());
                 outputFile.WriteLine("Runbooks:");
-                foreach (var r in runbooks)
-                    outputFile.WriteLine(r.Name);
+                
+                outputFile.WriteLine(runbooks);
 
                 //outputFile.WriteLine("Id: " + ClientId);
                 //outputFile.WriteLine("Secret: " + ClientSecret);

@@ -5,7 +5,6 @@ using System.Text;
 
 namespace PurgarNET.AAConnector.Shared
 {
-    
     public static class Parameters
     {
         public static Uri REDIRECT_URI = new Uri("urn:ietf:wg:oauth:2.0:oob");

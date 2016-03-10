@@ -63,13 +63,13 @@
     <Compile Include="AutomationClient\AAClientBase.cs" />
     <Compile Include="AutomationClient\AAUserClient.cs" />
     <Compile Include="AutomationClient\AAWorkflowClient.cs" />
-    <Compile Include="AutomationClient\ApiException.cs" />
+    <Compile Include="AutomationClient\Exceptions.cs" />
     <Compile Include="AutomationClient\Models\ApiError.cs" />
     <Compile Include="AutomationClient\Models\ApiResponse.cs" />
     <Compile Include="AutomationClient\Models\Token.cs" />
     <Compile Include="Parameters.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RestExtensions.cs" />
+    <Compile Include="AutomationClient\RestExtensions.cs" />
     <Compile Include="ServiceManager\Models\ConnectorSettings.cs" />
     <Compile Include="ServiceManager\SMClient.cs" />
     <Compile Include="ServiceManager\SMHelpers.cs" />

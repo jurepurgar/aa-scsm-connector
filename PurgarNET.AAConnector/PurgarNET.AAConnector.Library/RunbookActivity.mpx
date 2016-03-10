@@ -1,0 +1,57 @@
+﻿<ManagementPackFragment SchemaVersion="SM2.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <TypeDefinitions>
+    <EntityTypes>
+      <ClassTypes>
+        <ClassType ID="PurgarNET.AAConnector.RunbookActivity" Base="PurgarNET.AAConnector.RunbookActivityBase" Accessibility="Public" Abstract="false" Hosted="false" Singleton="false">
+
+          <Property ID="Text1" Key="false" Type="string" MinLength="0" MaxLength="65536"  />
+          <Property ID="Text2" Key="false" Type="string" MinLength="0" MaxLength="65536"  />
+          <Property ID="Text3" Key="false" Type="string" MinLength="0" MaxLength="65536"  />
+          <Property ID="Text4" Key="false" Type="string" MinLength="0" MaxLength="65536"  />
+          <Property ID="Text5" Key="false" Type="string" MinLength="0" MaxLength="65536"  />
+          <Property ID="Text6" Key="false" Type="string" MinLength="0" MaxLength="65536"  />
+          <Property ID="Text7" Key="false" Type="string" MinLength="0" MaxLength="65536"  />
+          <Property ID="Text8" Key="false" Type="string" MinLength="0" MaxLength="65536"  />
+          <Property ID="Text9" Key="false" Type="string" MinLength="0" MaxLength="65536"  />
+          <Property ID="Text10" Key="false" Type="string" MinLength="0" MaxLength="65536"  />
+          <Property ID="Text11" Key="false" Type="string" MinLength="0" MaxLength="65536"  />
+          <Property ID="Text12" Key="false" Type="string" MinLength="0" MaxLength="65536"  />
+          <Property ID="Text13" Key="false" Type="string" MinLength="0" MaxLength="65536"  />
+          <Property ID="Text14" Key="false" Type="string" MinLength="0" MaxLength="65536"  />
+          <Property ID="Text15" Key="false" Type="string" MinLength="0" MaxLength="65536"  />
+
+          <Property ID="Int1" Key="false" Type="int" MinLength="0" MaxLength="65536"  />
+          <Property ID="Int2" Key="false" Type="int" MinLength="0" MaxLength="65536"  />
+          <Property ID="Int3" Key="false" Type="int" MinLength="0" MaxLength="65536"  />
+          <Property ID="Int4" Key="false" Type="int" MinLength="0" MaxLength="65536"  />
+          <Property ID="Int5" Key="false" Type="int" MinLength="0" MaxLength="65536"  />
+
+          <Property ID="DateTime1" Key="false" Type="datetime" MinLength="0" MaxLength="65536"  />
+          <Property ID="DateTime2" Key="false" Type="datetime" MinLength="0" MaxLength="65536"  />
+          <Property ID="DateTime3" Key="false" Type="datetime" MinLength="0" MaxLength="65536"  />
+          <Property ID="DateTime4" Key="false" Type="datetime" MinLength="0" MaxLength="65536"  />
+          <Property ID="DateTime5" Key="false" Type="datetime" MinLength="0" MaxLength="65536"  />
+
+          <Property ID="Boolean1" Key="false" Type="bool" MinLength="0" MaxLength="65536"  />
+          <Property ID="Boolean2" Key="false" Type="bool" MinLength="0" MaxLength="65536"  />
+          <Property ID="Boolean3" Key="false" Type="bool" MinLength="0" MaxLength="65536"  />
+          <Property ID="Boolean4" Key="false" Type="bool" MinLength="0" MaxLength="65536"  />
+          <Property ID="Boolean5" Key="false" Type="bool" MinLength="0" MaxLength="65536"  />
+
+        </ClassType>
+      </ClassTypes>
+    </EntityTypes>
+  </TypeDefinitions>
+
+  <LanguagePacks>
+    <LanguagePack ID="ENU" IsDefault="true">
+      <DisplayStrings>
+        <DisplayString ElementID="PurgarNET.AAConnector.RunbookActivity">
+          <Name>SMA Runbook Activity</Name>
+          <Description></Description>
+        </DisplayString>
+      </DisplayStrings>
+    </LanguagePack>
+
+  </LanguagePacks>
+</ManagementPackFragment>

@@ -7,13 +7,13 @@ Project("{D4B43EB3-688B-4EEE-86BD-088F0B28ABB3}") = "PurgarNET.AAConnector.Libra
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PurgarNET.AAConnector.Shared", "PurgarNET.AAConnector.Shared\PurgarNET.AAConnector.Shared.csproj", "{C023EA8D-D9EC-4A7E-A877-DEF4B9ED345C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PurgarNET.AAConnector.Console", "PurgarNET.AAConnector.ConsoleControls\PurgarNET.AAConnector.Console.csproj", "{949202F5-F792-4BC2-BA98-BAF20FD1BBD0}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PurgarNET.AAConnector.TestApp", "PurgarNET.AAClient.TestApp\PurgarNET.AAConnector.TestApp.csproj", "{832DE145-CBFD-4D67-9170-C60813846EDD}"
 EndProject
 Project("{F5034706-568F-408A-B7B3-4D38C6DB8A32}") = "PurgarNET.AAConnector.PowerShell", "PurgarNET.AAConnector.PowerShell\PurgarNET.AAConnector.PowerShell.pssproj", "{6CAFC0C6-A428-4D30-A9F9-700E829FEA51}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PurgarNET.AAConnector.Workflows", "PurgarNET.AAConnector.Workflow\PurgarNET.AAConnector.Workflows.csproj", "{2E442F44-C726-4174-9353-47C773688059}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PurgarNET.AAConnector.Console", "PurgarNET.AAConnector.Console\PurgarNET.AAConnector.Console.csproj", "{20D5E827-69C5-41A4-BCCF-EA13CCA794BC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,14 +37,6 @@ Global
 		{C023EA8D-D9EC-4A7E-A877-DEF4B9ED345C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C023EA8D-D9EC-4A7E-A877-DEF4B9ED345C}.Release|x86.ActiveCfg = Release|Any CPU
 		{C023EA8D-D9EC-4A7E-A877-DEF4B9ED345C}.Release|x86.Build.0 = Release|Any CPU
-		{949202F5-F792-4BC2-BA98-BAF20FD1BBD0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{949202F5-F792-4BC2-BA98-BAF20FD1BBD0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{949202F5-F792-4BC2-BA98-BAF20FD1BBD0}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{949202F5-F792-4BC2-BA98-BAF20FD1BBD0}.Debug|x86.Build.0 = Debug|Any CPU
-		{949202F5-F792-4BC2-BA98-BAF20FD1BBD0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{949202F5-F792-4BC2-BA98-BAF20FD1BBD0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{949202F5-F792-4BC2-BA98-BAF20FD1BBD0}.Release|x86.ActiveCfg = Release|Any CPU
-		{949202F5-F792-4BC2-BA98-BAF20FD1BBD0}.Release|x86.Build.0 = Release|Any CPU
 		{832DE145-CBFD-4D67-9170-C60813846EDD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{832DE145-CBFD-4D67-9170-C60813846EDD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{832DE145-CBFD-4D67-9170-C60813846EDD}.Debug|x86.ActiveCfg = Debug|Any CPU
@@ -69,6 +61,14 @@ Global
 		{2E442F44-C726-4174-9353-47C773688059}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2E442F44-C726-4174-9353-47C773688059}.Release|x86.ActiveCfg = Release|Any CPU
 		{2E442F44-C726-4174-9353-47C773688059}.Release|x86.Build.0 = Release|Any CPU
+		{20D5E827-69C5-41A4-BCCF-EA13CCA794BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{20D5E827-69C5-41A4-BCCF-EA13CCA794BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{20D5E827-69C5-41A4-BCCF-EA13CCA794BC}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{20D5E827-69C5-41A4-BCCF-EA13CCA794BC}.Debug|x86.Build.0 = Debug|Any CPU
+		{20D5E827-69C5-41A4-BCCF-EA13CCA794BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{20D5E827-69C5-41A4-BCCF-EA13CCA794BC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{20D5E827-69C5-41A4-BCCF-EA13CCA794BC}.Release|x86.ActiveCfg = Release|Any CPU
+		{20D5E827-69C5-41A4-BCCF-EA13CCA794BC}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

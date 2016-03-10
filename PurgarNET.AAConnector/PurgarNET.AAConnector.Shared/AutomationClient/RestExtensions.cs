@@ -1,11 +1,12 @@
-﻿using RestSharp;
+﻿using PurgarNET.AAConnector.Shared.AutomationClient;
+using RestSharp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PurgarNET.AAConnector.Shared
+namespace PurgarNET.AAConnector.Shared.AutomationClient
 {
     public static class RestExtensions
     {
@@ -26,28 +27,32 @@ namespace PurgarNET.AAConnector.Shared
         public static IRestResponse<T> GetResponse<T>(this RestClient client, IRestRequest request) where T : new()
         {
             var response = client.Execute<T>(request);
+
+            if ((int)response.StatusCode >= 400)
+                throw new HttpException(response.StatusCode, $"Call to {response.Request.Resource} completed with http error: {response.ResponseStatus}");
+
             if (response.ErrorException != null)
                 throw response.ErrorException;
+
             return response;
         }
 
-        public static Task<IRestResponse<T>> GetResponseAsync<T>(this RestClient client, IRestRequest request) where T : new()
+        /*public static Task<IRestResponse<T>> GetResponseAsync<T>(this RestClient client, IRestRequest request) where T : new()
         {
             var tsc = new TaskCompletionSource<IRestResponse<T>>();
 
             var handle = client.ExecuteAsync<T>(request, (response) =>
             {
+                if ((int)response.StatusCode >= 400)
+                    throw new HttpException(response.StatusCode, $"Call to {response.Request.Resource} completed with http error: {response.ResponseStatus}");
+
                 if (response.ErrorException != null)
-                    throw response.ErrorException;
+                    throw response.ErrorException; //todo handle 407 - proxy authentication required
 
                 tsc.SetResult(response);
             });
 
             return tsc.Task;
-        }
-
-
-
-
+        }*/
     }
 }

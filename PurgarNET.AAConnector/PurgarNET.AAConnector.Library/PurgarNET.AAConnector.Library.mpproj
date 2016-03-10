@@ -53,8 +53,26 @@
       <MinVersion>7.5.8501.0</MinVersion>
       <PackageToBundle>False</PackageToBundle>
     </ManagementPackReference>
+    <ManagementPackReference Include="System.Knowledge.Library">
+      <HintPath>C:\Users\jure.purgar\Source\Repos\aa-scsm-connector\PurgarNET.AAConnector\MPReferences\System.Knowledge.Library.mp</HintPath>
+      <Alias>Knowledge</Alias>
+      <MinVersion>7.5.3079.0</MinVersion>
+      <PackageToBundle>False</PackageToBundle>
+    </ManagementPackReference>
     <ManagementPackReference Include="System.Library">
       <Alias>System</Alias>
+      <PackageToBundle>False</PackageToBundle>
+    </ManagementPackReference>
+    <ManagementPackReference Include="System.WorkItem.Activity.Library">
+      <HintPath>C:\Users\jure.purgar\Source\Repos\aa-scsm-connector\PurgarNET.AAConnector\MPReferences\System.WorkItem.Activity.Library.mp</HintPath>
+      <Alias>Activity</Alias>
+      <MinVersion>7.5.3079.0</MinVersion>
+      <PackageToBundle>False</PackageToBundle>
+    </ManagementPackReference>
+    <ManagementPackReference Include="System.WorkItem.Library">
+      <HintPath>C:\Users\jure.purgar\Source\Repos\aa-scsm-connector\PurgarNET.AAConnector\MPReferences\System.WorkItem.Library.mp</HintPath>
+      <Alias>WorkItem</Alias>
+      <MinVersion>7.5.3079.607</MinVersion>
       <PackageToBundle>False</PackageToBundle>
     </ManagementPackReference>
   </ItemGroup>
@@ -68,26 +86,26 @@
     <Compile Include="Resources.mpx">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="RunbookActivity.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="RunbookActivityBase.mpx">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="SecureReference.mpx">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\PurgarNET.AAConnector.ConsoleControls\PurgarNET.AAConnector.Console.csproj">
+    <ProjectReference Include="..\PurgarNET.AAConnector.Console\PurgarNET.AAConnector.Console.csproj">
       <Name>PurgarNET.AAConnector.Console</Name>
-      <Project>{949202f5-f792-4bc2-ba98-baf20fd1bbd0}</Project>
+      <Project>{20d5e827-69c5-41a4-bccf-ea13cca794bc}</Project>
       <Private>True</Private>
       <PackageToBundle>True</PackageToBundle>
     </ProjectReference>
     <ProjectReference Include="..\PurgarNET.AAConnector.Shared\PurgarNET.AAConnector.Shared.csproj">
       <Name>PurgarNET.AAConnector.Shared</Name>
       <Project>{c023ea8d-d9ec-4a7e-a877-def4b9ed345c}</Project>
-      <Private>True</Private>
-      <PackageToBundle>True</PackageToBundle>
-    </ProjectReference>
-    <ProjectReference Include="..\PurgarNET.AAConnector.Workflow\PurgarNET.AAConnector.Workflows.csproj">
-      <Name>PurgarNET.AAConnector.Workflows</Name>
-      <Project>{2e442f44-c726-4174-9353-47c773688059}</Project>
       <Private>True</Private>
       <PackageToBundle>True</PackageToBundle>
     </ProjectReference>
