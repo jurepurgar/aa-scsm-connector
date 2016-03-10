@@ -4,7 +4,6 @@
       <ClassTypes>
 
         <ClassType ID="PurgarNET.AAConnector.RunbookActivityBase" Base="Activity!System.WorkItem.Activity" Accessibility="Public" Abstract="true" Hosted="false" Singleton="false">
-          <Property ID="RunbookId" Key="false" Type="guid" />
           <Property ID="RunbookName" Key="false" Type="string" MinLength="0" MaxLength="1024"  />
 
           <Property ID="PropertyMapping" Key="false" Type="string" MinLength="0" MaxLength="65536"  />

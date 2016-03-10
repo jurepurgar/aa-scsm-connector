@@ -25,6 +25,7 @@ namespace PurgarNET.AAConnector.TestApp
     public partial class MainWindow : Window
     {
         AAWorkflowClient wcl;
+        AAUserClient cl;
         public MainWindow()
         {
             InitializeComponent();
@@ -33,11 +34,18 @@ namespace PurgarNET.AAConnector.TestApp
             var s = sm.GetSettings();
             wcl = new AAWorkflowClient(s.TenantId, s.SubscriptionId, s.ResourceGroupName, s.AutomationAccountName, new Guid("767125d1-5e6c-43cc-8a8d-f68aad65ad0d"), "bulabulabula");
 
+            cl = new AAUserClient(s.TenantId, s.SubscriptionId, s.ResourceGroupName, s.AutomationAccountName);
+            cl.AuthorizationCodeRequired += Cl_AuthorizationCodeRequired;
+
             ConsoleHandler.Initialize("SCSM02");
         }
 
-        private void LoginButton_Click(object sender, RoutedEventArgs e)
+
+
+        private async void LoginButton_Click(object sender, RoutedEventArgs e)
         {
+            var r = await cl.GetRunbookAsync("TestWorkflow");
+
             //var r = await cl.Get<Client.Models.Token>("subscriptions");
 
             // for (var i = 1; i <= 10; i++)

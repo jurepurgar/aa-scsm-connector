@@ -231,9 +231,14 @@ namespace PurgarNET.AAConnector.Shared.AutomationClient
             return Get<Job>($"jobs/{jobId.ToString()}/");
         }*/
 
-       public async Task<List<Runbook>> GetRunbooksAsync()
+        public async Task<List<Runbook>> GetRunbooksAsync()
         {
             return await GetListAsync<Runbook>("runbooks");
+        }
+
+        public async Task<Runbook> GetRunbookAsync(string runbookName)
+        {
+            return await GetAsync<Runbook>($"runbooks/{runbookName}");
         }
         
 
