@@ -8,9 +8,12 @@
              xmlns:toolbox="clr-namespace:Microsoft.EnterpriseManagement.UI.WpfToolbox;assembly=Microsoft.EnterpriseManagement.UI.FormsInfra"
              mc:Ignorable="d" 
              d:DesignHeight="400" d:DesignWidth="400"
-             DataContextChanged="UserControl_DataContextChanged">
+             DataContextChanged="UserControl_DataContextChanged"
+             x:Name="Form">
     <UserControl.Resources>
         <ResourceDictionary Source="/PurgarNET.AAConnector.Console;component/Styles.xaml" />
+        
+        
     </UserControl.Resources>
 
     <Grid>
@@ -117,7 +120,7 @@
                     </StackPanel>
 
                     <Grid x:Name="ParametersPanel" Grid.Row="1"  >
-                        <ListView  ItemsSource="{Binding}" x:Name="RunbooksListView" SelectionMode="Single" ScrollViewer.VerticalScrollBarVisibility="Visible" Height="200" >
+                        <ListView  ItemsSource="{Binding }" x:Name="RunbooksListView" SelectionMode="Single" ScrollViewer.VerticalScrollBarVisibility="Visible" Height="200" >
                             <ListView.ItemContainerStyle>
                                 <Style TargetType="ListViewItem">
                                     <Setter Property="Focusable" Value="False"/>
@@ -147,7 +150,8 @@
                                     <GridViewColumn Width="160" Header="Mapped to">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
-                                                <ComboBox Width="140"  />
+                                                <!--TODO:  this binding does not work -->
+                                                <ComboBox Width="140" DataContext="{Binding ElementName=Form}" ItemsSource="{Binding PropertyDefinitions}" DisplayMemberPath="DisplayName" />
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>

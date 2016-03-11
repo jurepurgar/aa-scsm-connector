@@ -26,4 +26,5 @@ namespace PurgarNET.AAConnector.Console
         public string Id { get; set; }
         public List<Type> ValidForTypes { get; set; }
     }
+
 }

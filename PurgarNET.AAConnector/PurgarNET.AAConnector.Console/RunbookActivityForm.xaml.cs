@@ -1,4 +1,5 @@
 ﻿using Microsoft.EnterpriseManagement;
+using Microsoft.EnterpriseManagement.Configuration;
 using Microsoft.EnterpriseManagement.UI.DataModel;
 using Microsoft.EnterpriseManagement.UI.FormsInfra;
 using PurgarNET.AAConnector.Shared;
@@ -26,7 +27,8 @@ namespace PurgarNET.AAConnector.Console
     {
         private IDataItem _instance = null;
 
-        protected ParameterMappings Mappings = null;
+        public ParameterMappings Mappings = null;
+        public List<PropertyDefinition> PropertyDefinitions = null;
 
         public RunbookActivityForm()
         {
@@ -42,6 +44,16 @@ namespace PurgarNET.AAConnector.Console
             StageListPicker.ParentCategoryId = ConsoleHandler.SMCLient.GetManagementPackEnumeration("ActivityStageEnum").Id;
 
             AddHandler(FormEvents.PreviewSubmitEvent, new EventHandler<PreviewFormCommandEventArgs>(OnPreviewSubmit));
+
+            //test
+            Init(new ParameterMappings(), ConsoleHandler.SMCLient.MG.EntityTypes.GetClass("PurgarNET.AAConnector.RunbookActivity", ConsoleHandler.SMCLient.LibraryManagementPack));
+        }
+
+        public void Init(ParameterMappings mappings, ManagementPackClass mpClass)
+        {
+            PropertyDefinitions = ConsoleHandler.GetPropertyDefinitionsForClass(mpClass).OrderBy(x => x.DisplayName).ToList();
+            Mappings = mappings;
+            ParametersPanel.DataContext = Mappings;
         }
 
         private void OnPreviewSubmit(object sender, PreviewFormCommandEventArgs e)
@@ -82,23 +94,21 @@ namespace PurgarNET.AAConnector.Console
             if (this.DataContext is IDataItem)
             {
                 _instance = (this.DataContext as IDataItem);
-                if (Mappings == null)
+
+                ParameterMappings mappings = null;
+                if (_instance.HasProperty("ParameterMappings"))
                 {
-                    if (_instance.HasProperty("ParameterMappings"))
+                    try
                     {
-                        try
-                        {
-                            Mappings = ParameterMappings.CreateFromString((string)_instance["ParameterMappings"]);
-                        }
-                        catch (Exception) {}
+                        mappings = ParameterMappings.CreateFromString((string)_instance["ParameterMappings"]);
                     }
-                    if (Mappings == null)
-                        Mappings = new ParameterMappings();
+                    catch (Exception) {}
                 }
+                if (mappings == null)
+                    mappings = new ParameterMappings();
+                Init(mappings, (ManagementPackClass)_instance["$Class$"]);
 
 
-                
-                var c = _instance["$Class$"];
                 //TODO: create PropertyDefinitions from this class
 
                 if (!(bool)_instance["$IsNew$"])
@@ -132,7 +142,7 @@ namespace PurgarNET.AAConnector.Console
 
             }
 
-            ParametersPanel.DataContext = Mappings;
+            
 
         }
 

@@ -23,6 +23,14 @@ namespace PurgarNET.AAConnector.Shared.ServiceManager
             _emg = emg;
         }
 
+        public EnterpriseManagementGroup MG
+        {
+            get
+            {
+                return _emg;
+            }
+        }
+
         public void KeepAlive()
         {
             if (!_emg.IsConnected)
@@ -32,7 +40,7 @@ namespace PurgarNET.AAConnector.Shared.ServiceManager
         //helpers
 
         private ManagementPack _libraryManagementPack = null;
-        private ManagementPack LibraryManagementPack
+        public ManagementPack LibraryManagementPack
         {
             get
             {
@@ -43,7 +51,7 @@ namespace PurgarNET.AAConnector.Shared.ServiceManager
         }
 
         private ManagementPackClass _connectorSettingsClass = null;
-        private ManagementPackClass ConnectorSettingsClass
+        public ManagementPackClass ConnectorSettingsClass
         {
             get
             {
@@ -54,7 +62,7 @@ namespace PurgarNET.AAConnector.Shared.ServiceManager
         }
 
         private ManagementPackClass _activityBaseClass = null;
-        private ManagementPackClass ActivityBaseClass
+        public ManagementPackClass ActivityBaseClass
         {
             get
             {

@@ -113,7 +113,7 @@ namespace PurgarNET.AAConnector.Console
                 throw new InvalidOperationException("WorkflowHandler is not initialized!");
         }
 
-        private static void GetPropertyDefinitionsForClass(ManagementPackClass mpClass)
+        public static List<PropertyDefinition> GetPropertyDefinitionsForClass(ManagementPackClass mpClass)
         {
             var props = SMCLient.GetActivityPropertyDefinitions(mpClass);
             var defs = new List<PropertyDefinition>();
@@ -159,14 +159,7 @@ namespace PurgarNET.AAConnector.Console
 
                 defs.Add(new PropertyDefinition(p.DisplayName, $"prop:{p.Id.ToString()}", vft));
             }
-
-
-
+            return defs;
         }
-
-
-
-
-        
     }
 }
