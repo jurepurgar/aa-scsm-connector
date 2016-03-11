@@ -1,10 +1,12 @@
 ﻿using Microsoft.EnterpriseManagement;
 using Microsoft.EnterpriseManagement.UI.DataModel;
 using Microsoft.EnterpriseManagement.UI.FormsInfra;
+using PurgarNET.AAConnector.Shared;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -24,9 +26,14 @@ namespace PurgarNET.AAConnector.Console
     {
         private IDataItem _instance = null;
 
+        protected ParameterMappings Mappings = null;
+
         public RunbookActivityForm()
         {
             InitializeComponent();
+
+            Mappings = new ParameterMappings();
+            ParametersPanel.DataContext = Mappings;
 
             ConsoleHandler.Initialize();
             //classes resolve
@@ -35,7 +42,6 @@ namespace PurgarNET.AAConnector.Console
             StageListPicker.ParentCategoryId = ConsoleHandler.SMCLient.GetManagementPackEnumeration("ActivityStageEnum").Id;
 
             AddHandler(FormEvents.PreviewSubmitEvent, new EventHandler<PreviewFormCommandEventArgs>(OnPreviewSubmit));
-
         }
 
         private void OnPreviewSubmit(object sender, PreviewFormCommandEventArgs e)
@@ -46,12 +52,29 @@ namespace PurgarNET.AAConnector.Console
             //TODO: set non bindable stuff here
         }
 
-        private void SelectRunbookButton_Click(object sender, RoutedEventArgs e)
+        private async void SelectRunbookButton_Click(object sender, RoutedEventArgs e)
         {
             var r = RunbookSelector.SelectRunbook();
 
             if (r != null)
-                RunbookNameTextBox.Text = r.Name; 
+                RunbookNameTextBox.Text = r.Name;
+            await RefreshRunbookParameters();
+        }
+
+        private async void RefreshRunbookButton_Click(object sender, RoutedEventArgs e)
+        {
+            await RefreshRunbookParameters();
+        }
+
+        private async Task RefreshRunbookParameters()
+        {
+            RunbookGrid.IsEnabled = false;
+            if (!string.IsNullOrEmpty(RunbookNameTextBox.Text))
+            {
+                var r = await ConsoleHandler.AAClient.GetRunbookAsync(RunbookNameTextBox.Text);
+                Mappings.UpdateRunbookParameters(r);
+            }
+            RunbookGrid.IsEnabled = true;
         }
 
         private void UserControl_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
@@ -60,33 +83,29 @@ namespace PurgarNET.AAConnector.Console
             {
                 _instance = (this.DataContext as IDataItem);
 
-                //map connection ID to form
-                if (_instance.HasProperty("ConnectionId"))
+                if (Mappings == null)
                 {
-                    var cId = (Guid)_instance["ConnectionId"];
-                    if (cId != default(Guid))
+                    if (_instance.HasProperty("ParameterMappings"))
                     {
                         try
                         {
-                            /*var cObj = _emg.EntityObjects.GetObject<EnterpriseManagementObject>(cId, ObjectQueryOptions.Default);
-                            EnterpriseManagementObjectDataType dataType = new EnterpriseManagementObjectDataType(cObj.GetLeastDerivedNonAbstractClass()); */
-                            //IDataItem cDI = dataType.CreateProxyInstance(cObj);
-                            //SmaConnectionPicker.Instance = cDI;
+                            Mappings = ParameterMappings.CreateFromString((string)_instance["ParameterMappings"]);
                         }
-                        catch
-                        {
-
-                        }
+                        catch (Exception) {}
                     }
+                    if (Mappings == null)
+                        Mappings = new ParameterMappings();
                 }
+
+                
 
                 if (!(bool)_instance["$IsNew$"])
                 {
                     RunbookGrid.IsEnabled = false;
                     JobTabItem.Visibility = Visibility.Visible;
 
-
-                    /* var className = (_instance["$Class$"] as IDataItem)["Name"].ToString();
+                    /*
+                     var className = (_instance["$Class$"] as IDataItem)["Name"].ToString();
                      var activityClass = _emg.EntityTypes.GetClasses(new ManagementPackClassCriteria("Name = '" + className + "'")).FirstOrDefault();
                      if (activityClass != null)
                      {
@@ -94,7 +113,8 @@ namespace PurgarNET.AAConnector.Console
                          {
                              AddPropertyEditor(p);
                          }
-                     } */
+                     } 
+                     */
                 }
                 else
                 {
@@ -109,9 +129,10 @@ namespace PurgarNET.AAConnector.Console
 
             }
 
+            ParametersPanel.DataContext = Mappings;
+
         }
 
-
-
+        
     }
 }

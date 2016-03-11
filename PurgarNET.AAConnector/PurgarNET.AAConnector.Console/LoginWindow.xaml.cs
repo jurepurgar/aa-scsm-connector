@@ -47,6 +47,8 @@ namespace PurgarNET.AAConnector.Console
 
         private void LoginBrowser_Navigating(object sender, NavigatingCancelEventArgs e)
         {
+            LoginBrowser.Visibility = Visibility.Collapsed;
+            Progress.Visibility = Visibility.Visible;
             if (e.Uri.AbsolutePath == Parameters.REDIRECT_URI.AbsolutePath)
             {
                 try
@@ -58,8 +60,13 @@ namespace PurgarNET.AAConnector.Console
                     _err = err;
                 }
                 _wnd.Close();
-                
             }
+        }
+
+        private void LoginBrowser_Navigated(object sender, NavigationEventArgs e)
+        {
+            LoginBrowser.Visibility = Visibility.Visible;
+            Progress.Visibility = Visibility.Collapsed;
         }
 
 
@@ -81,6 +88,6 @@ namespace PurgarNET.AAConnector.Console
             throw new InvalidOperationException("Authorization code was not found in the response.");
         }
 
-
+        
     }
 }

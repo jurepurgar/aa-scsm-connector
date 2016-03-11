@@ -6,7 +6,7 @@
         <ClassType ID="PurgarNET.AAConnector.RunbookActivityBase" Base="Activity!System.WorkItem.Activity" Accessibility="Public" Abstract="true" Hosted="false" Singleton="false">
           <Property ID="RunbookName" Key="false" Type="string" MinLength="0" MaxLength="1024"  />
 
-          <Property ID="PropertyMapping" Key="false" Type="string" MinLength="0" MaxLength="65536"  />
+          <Property ID="ParameterMappings" Key="false" Type="string" MinLength="0" MaxLength="65536"  />
 
           <Property ID="JobId" Key="false" Type="guid" MinLength="0" MaxLength="1024" />
           <Property ID="JobStatus" Key="false" Type="string" MinLength="0" MaxLength="255" />
@@ -56,11 +56,6 @@
       <DisplayStrings>
         <DisplayString ElementID="PurgarNET.AAConnector.RunbookActivityBase">
           <Name>Azure Automation Runbook Activity Base</Name>
-          <Description></Description>
-        </DisplayString>
-
-        <DisplayString ElementID="PurgarNET.AAConnector.RunbookActivityBase" SubElementID="RunbookId">
-          <Name>Runbook ID</Name>
           <Description></Description>
         </DisplayString>
 

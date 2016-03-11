@@ -8,6 +8,9 @@
     <convert:ObjToBoolConverter x:Key="ObjToBoolConverter"/>
     <convert:BoolToBrushConverter x:Key="BoolToBrushConverter"/>
     <convert:RunbookTypeToStringConverter x:Key="RunbookTypeToStringConverter" />
+    <convert:StringToVisibilityConverter x:Key="StringToVisibilityConverter" />
+    <convert:StringToBoolConverter x:Key="StringToBoolConverter" />
+
 
     <LinearGradientBrush x:Key="BannerBrush" StartPoint="0.5,0" EndPoint=" 0.5,1">
         <GradientStop Color="LightBlue" Offset="0" />

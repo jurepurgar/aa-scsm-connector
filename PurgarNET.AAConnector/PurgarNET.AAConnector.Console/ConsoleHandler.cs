@@ -24,7 +24,6 @@ namespace PurgarNET.AAConnector.Console
         private static object _lck = new object();
         private static bool _isInitialized = false;
 
-
         public static SMClient SMCLient
         {
             get
@@ -102,6 +101,23 @@ namespace PurgarNET.AAConnector.Console
         {
             if (!_isInitialized)
                 throw new InvalidOperationException("WorkflowHandler is not initialized!");
+        }
+
+        private static void GetPropertyDefinitionsForClass(ManagementPackClass mpClass)
+        {
+            var props = SMCLient.GetActivityPropertyDefinitions(mpClass);
+            var defs = new List<PropertyDefinition>();
+
+            foreach (var p in props)
+            {
+                defs.Add(new PropertyDefinition()
+                {
+                    DisplayName = p.DisplayName,
+                    Id = $"prop:{p.Id.ToString()}"
+                });
+            }
+            
+
         }
 
         

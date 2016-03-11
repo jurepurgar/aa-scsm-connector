@@ -53,6 +53,17 @@ namespace PurgarNET.AAConnector.Shared.ServiceManager
             }
         }
 
+        private ManagementPackClass _activityBaseClass = null;
+        private ManagementPackClass ActivityBaseClass
+        {
+            get
+            {
+                if (_activityBaseClass == null)
+                    _activityBaseClass = _emg.EntityTypes.GetClass("PurgarNET.AAConnector.RunbookActivityBase", LibraryManagementPack);
+                return _activityBaseClass;
+            }
+        }
+
         public ConnectorSettings GetSettings()
         {
             var emo = _emg.EntityObjects.GetObject<EnterpriseManagementObject>(ConnectorSettingsClass.Id, ObjectQueryOptions.Default);
@@ -71,6 +82,13 @@ namespace PurgarNET.AAConnector.Shared.ServiceManager
             if (enums.Count != 1)
                 throw new ObjectNotFoundException($"MP Enumeration '{name}' not found");
             return enums.First();
+        }
+
+        public IEnumerable<ManagementPackProperty> GetActivityPropertyDefinitions(ManagementPackClass c)
+        {
+            if (c.GetBaseTypes().FirstOrDefault(x => x.Id == ActivityBaseClass.Id) == default(ManagementPackType))
+                throw new InvalidOperationException("Activity type is not deriven from 'PurgarNET.AAConnector.RunbookActivityBase'");
+            return c.GetProperties();
         }
 
     }

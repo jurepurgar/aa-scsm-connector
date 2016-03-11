@@ -44,7 +44,10 @@ namespace PurgarNET.AAConnector.TestApp
 
         private async void LoginButton_Click(object sender, RoutedEventArgs e)
         {
-            var r = await cl.GetRunbookAsync("TestWorkflow");
+            var w = new Window1();
+            w.Show();
+
+           // var r = await cl.GetRunbookAsync("TestWorkflow");
 
             //var r = await cl.Get<Client.Models.Token>("subscriptions");
 
@@ -70,7 +73,7 @@ namespace PurgarNET.AAConnector.TestApp
             var r = "res";
             */
 
-            var res = RunbookSelector.SelectRunbook();
+         //   var res = RunbookSelector.SelectRunbook();
 
         }
 

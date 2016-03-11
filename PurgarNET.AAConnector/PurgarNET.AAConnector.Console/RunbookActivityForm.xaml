@@ -101,25 +101,79 @@
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
 
-                    
-
                     <StackPanel Style="{StaticResource InputPanelStyle}" Grid.ColumnSpan="2" x:Name="RunbookSelectorPanel" IsEnabled="{Binding Instance, Mode=OneWay, ElementName=SmaConnectionPicker, Converter={StaticResource ObjToBoolConverter}}" >
                         <Label Content="Runbook name:" />
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
                             <TextBox x:Name="RunbookNameTextBox" Text="{Binding RunbookName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" toolbox:Validation.ValueRequired="True" IsReadOnly="True" Style="{StaticResource InputBoxStyle}"/>
-                            <Button Grid.Column="1" x:Name="SelectRunbookButton" Content="Select" Margin="10,0,0,0" VerticalAlignment="Top" Width="44" Height="24" Click="SelectRunbookButton_Click" />
+                            
+                            <Button Grid.Column="1" x:Name="RefreshRunbookButton" Content="Refresh" Margin="10,0,0,0" VerticalAlignment="Top" Width="44" Height="24" IsEnabled="{Binding ElementName=RunbookNameTextBox, Converter={StaticResource StringToBoolConverter}}" Click="RefreshRunbookButton_Click" />
+                            <Button Grid.Column="2" x:Name="SelectRunbookButton" Content="Select" Margin="10,0,0,0" VerticalAlignment="Top" Width="44" Height="24" Click="SelectRunbookButton_Click" />
                         </Grid>
                     </StackPanel>
 
-                    <StackPanel Grid.Row="1" >
-                       <!-- <CheckBox Margin="6,6,0,0" x:Name="IncludeAffectedObjectsCheckBox" Content="Include parent WorkItem affected objects in RequestData" IsChecked="{Binding IncludeAffectedObjects, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                        <CheckBox Margin="6,6,0,0" x:Name="IncludeRelatedObjectsCheckBox" Content="Include parent WorkItem related objects in RequestData" IsChecked="{Binding IncludeRelatedObjects, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                        <CheckBox Margin="6,6,0,0" x:Name="IncludeAffectedUserCheckBox" Content="Include parent WorkItem affected user in RequestData" IsChecked="{Binding IncludeAffectedUser, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />-->
-                    </StackPanel>
+                    <Grid x:Name="ParametersPanel" Grid.Row="1"  >
+                        <ListView  ItemsSource="{Binding}" x:Name="RunbooksListView" SelectionMode="Single" ScrollViewer.VerticalScrollBarVisibility="Visible" Height="200" >
+                            <ListView.ItemContainerStyle>
+                                <Style TargetType="ListViewItem">
+                                    <Setter Property="Focusable" Value="False"/>
+                                    <Setter Property="Height" Value="52" />
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="true">
+                                            <Setter Property="Background" Value="Transparent"/>
+                                            <Setter Property="BorderBrush" Value="Transparent" />
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ListView.ItemContainerStyle>
+
+                            <ListView.View>
+                                <GridView x:Name="gridView"  >
+                                    <GridViewColumn Width="200" Header="Runbook parameter" >
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <StackPanel>
+                                                    <TextBlock Text="{Binding Name}" />
+                                                    <TextBlock Text="{Binding Type}" />
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+
+                                    <GridViewColumn Width="160" Header="Mapped to">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <ComboBox Width="140"  />
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                    
+                                    <GridViewColumn Width="160" Header="State"  >
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBox Width="140"  />
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+
+
+                       <!-- <ListView ItemsSource="{Binding }">
+
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Name}" />
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                            
+                        </ListView>-->
+                    </Grid>
 
                 </Grid>
             </TabItem>
