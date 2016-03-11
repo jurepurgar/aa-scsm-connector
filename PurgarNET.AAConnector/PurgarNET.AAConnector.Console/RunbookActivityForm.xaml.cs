@@ -82,7 +82,6 @@ namespace PurgarNET.AAConnector.Console
             if (this.DataContext is IDataItem)
             {
                 _instance = (this.DataContext as IDataItem);
-
                 if (Mappings == null)
                 {
                     if (_instance.HasProperty("ParameterMappings"))
@@ -97,12 +96,16 @@ namespace PurgarNET.AAConnector.Console
                         Mappings = new ParameterMappings();
                 }
 
+
                 
+                var c = _instance["$Class$"];
+                //TODO: create PropertyDefinitions from this class
 
                 if (!(bool)_instance["$IsNew$"])
                 {
                     RunbookGrid.IsEnabled = false;
                     JobTabItem.Visibility = Visibility.Visible;
+                    
 
                     /*
                      var className = (_instance["$Class$"] as IDataItem)["Name"].ToString();

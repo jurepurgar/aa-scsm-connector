@@ -13,6 +13,16 @@ using System.Text;
 
 namespace PurgarNET.AAConnector.Console
 {
+    public enum SpecialProperty
+    {
+        ActivityId,
+        ActivityGuid,
+        ParentWorkItemId,
+        ParentWorkItemGuid,
+        ReletedItems,
+        AffectedItems
+    }
+
     public static class ConsoleHandler
     {
         private static SMClient _smClient = null;
@@ -108,17 +118,54 @@ namespace PurgarNET.AAConnector.Console
             var props = SMCLient.GetActivityPropertyDefinitions(mpClass);
             var defs = new List<PropertyDefinition>();
 
+            defs.Add(new PropertyDefinition("_ActivityID (guid)", SpecialProperty.ActivityGuid.ToString()));
+            defs.Add(new PropertyDefinition("_ActivityID", SpecialProperty.ActivityId.ToString()));
+            defs.Add(new PropertyDefinition("_Parent WorkItem ID (guid)", SpecialProperty.ParentWorkItemGuid.ToString()));
+            defs.Add(new PropertyDefinition("_Parent WorkItem ID", SpecialProperty.ParentWorkItemId.ToString()));
+
+            defs.Add(new PropertyDefinition("_Parent WorkItem Releted Items", SpecialProperty.ReletedItems.ToString()));
+            defs.Add(new PropertyDefinition("_Parent WorkItem Affected Items", SpecialProperty.AffectedItems.ToString()));
+
             foreach (var p in props)
             {
-                defs.Add(new PropertyDefinition()
+                Type t = null;
+                switch (p.Type)
                 {
-                    DisplayName = p.DisplayName,
-                    Id = $"prop:{p.Id.ToString()}"
-                });
+                    case ManagementPackEntityPropertyTypes.datetime :
+                        t = typeof(DateTime);
+                        break;
+                    case ManagementPackEntityPropertyTypes.@bool :
+                        t = typeof(bool);
+                        break;
+                    case ManagementPackEntityPropertyTypes.@decimal :
+                        t = typeof(Decimal);
+                        break;
+                    case ManagementPackEntityPropertyTypes.@double :
+                        t = typeof(Double);
+                        break;
+                    case ManagementPackEntityPropertyTypes.@int :
+                        t = typeof(int);
+                        break;
+                    case ManagementPackEntityPropertyTypes.guid :
+                        t = typeof(Guid);
+                        break;
+                    default:
+                        t = null;
+                        break;
+                }
+                var vft = new List<Type>();
+                if (t != null)
+                    vft.Add(t);
+
+                defs.Add(new PropertyDefinition(p.DisplayName, $"prop:{p.Id.ToString()}", vft));
             }
-            
+
+
 
         }
+
+
+
 
         
     }

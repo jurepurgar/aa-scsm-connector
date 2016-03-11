@@ -3,7 +3,7 @@
     <EntityTypes>
       <ClassTypes>
 
-        <ClassType ID="PurgarNET.AAConnector.RunbookActivityBase" Base="Activity!System.WorkItem.Activity" Accessibility="Public" Abstract="true" Hosted="false" Singleton="false">
+        <ClassType ID="PurgarNET.AAConnector.RunbookActivityBase" Base="Activity!System.WorkItem.Activity" Accessibility="Public" Abstract="false" Hosted="false" Singleton="false">
           <Property ID="RunbookName" Key="false" Type="string" MinLength="0" MaxLength="1024"  />
 
           <Property ID="ParameterMappings" Key="false" Type="string" MinLength="0" MaxLength="65536"  />
