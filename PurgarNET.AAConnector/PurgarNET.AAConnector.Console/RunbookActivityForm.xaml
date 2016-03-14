@@ -117,10 +117,11 @@
                             <Button Grid.Column="1" x:Name="RefreshRunbookButton" Content="Refresh" Margin="10,0,0,0" VerticalAlignment="Top" Width="44" Height="24" IsEnabled="{Binding ElementName=RunbookNameTextBox, Converter={StaticResource StringToBoolConverter}}" Click="RefreshRunbookButton_Click" />
                             <Button Grid.Column="2" x:Name="SelectRunbookButton" Content="Select" Margin="10,0,0,0" VerticalAlignment="Top" Width="44" Height="24" Click="SelectRunbookButton_Click" />
                         </Grid>
+                        <!--<TextBox x:Name="MappingsTextBox" Text="{Binding ParameterMappings, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" Visibility="Collapsed" />-->
                     </StackPanel>
 
                     <Grid x:Name="ParametersPanel" Grid.Row="1"  >
-                        <ListView  ItemsSource="{Binding }" x:Name="RunbooksListView" SelectionMode="Single" ScrollViewer.VerticalScrollBarVisibility="Visible" Height="200" >
+                        <ListView  ItemsSource="{Binding }" x:Name="RunbooksListView" SelectionMode="Single" ScrollViewer.VerticalScrollBarVisibility="Visible"  >
                             <ListView.ItemContainerStyle>
                                 <Style TargetType="ListViewItem">
                                     <Setter Property="Focusable" Value="False"/>
@@ -150,8 +151,12 @@
                                     <GridViewColumn Width="160" Header="Mapped to">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
-                                                <!--TODO:  this binding does not work -->
-                                                <ComboBox Width="140" DataContext="{Binding ElementName=Form}" ItemsSource="{Binding PropertyDefinitions}" DisplayMemberPath="DisplayName" />
+                                                <ComboBox Width="140" Loaded="ComboBox_Loaded"
+                                                          DisplayMemberPath="DisplayName"
+                                                          SelectedValuePath="Id"
+                                                          SelectedValue="{Binding PropertyMapping, Mode=TwoWay}"
+                                                          Tag="{Binding}"
+                                                          />
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
@@ -226,7 +231,7 @@
                 </StackPanel>
             </>-->
 
-            <TabItem Header="History" x:Name="HiostoryTabItem">
+            <TabItem Header="History" x:Name="HistoryTabItem">
                 <smcontrols:HistoryTab/>
             </TabItem>
         </TabControl>

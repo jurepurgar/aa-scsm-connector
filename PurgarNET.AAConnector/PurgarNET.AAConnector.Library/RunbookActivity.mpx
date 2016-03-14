@@ -2,8 +2,19 @@
   <TypeDefinitions>
     <EntityTypes>
       <ClassTypes>
-        <ClassType ID="PurgarNET.AAConnector.RunbookActivity" Base="PurgarNET.AAConnector.RunbookActivityBase" Accessibility="Public" Abstract="false" Hosted="false" Singleton="false">
+        <ClassType ID="PurgarNET.AAConnector.RunbookActivity" Base="Activity!System.WorkItem.Activity" Accessibility="Public" Abstract="false" Hosted="false" Singleton="false">
 
+          <Property ID="RunbookName" Key="false" Type="string" MinLength="0" MaxLength="1024"  />
+
+          <Property ID="ParameterMappings" Key="false" Type="string" MinLength="0" MaxLength="65536"  />
+
+          <Property ID="JobId" Key="false" Type="guid" MinLength="0" MaxLength="1024" />
+          <Property ID="JobStatus" Key="false" Type="string" MinLength="0" MaxLength="255" />
+          <Property ID="JobOutput" Key="false" Type="string" MinLength="0" MaxLength="65536"  />
+          <Property ID="JobException" Key="false" Type="string" MinLength="0" MaxLength="65536"  />
+
+          <Property ID="Log" Key="false" Type="string" MinLength="0" MaxLength="65536"  />
+          
           <Property ID="Text1" Key="false" Type="string" MinLength="0" MaxLength="65536"  />
           <Property ID="Text2" Key="false" Type="string" MinLength="0" MaxLength="65536"  />
           <Property ID="Text3" Key="false" Type="string" MinLength="0" MaxLength="65536"  />
@@ -43,6 +54,7 @@
     </EntityTypes>
   </TypeDefinitions>
 
+ 
   <LanguagePacks>
     <LanguagePack ID="ENU" IsDefault="true">
       <DisplayStrings>
@@ -50,8 +62,38 @@
           <Name>Azure Automation Runbook Activity</Name>
           <Description></Description>
         </DisplayString>
+
+        <DisplayString ElementID="PurgarNET.AAConnector.RunbookActivity" SubElementID="RunbookName">
+          <Name>Runbook name</Name>
+          <Description></Description>
+        </DisplayString>
+       
+
+        <DisplayString ElementID="PurgarNET.AAConnector.RunbookActivity" SubElementID="JobStatus">
+          <Name>Job status</Name>
+          <Description></Description>
+        </DisplayString>
+
+        <DisplayString ElementID="PurgarNET.AAConnector.RunbookActivity" SubElementID="JobException">
+          <Name>Job exception</Name>
+          <Description></Description>
+        </DisplayString>
+
+        <DisplayString ElementID="PurgarNET.AAConnector.RunbookActivity" SubElementID="JobOutput">
+          <Name>Job output</Name>
+          <Description></Description>
+        </DisplayString>
+
+        
+        <DisplayString ElementID="PurgarNET.AAConnector.RunbookActivity" SubElementID="Log">
+          <Name>Job log</Name>
+          <Description></Description>
+        </DisplayString>
+
+
       </DisplayStrings>
     </LanguagePack>
-
   </LanguagePacks>
+  
+  
 </ManagementPackFragment>

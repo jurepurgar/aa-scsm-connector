@@ -29,7 +29,6 @@ namespace PurgarNET.AAConnector.Console
 
         private static ConnectorSettings _settings = null;
         private static AAUserClient _aaClient = null;
-        //private static EnterpriseManagementGroup _emg = null;
 
         private static object _lck = new object();
         private static bool _isInitialized = false;
@@ -113,18 +112,25 @@ namespace PurgarNET.AAConnector.Console
                 throw new InvalidOperationException("WorkflowHandler is not initialized!");
         }
 
+
+        public static List<PropertyDefinition> GetPropertyDefinitionsForClass(Guid mpClassId)
+        {
+            var c = SMCLient.GetManagementPackClass(mpClassId);
+            return GetPropertyDefinitionsForClass(c);
+        }
+
         public static List<PropertyDefinition> GetPropertyDefinitionsForClass(ManagementPackClass mpClass)
         {
             var props = SMCLient.GetActivityPropertyDefinitions(mpClass);
             var defs = new List<PropertyDefinition>();
 
-            defs.Add(new PropertyDefinition("_ActivityID (guid)", SpecialProperty.ActivityGuid.ToString()));
-            defs.Add(new PropertyDefinition("_ActivityID", SpecialProperty.ActivityId.ToString()));
-            defs.Add(new PropertyDefinition("_Parent WorkItem ID (guid)", SpecialProperty.ParentWorkItemGuid.ToString()));
-            defs.Add(new PropertyDefinition("_Parent WorkItem ID", SpecialProperty.ParentWorkItemId.ToString()));
+            defs.Add(new PropertyDefinition("_ActivityID (guid)", SpecialProperty.ActivityGuid.ToString(), new List<string>() { typeof(Guid).FullName, typeof(string).FullName }));
+            defs.Add(new PropertyDefinition("_ActivityID", SpecialProperty.ActivityId.ToString(), new List<string>() { typeof(Guid).FullName, typeof(string).FullName }));
+            defs.Add(new PropertyDefinition("_Parent WorkItem ID (guid)", SpecialProperty.ParentWorkItemGuid.ToString(), new List<string>() { typeof(Guid).FullName, typeof(string).FullName }));
+            defs.Add(new PropertyDefinition("_Parent WorkItem ID", SpecialProperty.ParentWorkItemId.ToString(), new List<string>() { typeof(Guid).FullName, typeof(string).FullName }));
 
-            defs.Add(new PropertyDefinition("_Parent WorkItem Releted Items", SpecialProperty.ReletedItems.ToString()));
-            defs.Add(new PropertyDefinition("_Parent WorkItem Affected Items", SpecialProperty.AffectedItems.ToString()));
+            defs.Add(new PropertyDefinition("_Parent WorkItem Releted Items", SpecialProperty.ReletedItems.ToString(), new List<string>() { typeof(object).FullName, typeof(object[]).FullName }));
+            defs.Add(new PropertyDefinition("_Parent WorkItem Affected Items", SpecialProperty.AffectedItems.ToString(), new List<string>() { typeof(object).FullName, typeof(object[]).FullName }));
 
             foreach (var p in props)
             {
@@ -153,11 +159,15 @@ namespace PurgarNET.AAConnector.Console
                         t = null;
                         break;
                 }
-                var vft = new List<Type>();
+                var vft = new List<string>();
                 if (t != null)
-                    vft.Add(t);
+                    vft.Add(t.FullName);
+                vft.Add(typeof(string).FullName);
+                vft.Add(typeof(string[]).FullName);
+                vft.Add(typeof(object).FullName);
+                vft.Add(typeof(object[]).FullName);
 
-                defs.Add(new PropertyDefinition(p.DisplayName, $"prop:{p.Id.ToString()}", vft));
+                defs.Add(new PropertyDefinition(p.Name, $"prop:{p.Id.ToString()}", vft));
             }
             return defs;
         }

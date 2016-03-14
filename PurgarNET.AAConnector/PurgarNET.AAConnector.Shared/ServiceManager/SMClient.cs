@@ -23,13 +23,13 @@ namespace PurgarNET.AAConnector.Shared.ServiceManager
             _emg = emg;
         }
 
-        public EnterpriseManagementGroup MG
+        /*public EnterpriseManagementGroup MG
         {
             get
             {
                 return _emg;
             }
-        }
+        }*/
 
         public void KeepAlive()
         {
@@ -56,19 +56,19 @@ namespace PurgarNET.AAConnector.Shared.ServiceManager
             get
             {
                 if (_connectorSettingsClass == null)
-                    _connectorSettingsClass = _emg.EntityTypes.GetClass("PurgarNET.AAConnector.ConnectorSettings", LibraryManagementPack);
+                    _connectorSettingsClass = GetManagementPackClass("PurgarNET.AAConnector.ConnectorSettings", LibraryManagementPack);
                 return _connectorSettingsClass;
             }
         }
 
-        private ManagementPackClass _activityBaseClass = null;
-        public ManagementPackClass ActivityBaseClass
+        private ManagementPackClass _activityClass = null;
+        public ManagementPackClass ActivityClass
         {
             get
             {
-                if (_activityBaseClass == null)
-                    _activityBaseClass = _emg.EntityTypes.GetClass("PurgarNET.AAConnector.RunbookActivityBase", LibraryManagementPack);
-                return _activityBaseClass;
+                if (_activityClass == null)
+                    _activityClass = GetManagementPackClass("PurgarNET.AAConnector.RunbookActivity", LibraryManagementPack);
+                return _activityClass;
             }
         }
 
@@ -84,6 +84,16 @@ namespace PurgarNET.AAConnector.Shared.ServiceManager
             return s;
         }
 
+        public ManagementPackClass GetManagementPackClass(string Name, ManagementPack mp)
+        {
+            return _emg.EntityTypes.GetClass(Name, mp);
+        }
+
+        public ManagementPackClass GetManagementPackClass(Guid id)
+        {
+            return _emg.EntityTypes.GetClass(id);
+        }
+
         public ManagementPackEnumeration GetManagementPackEnumeration(string name)
         {
             var enums = _emg.EntityTypes.GetEnumerations(new ManagementPackEnumerationCriteria($"Name = '{name}'"));
@@ -94,8 +104,8 @@ namespace PurgarNET.AAConnector.Shared.ServiceManager
 
         public IEnumerable<ManagementPackProperty> GetActivityPropertyDefinitions(ManagementPackClass c)
         {
-            if (c.GetBaseTypes().FirstOrDefault(x => x.Id == ActivityBaseClass.Id) == default(ManagementPackType))
-                throw new InvalidOperationException("Activity type is not deriven from 'PurgarNET.AAConnector.RunbookActivityBase'");
+            if (c.Id != ActivityClass.Id &&  c.GetBaseTypes().FirstOrDefault(x => x.Id == ActivityClass.Id) == default(ManagementPackType))
+                throw new InvalidOperationException("Activity type is not deriven from 'PurgarNET.AAConnector.RunbookActivity'");
             return c.GetProperties();
         }
 

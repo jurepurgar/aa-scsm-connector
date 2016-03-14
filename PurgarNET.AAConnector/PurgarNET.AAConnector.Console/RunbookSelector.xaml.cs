@@ -75,11 +75,7 @@ namespace PurgarNET.AAConnector.Console
 
         private void OKButton_Click(object sender, RoutedEventArgs e)
         {
-            if (RunbooksListView.SelectedValue != null && RunbooksListView.SelectedValue is Runbook)
-            {
-                _selectedRunbook = ((Runbook)RunbooksListView.SelectedValue);
-            }
-            Close();
+            ChooseRunbook();
         }
 
         private void RefreshButton_Click(object sender, RoutedEventArgs e)
@@ -100,5 +96,18 @@ namespace PurgarNET.AAConnector.Console
             LoadRunbooks();
         }
 
+        private void RunbooksListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            ChooseRunbook();
+        }
+
+        private void ChooseRunbook()
+        {
+            if (RunbooksListView.SelectedValue != null && RunbooksListView.SelectedValue is Runbook)
+            {
+                _selectedRunbook = ((Runbook)RunbooksListView.SelectedValue);
+            }
+            Close();
+        }
     }
 }

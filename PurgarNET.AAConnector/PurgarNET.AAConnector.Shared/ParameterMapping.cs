@@ -2,14 +2,18 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 
 namespace PurgarNET.AAConnector.Shared
 {
+    [DataContract(Name = "ParameterMapping", Namespace = "")]
     public class ParameterMapping : INotifyPropertyChanged
     {
         private string _name = null;
+        [DataMember]
         public string Name {
             get
             {
@@ -26,6 +30,7 @@ namespace PurgarNET.AAConnector.Shared
         }
 
         private bool _isMandatory = false;
+        [DataMember]
         public bool IsMandatory
         {
             get
@@ -43,6 +48,7 @@ namespace PurgarNET.AAConnector.Shared
         }
 
         private string _type = null;
+        [DataMember]
         public string Type
         {
             get
@@ -78,11 +84,12 @@ namespace PurgarNET.AAConnector.Shared
         }*/
 
         private string _propertyMapping = null;
+        [DataMember]
         public string PropertyMapping
         {
             get
             {
-                return _propertyMapping = null;
+                return _propertyMapping;
             }
             set
             {
@@ -104,9 +111,10 @@ namespace PurgarNET.AAConnector.Shared
     }
 
 
-
-    public class ParameterMappings : System.Collections.ObjectModel.ObservableCollection<ParameterMapping> 
+    [CollectionDataContract(Name = "ParameterMappings", Namespace = "")]
+    public class ParameterMappings : System.Collections.ObjectModel.ObservableCollection<ParameterMapping>
     {
+
         public void UpdateRunbookParameters(Runbook runbook)
         {
             foreach (var param in runbook.Properties.Parameters)
@@ -129,20 +137,34 @@ namespace PurgarNET.AAConnector.Shared
 
             for (var i = Count - 1; i >= 0; i--)
             {
-                if (!runbook.Properties.Parameters.ContainsKey(this[i].Name))
+                if (string.IsNullOrEmpty(this[i].Name) || !runbook.Properties.Parameters.ContainsKey(this[i].Name))
                     this.RemoveAt(i);
             }
         }
 
         public override string ToString()
         {
-            return null; //TODO: serialize to string
+            var serializer = new DataContractSerializer(this.GetType());
+            MemoryStream memoryStream = new MemoryStream();
+            serializer.WriteObject(memoryStream, this);
+            var str = Encoding.UTF8.GetString(memoryStream.GetBuffer());
+            str = str.Replace("\x00", ""); 
+            return str;
         }
 
         public static ParameterMappings CreateFromString(string str)
         {
-            //TODO: deserialize from string
-            return null;
+            var serializer = new DataContractSerializer(typeof(ParameterMappings));
+            MemoryStream memoryStream = new MemoryStream(Encoding.UTF8.GetBytes(str));
+            try
+            {
+                var obj = (ParameterMappings)serializer.ReadObject(memoryStream);
+                return obj;
+            }
+            catch {
+                return null;
+            }
+
         }
 
         

@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:PurgarNET.AAConnector.Console"
         mc:Ignorable="d"
         Loaded="Window_Loaded"
-        Title="Select runbook" Width="500" Height="500" ShowInTaskbar="False" WindowStartupLocation="CenterOwner" >
+        Title="Select runbook" Width="500" Height="500" ShowInTaskbar="False" WindowStartupLocation="CenterOwner" Topmost="True" >
     <Window.Resources>
         <ResourceDictionary Source="/PurgarNET.AAConnector.Console;component/Styles.xaml" />
     </Window.Resources>
@@ -17,7 +17,7 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <ListView  ItemsSource="{Binding}" x:Name="RunbooksListView" SelectionChanged="RunbooksListView_SelectionChanged" >
+        <ListView  ItemsSource="{Binding}" x:Name="RunbooksListView" SelectionChanged="RunbooksListView_SelectionChanged" MouseDoubleClick="RunbooksListView_MouseDoubleClick" >
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
                     <Setter Property="Height" Value="25" />

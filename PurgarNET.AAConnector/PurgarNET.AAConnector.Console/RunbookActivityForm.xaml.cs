@@ -34,9 +34,6 @@ namespace PurgarNET.AAConnector.Console
         {
             InitializeComponent();
 
-            Mappings = new ParameterMappings();
-            ParametersPanel.DataContext = Mappings;
-
             ConsoleHandler.Initialize();
             //classes resolve
             
@@ -46,22 +43,22 @@ namespace PurgarNET.AAConnector.Console
             AddHandler(FormEvents.PreviewSubmitEvent, new EventHandler<PreviewFormCommandEventArgs>(OnPreviewSubmit));
 
             //test
-            Init(new ParameterMappings(), ConsoleHandler.SMCLient.MG.EntityTypes.GetClass("PurgarNET.AAConnector.RunbookActivity", ConsoleHandler.SMCLient.LibraryManagementPack));
+
+            Init(new ParameterMappings(), ConsoleHandler.SMCLient.GetManagementPackClass("PurgarNET.AAConnector.RunbookActivity", ConsoleHandler.SMCLient.LibraryManagementPack).Id);
+   
         }
 
-        public void Init(ParameterMappings mappings, ManagementPackClass mpClass)
+        public void Init(ParameterMappings mappings, Guid mpClassId)
         {
-            PropertyDefinitions = ConsoleHandler.GetPropertyDefinitionsForClass(mpClass).OrderBy(x => x.DisplayName).ToList();
+            PropertyDefinitions = ConsoleHandler.GetPropertyDefinitionsForClass(mpClassId).OrderBy(x => x.DisplayName).ToList();
             Mappings = mappings;
             ParametersPanel.DataContext = Mappings;
         }
 
         private void OnPreviewSubmit(object sender, PreviewFormCommandEventArgs e)
         {
-            /*if ((bool)SmaConnectionPicker.IsInstanceResolved)
-                _instance["ConnectionId"] = (Guid)SmaConnectionPicker.Instance["$Id$"]; */
-
-            //TODO: set non bindable stuff here
+            var str = Mappings.ToString();
+            _instance["ParameterMappings"] = str;
         }
 
         private async void SelectRunbookButton_Click(object sender, RoutedEventArgs e)
@@ -106,46 +103,43 @@ namespace PurgarNET.AAConnector.Console
                 }
                 if (mappings == null)
                     mappings = new ParameterMappings();
-                Init(mappings, (ManagementPackClass)_instance["$Class$"]);
 
+                Init(mappings, (Guid)(_instance["$Class$"] as IDataItem)["Id"]);
 
-                //TODO: create PropertyDefinitions from this class
 
                 if (!(bool)_instance["$IsNew$"])
                 {
                     RunbookGrid.IsEnabled = false;
                     JobTabItem.Visibility = Visibility.Visible;
-                    
+                    HistoryTabItem.Visibility = Visibility.Visible;
 
                     /*
-                     var className = (_instance["$Class$"] as IDataItem)["Name"].ToString();
-                     var activityClass = _emg.EntityTypes.GetClasses(new ManagementPackClassCriteria("Name = '" + className + "'")).FirstOrDefault();
-                     if (activityClass != null)
-                     {
-                         foreach (var p in activityClass.GetProperties(BaseClassTraversalDepth.None))
-                         {
-                             AddPropertyEditor(p);
-                         }
-                     } 
-                     */
+                    var className = (_instance["$Class$"] as IDataItem)["Name"].ToString();
+                    var activityClass = _emg.EntityTypes.GetClasses(new ManagementPackClassCriteria("Name = '" + className + "'")).FirstOrDefault();
+                    if (activityClass != null)
+                    {
+                        foreach (var p in activityClass.GetProperties(BaseClassTraversalDepth.None))
+                        {
+                            AddPropertyEditor(p);
+                        }
+                    } 
+                    */
                 }
                 else
                 {
                     RunbookGrid.IsEnabled = true;
                     JobTabItem.Visibility = Visibility.Collapsed;
-
-                    /*var pendingEnum = _emg.EntityTypes.GetEnumerations(new ManagementPackEnumerationCriteria("Name = 'ActivityStatusEnum.Ready'")).First();
-                    var dt = new ManagementPackEnumerationDataType();
-                    var pendingItem = dt.CreateProxyInstance(pendingEnum);
-                    _instance["Status"] = pendingItem;*/
+                    HistoryTabItem.Visibility = Visibility.Collapsed;
                 }
-
             }
-
-            
-
         }
 
-        
+        private void ComboBox_Loaded(object sender, RoutedEventArgs e)
+        {
+            var box = (ComboBox)sender;
+            var param = (ParameterMapping)box.Tag;
+            box.ItemsSource = PropertyDefinitions.Where(x => x.ValidForTypes.Contains(param.Type));
+
+        }
     }
 }

@@ -1,25 +1,13 @@
 ﻿<ManagementPackFragment SchemaVersion="SM2.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <TypeDefinitions>
     <EntityTypes>
-      <ClassTypes>
-
+      <!--<ClassTypes>
         <ClassType ID="PurgarNET.AAConnector.RunbookActivityBase" Base="Activity!System.WorkItem.Activity" Accessibility="Public" Abstract="true" Hosted="false" Singleton="false">
-          <Property ID="RunbookName" Key="false" Type="string" MinLength="0" MaxLength="1024"  />
-
-          <Property ID="ParameterMappings" Key="false" Type="string" MinLength="0" MaxLength="65536"  />
-
-          <Property ID="JobId" Key="false" Type="guid" MinLength="0" MaxLength="1024" />
-          <Property ID="JobStatus" Key="false" Type="string" MinLength="0" MaxLength="255" />
-          <Property ID="JobOutput" Key="false" Type="string" MinLength="0" MaxLength="65536"  />
-          <Property ID="JobException" Key="false" Type="string" MinLength="0" MaxLength="65536"  />
-
-          <Property ID="Log" Key="false" Type="string" MinLength="0" MaxLength="65536"  />
-          
         </ClassType>
-      </ClassTypes>
+      </ClassTypes> -->
 
       <TypeProjections>
-        <TypeProjection ID="PurgarNET.AAConnector.RunbookActivityFormProjection" Accessibility="Public" Type="PurgarNET.AAConnector.RunbookActivityBase">
+        <TypeProjection ID="PurgarNET.AAConnector.RunbookActivityFormProjection" Accessibility="Public" Type="PurgarNET.AAConnector.RunbookActivity">
           <Component Path="$Target/Path[Relationship='Activity!System.WorkItemContainsActivity' SeedRole='Target']$" Alias="ParentWorkItem" />
           <Component Path="$Target/Path[Relationship='WorkItem!System.WorkItemCreatedByUser']$" Alias="ActivityCreatedBy" />
           <Component Path="$Target/Path[Relationship='Activity!System.ActivityCanBeEditedByUser']$" Alias="ActivityCanBeEditedBy" />
@@ -42,7 +30,6 @@
         </TypeProjection>
       </TypeProjections>
     </EntityTypes>
-
   </TypeDefinitions>
 
   <Presentation>
@@ -51,43 +38,4 @@
     </Forms>
   </Presentation>
 
-  <LanguagePacks>
-    <LanguagePack ID="ENU" IsDefault="true">
-      <DisplayStrings>
-        <DisplayString ElementID="PurgarNET.AAConnector.RunbookActivityBase">
-          <Name>Azure Automation Runbook Activity Base</Name>
-          <Description></Description>
-        </DisplayString>
-
-        <DisplayString ElementID="PurgarNET.AAConnector.RunbookActivityBase" SubElementID="RunbookName">
-          <Name>Runbook name</Name>
-          <Description></Description>
-        </DisplayString>
-       
-
-        <DisplayString ElementID="PurgarNET.AAConnector.RunbookActivityBase" SubElementID="JobStatus">
-          <Name>Job status</Name>
-          <Description></Description>
-        </DisplayString>
-
-        <DisplayString ElementID="PurgarNET.AAConnector.RunbookActivityBase" SubElementID="JobException">
-          <Name>Job exception</Name>
-          <Description></Description>
-        </DisplayString>
-
-        <DisplayString ElementID="PurgarNET.AAConnector.RunbookActivityBase" SubElementID="JobOutput">
-          <Name>Job output</Name>
-          <Description></Description>
-        </DisplayString>
-
-        
-        <DisplayString ElementID="PurgarNET.AAConnector.RunbookActivityBase" SubElementID="Log">
-          <Name>Job log</Name>
-          <Description></Description>
-        </DisplayString>
-
-
-      </DisplayStrings>
-    </LanguagePack>
-  </LanguagePacks>
 </ManagementPackFragment>

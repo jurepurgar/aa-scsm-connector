@@ -9,22 +9,22 @@ namespace PurgarNET.AAConnector.Console
     {
         public PropertyDefinition()
         {
-            ValidForTypes = new List<Type>();
+            ValidForTypes = new List<string>();
         }
 
-        public PropertyDefinition(string displayName, string id, List<Type> validForTypes = null)
+        public PropertyDefinition(string displayName, string id, List<string> validForTypes = null)
         {
             DisplayName = displayName;
             Id = id;
             if (validForTypes != null)
                 ValidForTypes = validForTypes;
             else
-                ValidForTypes = new List<Type>();
+                ValidForTypes = new List<string>();
         }
 
         public string DisplayName { get; set; }
         public string Id { get; set; }
-        public List<Type> ValidForTypes { get; set; }
+        public List<string> ValidForTypes { get; set; }
     }
 
 }

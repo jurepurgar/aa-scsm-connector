@@ -89,7 +89,7 @@
     <Compile Include="RunbookActivity.mpx">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="RunbookActivityBase.mpx">
+    <Compile Include="RunbookActivityForm.mpx">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="SecureReference.mpx">

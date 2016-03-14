@@ -14,7 +14,9 @@ namespace PurgarNET.AAConnector.Shared
 
         internal static string AZURE_RESOURCE = "https://management.core.windows.net/";
 
-        public static Guid CLIENT_ID = new Guid("444b22df-0f28-4ff6-831f-039c6b8565dc");
+        //public static Guid CLIENT_ID = new Guid("444b22df-0f28-4ff6-831f-039c6b8565dc");
+
+        public static Guid CLIENT_ID = new Guid("71daa18d-2e2a-4417-8903-b084e0d7ae44");
         
 
         internal static string USER_LOGIN_URL = "https://login.windows.net/{0}/oauth2/authorize?resource={1}&client_id={2}&response_type=code&redirect_uri={3}&display=popup&site_id=501358";
