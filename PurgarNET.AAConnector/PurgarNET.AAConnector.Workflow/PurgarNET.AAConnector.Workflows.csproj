@@ -67,6 +67,12 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="StartJob.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="StartJob.Designer.cs">
+      <DependentUpon>StartJob.cs</DependentUpon>
+    </Compile>
     <Compile Include="WorkflowHandler.cs" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

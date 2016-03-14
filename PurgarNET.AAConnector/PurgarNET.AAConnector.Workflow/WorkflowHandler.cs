@@ -1,4 +1,7 @@
-﻿using PurgarNET.AAConnector.Shared.AutomationClient;
+﻿using Microsoft.EnterpriseManagement.Configuration;
+using PurgarNET.AAConnector.Shared;
+using PurgarNET.AAConnector.Shared.AutomationClient;
+using PurgarNET.AAConnector.Shared.AutomationClient.Models;
 using PurgarNET.AAConnector.Shared.ServiceManager;
 using PurgarNET.AAConnector.Shared.ServiceManager.Models;
 using System;
@@ -110,8 +113,73 @@ namespace PurgarNET.AAConnector.Workflows
 
                 outputFile.WriteLine(" ");
             }
+        }
 
-            
+        public static void StartRunbook(Guid activityId)
+        {
+            CheckInitialized();
+
+            var activityObj = _smClient.GetActivityObject(activityId);
+            try
+            {
+                var parameters = ParameterMappings.CreateFromString(activityObj[_smClient.ActivityClass, "ParameterMappings"].Value.ToString());
+
+                var j = new Job();
+                j.Properties.Runbook.Name = activityObj[_smClient.ActivityClass, "RunbookName"].Value.ToString();
+                j.Properties.RunOn = "";
+
+                foreach (var p in parameters)
+                {
+                    bool mustSerialize = false;
+                    object value = null;
+                    if (p.PropertyMapping.StartsWith("prop:"))
+                    {
+                        var arr = p.PropertyMapping.Split(':');
+                        var propId = new Guid(arr[1]);
+                        var prop = activityObj[propId];
+
+                        if (prop.Value != null)
+                        {
+                            if (p.Type.EndsWith("[]"))
+                            {
+                                mustSerialize = true;
+                                value = new string[] { prop.Value.ToString() };
+                            }
+                            else
+                                value = prop.Value.ToString();
+                        }
+                    }
+                    else
+                    {
+                        mustSerialize = true;
+                        //ProcessActivities other
+                    }
+
+
+
+
+
+                    if (mustSerialize)
+                    {
+                        value = value; //mustSerialize to JSON
+                    }
+
+                    j.Properties.Parameters.Add(p.Name, value);
+
+                }
+
+                //activityObj[_smClient.ActivityClass, "JobId"].Value = jobId;
+                activityObj[_smClient.ActivityClass, "JobStatus"].Value = "Starting";
+                activityObj[_smClient.ActivityClass, "JobException"].Value = string.Empty;
+                activityObj[_smClient.ActivityClass, "JobOutput"].Value = string.Empty;
+                activityObj.Overwrite();
+            }
+            catch (Exception error)
+            {
+                activityObj[_smClient.ActivityClass, "JobException"].Value = error.Message;
+                activityObj.Overwrite();
+            }
+
 
         }
 

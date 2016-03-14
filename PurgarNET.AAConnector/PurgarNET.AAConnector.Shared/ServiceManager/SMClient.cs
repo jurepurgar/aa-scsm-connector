@@ -9,7 +9,7 @@ using System.Text;
 
 namespace PurgarNET.AAConnector.Shared.ServiceManager
 {
-    public class SMClient 
+    public class SMClient
     {
         private EnterpriseManagementGroup _emg = null;
 
@@ -22,14 +22,6 @@ namespace PurgarNET.AAConnector.Shared.ServiceManager
         {
             _emg = emg;
         }
-
-        /*public EnterpriseManagementGroup MG
-        {
-            get
-            {
-                return _emg;
-            }
-        }*/
 
         public void KeepAlive()
         {
@@ -72,6 +64,40 @@ namespace PurgarNET.AAConnector.Shared.ServiceManager
             }
         }
 
+        private ManagementPackRelationship _workItemContainsActivityRelationship = null;
+        public ManagementPackRelationship WorkItemContainsActivityRelationship
+        {
+            get
+            {
+                if (_workItemContainsActivityRelationship == null)
+                    _workItemContainsActivityRelationship = _emg.EntityTypes.GetRelationshipClasses(new ManagementPackRelationshipCriteria("Name = 'System.WorkItemContainsActivity'")).First();
+                return _workItemContainsActivityRelationship;
+            }
+        }
+
+
+        private ManagementPackRelationship _relatedItemRelationship = null;
+        public ManagementPackRelationship RelatedItemRelationship
+        {
+            get
+            {
+                if (_relatedItemRelationship == null)
+                    _relatedItemRelationship = _emg.EntityTypes.GetRelationshipClasses(new ManagementPackRelationshipCriteria("Name = 'System.WorkItemRelatesToConfigItem'")).First();
+                return _relatedItemRelationship;
+            }
+        }
+
+        private ManagementPackRelationship _affectedItemRelationship = null;
+        public ManagementPackRelationship AffectedItemRelationship
+        {
+            get
+            {
+                if (_affectedItemRelationship == null)
+                    _affectedItemRelationship = _emg.EntityTypes.GetRelationshipClasses(new ManagementPackRelationshipCriteria("Name = 'System.WorkItemAboutConfigItem'")).First();
+                return _affectedItemRelationship;
+            }
+        }
+
         public ConnectorSettings GetSettings()
         {
             var emo = _emg.EntityObjects.GetObject<EnterpriseManagementObject>(ConnectorSettingsClass.Id, ObjectQueryOptions.Default);
@@ -104,9 +130,14 @@ namespace PurgarNET.AAConnector.Shared.ServiceManager
 
         public IEnumerable<ManagementPackProperty> GetActivityPropertyDefinitions(ManagementPackClass c)
         {
-            if (c.Id != ActivityClass.Id &&  c.GetBaseTypes().FirstOrDefault(x => x.Id == ActivityClass.Id) == default(ManagementPackType))
+            if (c.Id != ActivityClass.Id && c.GetBaseTypes().FirstOrDefault(x => x.Id == ActivityClass.Id) == default(ManagementPackType))
                 throw new InvalidOperationException("Activity type is not deriven from 'PurgarNET.AAConnector.RunbookActivity'");
             return c.GetProperties();
+        }
+
+        public EnterpriseManagementObject GetActivityObject(Guid activityId)
+        {
+            return _emg.EntityObjects.GetObject<EnterpriseManagementObject>(activityId, ObjectQueryOptions.Default);
         }
 
     }

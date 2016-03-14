@@ -12,8 +12,8 @@
              x:Name="Form">
     <UserControl.Resources>
         <ResourceDictionary Source="/PurgarNET.AAConnector.Console;component/Styles.xaml" />
-        
-        
+
+
     </UserControl.Resources>
 
     <Grid>
@@ -65,6 +65,7 @@
                             <RowDefinition />
                             <RowDefinition />
                             <RowDefinition />
+                            <RowDefinition />
                         </Grid.RowDefinitions>
 
                         <Grid.ColumnDefinitions>
@@ -72,23 +73,24 @@
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
 
+                        <CheckBox Margin="0,0,14,-8" Content="Ready for automation" IsChecked="{Binding IsReadyForAutomation, Mode=OneWay}" HorizontalAlignment="Right" Grid.ColumnSpan="2" />
 
-                        <StackPanel Style="{StaticResource InputPanelStyle}" Grid.ColumnSpan="2">
+                        <StackPanel Grid.Row="1" Style="{StaticResource InputPanelStyle}" Grid.ColumnSpan="2">
                             <Label Content="Title:" />
                             <TextBox  Text="{Binding Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" toolbox:Validation.ValueRequired="True" Style="{StaticResource InputBoxStyle}"/>
                         </StackPanel>
 
-                        <StackPanel Grid.Row="1" Grid.ColumnSpan="2" Style="{StaticResource InputPanelStyle}">
+                        <StackPanel Grid.Row="2" Grid.ColumnSpan="2" Style="{StaticResource InputPanelStyle}">
                             <Label Content="Description:" />
                             <TextBox Text="{Binding Description, Mode=TwoWay}" Style="{StaticResource InputAreaStyle}"/>
                         </StackPanel>
 
-                        <StackPanel Grid.Row="2" Style="{StaticResource InputPanelStyle}" >
+                        <StackPanel Grid.Row="3" Style="{StaticResource InputPanelStyle}" >
                             <Label Content="Area:" />
                             <smcontrols:ListPicker x:Name="AreaListPicker"  SelectedItem="{Binding Area, Mode=TwoWay}"  />
                         </StackPanel>
 
-                        <StackPanel Grid.Row="2" Grid.Column="1" Style="{StaticResource InputPanelStyle}">
+                        <StackPanel Grid.Row="3" Grid.Column="1" Style="{StaticResource InputPanelStyle}">
                             <Label Content="Stage:" />
                             <smcontrols:ListPicker x:Name="StageListPicker" SelectedItem="{Binding Stage, Mode=TwoWay}"  />
                         </StackPanel>
@@ -96,9 +98,9 @@
                     </Grid>
                 </StackPanel>
             </TabItem>
-            <TabItem Header="Runbook" x:Name="RunbookTab" Margin="-2,-2,2,0">
+            <TabItem Header="Runbook" x:Name="RunbookTab" >
 
-                <Grid Margin="10,10,10,10" Name="RunbookGrid">
+                <Grid Margin="10,10,10,10" MinHeight="200" Name="RunbookGrid">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
@@ -108,20 +110,19 @@
                         <Label Content="Runbook name:" />
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="58*"/>
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
-                            <TextBox x:Name="RunbookNameTextBox" Text="{Binding RunbookName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" toolbox:Validation.ValueRequired="True" IsReadOnly="True" Style="{StaticResource InputBoxStyle}"/>
-                            
-                            <Button Grid.Column="1" x:Name="RefreshRunbookButton" Content="Refresh" Margin="10,0,0,0" VerticalAlignment="Top" Width="44" Height="24" IsEnabled="{Binding ElementName=RunbookNameTextBox, Converter={StaticResource StringToBoolConverter}}" Click="RefreshRunbookButton_Click" />
+                            <TextBox x:Name="RunbookNameTextBox" Text="{Binding RunbookName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" toolbox:Validation.ValueRequired="True" IsReadOnly="True" Style="{StaticResource InputBoxStyle}" />
+
+                            <Button Grid.Column="1" x:Name="RefreshRunbookButton" Content="Refresh" Margin="10,0,0,0" VerticalAlignment="Top" Width="44" Height="24" IsEnabled="{Binding ElementName=RunbookNameTextBox, Path=Text, Converter={StaticResource StringToBoolConverter}}" Click="RefreshRunbookButton_Click" />
                             <Button Grid.Column="2" x:Name="SelectRunbookButton" Content="Select" Margin="10,0,0,0" VerticalAlignment="Top" Width="44" Height="24" Click="SelectRunbookButton_Click" />
                         </Grid>
-                        <!--<TextBox x:Name="MappingsTextBox" Text="{Binding ParameterMappings, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" Visibility="Collapsed" />-->
                     </StackPanel>
 
                     <Grid x:Name="ParametersPanel" Grid.Row="1"  >
-                        <ListView  ItemsSource="{Binding }" x:Name="RunbooksListView" SelectionMode="Single" ScrollViewer.VerticalScrollBarVisibility="Visible"  >
+                        <ListView  ItemsSource="{Binding }" x:Name="RunbooksListView" SelectionMode="Single"    >
                             <ListView.ItemContainerStyle>
                                 <Style TargetType="ListViewItem">
                                     <Setter Property="Focusable" Value="False"/>
@@ -136,7 +137,7 @@
                             </ListView.ItemContainerStyle>
 
                             <ListView.View>
-                                <GridView x:Name="gridView"  >
+                                <GridView x:Name="gridView" AllowsColumnReorder="False"  >
                                     <GridViewColumn Width="200" Header="Runbook parameter" >
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
@@ -156,24 +157,21 @@
                                                           SelectedValuePath="Id"
                                                           SelectedValue="{Binding PropertyMapping, Mode=TwoWay}"
                                                           Tag="{Binding}"
+                                                          SelectionChanged="ComboBox_SelectionChanged"
                                                           />
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
-                                    
-                                    <GridViewColumn Width="160" Header="State"  >
-                                        <GridViewColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <TextBox Width="140"  />
-                                            </DataTemplate>
-                                        </GridViewColumn.CellTemplate>
+
+                                    <GridViewColumn Width="160" Header="Value"  >
+                                        
                                     </GridViewColumn>
                                 </GridView>
                             </ListView.View>
                         </ListView>
 
 
-                       <!-- <ListView ItemsSource="{Binding }">
+                        <!-- <ListView ItemsSource="{Binding }">
 
                             <ListView.ItemTemplate>
                                 <DataTemplate>

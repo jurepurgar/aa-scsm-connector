@@ -1,5 +1,6 @@
 ﻿using PurgarNET.AAConnector.Console;
 using PurgarNET.AAConnector.Shared.AutomationClient;
+using PurgarNET.AAConnector.Shared.AutomationClient.Models;
 using PurgarNET.AAConnector.Shared.ServiceManager;
 using System;
 using System.Collections.Generic;
@@ -46,33 +47,19 @@ namespace PurgarNET.AAConnector.TestApp
             var w = new Window1();
             w.Show();
 
-           // var r = await cl.GetRunbookAsync("TestWorkflow");
+            /* var r = await cl.GetRunbookAsync("TestWorkflow");
 
-            //var r = await cl.Get<Client.Models.Token>("subscriptions");
+             var j = new Job();
+             j.Properties.Runbook.Name = "TestWorkflow";
+             j.Properties.RunOn = "";
+             j.Properties.Parameters.Add("DateTime1", DateTime.Now.ToString("G"));
+             j.Properties.Parameters.Add("Bool1", "true");
+             j.Properties.Parameters.Add("Int1", 1);
+             j.Properties.Parameters.Add("String1", "string");
+             j.Properties.Parameters.Add("StringArr1", "[\"bula1\", \"bula2\"]");
 
-            // for (var i = 1; i <= 10; i++)
-            //{
 
-
-            //var wr1 = await wcl.GetRunbooks();
-
-
-/*            var runbooks = wcl.Get("Runbooks");
-
-                var r1 = wcl.GetRunbooks();
-
-            var rr1 = wcl.GetRunbooks();
-
-            var r2 = cl.GetHybridRunbookWorkerGroups();
-
-            var r3 = cl.GetJob(new Guid("c9855fda-cc29-4942-9355-131a837f8e39"));
-
-            //}
-
-            var r = "res";
-            */
-
-         //   var res = RunbookSelector.SelectRunbook();
+             var jr = await cl.StartJob(j); */
 
         }
 

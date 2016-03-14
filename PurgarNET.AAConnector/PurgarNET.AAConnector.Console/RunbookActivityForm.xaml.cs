@@ -141,5 +141,22 @@ namespace PurgarNET.AAConnector.Console
             box.ItemsSource = PropertyDefinitions.Where(x => x.ValidForTypes.Contains(param.Type));
 
         }
+
+
+        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            DependencyObject obj = (ComboBox)sender;
+            do
+            {
+                obj = VisualTreeHelper.GetParent(obj);
+            } while (!(obj is GridViewRowPresenter));
+
+            var row = (GridViewRowPresenter)obj;
+
+            var c = (ContentPresenter)VisualTreeHelper.GetChild(row, 2);
+            c.Content = new TextBox() { Text = "test" };
+
+
+        }
     }
 }

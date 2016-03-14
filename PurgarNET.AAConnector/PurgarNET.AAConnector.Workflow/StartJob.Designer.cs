@@ -13,7 +13,7 @@ using System.Workflow.Activities.Rules;
 
 namespace PurgarNET.AAConnector.Workflows
 {
-    partial class MonitorJobs
+    partial class StartJob
     {
         #region Designer generated code
 
@@ -25,19 +25,21 @@ namespace PurgarNET.AAConnector.Workflows
         [System.CodeDom.Compiler.GeneratedCode("", "")]
         private void InitializeComponent()
         {
-            Name = "MonitorJobs";
+            Name = "StartJob";
+
             CanModifyActivities = true;
 
-            MonitorJobsCodeActivity = new System.Workflow.Activities.CodeActivity();
-            MonitorJobsCodeActivity.Name = "MonitorSmaJobsCodeActivity";
-            MonitorJobsCodeActivity.ExecuteCode += new System.EventHandler(MonitorJobsCodeActivity_ExecuteCode);
-            Activities.Add(MonitorJobsCodeActivity);
+            StartJobCodeActivity = new System.Workflow.Activities.CodeActivity();
+            StartJobCodeActivity.Name = "StartJobCodeActivity";
+            StartJobCodeActivity.ExecuteCode += new System.EventHandler(this.StartJobCodeActivity_ExecuteCode);
+            Activities.Add(StartJobCodeActivity);
 
             CanModifyActivities = false;
+            
         }
 
         #endregion
 
-        private CodeActivity MonitorJobsCodeActivity;
+        private CodeActivity StartJobCodeActivity;
     }
 }

@@ -37,7 +37,7 @@ namespace PurgarNET.AAConnector.Shared.AutomationClient.Models
     {
         public RunbookProperties()
         {
-            Parameters = new Dictionary<string, RunbookParameterProperties>();
+            Parameters = new Dictionary<string, RunbookParameter>();
         }
 
         [DataMember(Name = "runbookType")]
@@ -52,16 +52,15 @@ namespace PurgarNET.AAConnector.Shared.AutomationClient.Models
         //public string lastModifiedTime { get; set; }
 
         [DataMember(Name = "parameters")]
-        public Dictionary<string, RunbookParameterProperties> Parameters { get; set; }
+        public Dictionary<string, RunbookParameter> Parameters { get; set; }
     }
 
-    public class RunbookParameterProperties
+    public class RunbookParameter
     {
         [DataMember(Name = "type")]
         public string Type { get; set; }
         [DataMember(Name = "isMandatory")]
         public bool IsMandatory { get; set; }
-        //public int position { get; set; }
         [DataMember(Name = "defaultValue")]
         public object DefaultValue { get; set; }
     }
