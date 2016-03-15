@@ -45,6 +45,10 @@
       <HintPath>..\SDKReferences\Microsoft.EnterpriseManagement.ServiceManager.SharedResources.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Microsoft.EnterpriseManagement.UI.Controls">
+      <HintPath>..\..\..\..\..\..\..\Program Files\Microsoft System Center 2012 R2\Service Manager\Microsoft.EnterpriseManagement.UI.Controls.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="Microsoft.EnterpriseManagement.UI.Core">
       <HintPath>..\..\..\..\..\..\..\Program Files\Microsoft System Center 2012 R2\Service Manager\Microsoft.EnterpriseManagement.UI.Core.dll</HintPath>
       <Private>False</Private>
@@ -74,6 +78,9 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="WPFToolKit">
+      <HintPath>..\..\..\..\..\..\..\Program Files\Microsoft System Center 2012 R2\Service Manager\WPFToolKit.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConsoleHandler.cs" />
@@ -81,6 +88,7 @@
     <Compile Include="Converters\ObjToBoolConverter.cs" />
     <Compile Include="Converters\RunbookTypeToStringConverter.cs" />
     <Compile Include="Converters\StringToBoolConverter.cs" />
+    <Compile Include="Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Converters\StringToVisibilityConverter.cs" />
     <Compile Include="LoginWindow.xaml.cs">
       <DependentUpon>LoginWindow.xaml</DependentUpon>
@@ -98,7 +106,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="PropertyDefinition.cs" />
     <Compile Include="RunbookActivityForm.xaml.cs">
       <DependentUpon>RunbookActivityForm.xaml</DependentUpon>
     </Compile>
@@ -146,6 +153,9 @@
       <Project>{c023ea8d-d9ec-4a7e-a877-def4b9ed345c}</Project>
       <Name>PurgarNET.AAConnector.Shared</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

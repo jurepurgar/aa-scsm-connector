@@ -13,15 +13,7 @@ using System.Text;
 
 namespace PurgarNET.AAConnector.Console
 {
-    public enum SpecialProperty
-    {
-        ActivityId,
-        ActivityGuid,
-        ParentWorkItemId,
-        ParentWorkItemGuid,
-        ReletedItems,
-        AffectedItems
-    }
+    
 
     public static class ConsoleHandler
     {
@@ -116,60 +108,8 @@ namespace PurgarNET.AAConnector.Console
         public static List<PropertyDefinition> GetPropertyDefinitionsForClass(Guid mpClassId)
         {
             var c = SMCLient.GetManagementPackClass(mpClassId);
-            return GetPropertyDefinitionsForClass(c);
+            return PropertyDefinitions.CreateForClass(c);
         }
 
-        public static List<PropertyDefinition> GetPropertyDefinitionsForClass(ManagementPackClass mpClass)
-        {
-            var props = SMCLient.GetActivityPropertyDefinitions(mpClass);
-            var defs = new List<PropertyDefinition>();
-
-            defs.Add(new PropertyDefinition("_ActivityID (guid)", SpecialProperty.ActivityGuid.ToString(), new List<string>() { typeof(Guid).FullName, typeof(string).FullName }));
-            defs.Add(new PropertyDefinition("_ActivityID", SpecialProperty.ActivityId.ToString(), new List<string>() { typeof(Guid).FullName, typeof(string).FullName }));
-            defs.Add(new PropertyDefinition("_Parent WorkItem ID (guid)", SpecialProperty.ParentWorkItemGuid.ToString(), new List<string>() { typeof(Guid).FullName, typeof(string).FullName }));
-            defs.Add(new PropertyDefinition("_Parent WorkItem ID", SpecialProperty.ParentWorkItemId.ToString(), new List<string>() { typeof(Guid).FullName, typeof(string).FullName }));
-
-            defs.Add(new PropertyDefinition("_Parent WorkItem Releted Items", SpecialProperty.ReletedItems.ToString(), new List<string>() { typeof(object).FullName, typeof(object[]).FullName }));
-            defs.Add(new PropertyDefinition("_Parent WorkItem Affected Items", SpecialProperty.AffectedItems.ToString(), new List<string>() { typeof(object).FullName, typeof(object[]).FullName }));
-
-            foreach (var p in props)
-            {
-                Type t = null;
-                switch (p.Type)
-                {
-                    case ManagementPackEntityPropertyTypes.datetime :
-                        t = typeof(DateTime);
-                        break;
-                    case ManagementPackEntityPropertyTypes.@bool :
-                        t = typeof(bool);
-                        break;
-                    case ManagementPackEntityPropertyTypes.@decimal :
-                        t = typeof(Decimal);
-                        break;
-                    case ManagementPackEntityPropertyTypes.@double :
-                        t = typeof(Double);
-                        break;
-                    case ManagementPackEntityPropertyTypes.@int :
-                        t = typeof(int);
-                        break;
-                    case ManagementPackEntityPropertyTypes.guid :
-                        t = typeof(Guid);
-                        break;
-                    default:
-                        t = null;
-                        break;
-                }
-                var vft = new List<string>();
-                if (t != null)
-                    vft.Add(t.FullName);
-                vft.Add(typeof(string).FullName);
-                vft.Add(typeof(string[]).FullName);
-                vft.Add(typeof(object).FullName);
-                vft.Add(typeof(object[]).FullName);
-
-                defs.Add(new PropertyDefinition(p.Name, $"prop:{p.Id.ToString()}", vft));
-            }
-            return defs;
-        }
     }
 }

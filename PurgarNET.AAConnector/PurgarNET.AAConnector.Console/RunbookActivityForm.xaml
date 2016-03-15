@@ -6,6 +6,8 @@
              xmlns:local="clr-namespace:PurgarNET.AAConnector.Console"
              xmlns:smcontrols="clr-namespace:Microsoft.EnterpriseManagement.UI.WpfControls;assembly=Microsoft.EnterpriseManagement.UI.SMControls"
              xmlns:toolbox="clr-namespace:Microsoft.EnterpriseManagement.UI.WpfToolbox;assembly=Microsoft.EnterpriseManagement.UI.FormsInfra"
+             xmlns:scwpf="http://schemas.microsoft.com/SystemCenter/Common/UI/Wpf"
+             xmlns:toolkit="clr-namespace:Microsoft.Windows.Controls;assembly=wpfToolKit"
              mc:Ignorable="d" 
              d:DesignHeight="400" d:DesignWidth="400"
              DataContextChanged="UserControl_DataContextChanged"
@@ -142,30 +144,32 @@
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
                                                 <StackPanel>
-                                                    <TextBlock Text="{Binding Name}" />
-                                                    <TextBlock Text="{Binding Type}" />
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBlock FontSize="14" Text="{Binding Name}" />
+                                                        <TextBlock FontSize="15" Text="*" Visibility="{Binding IsMandatory, Converter={StaticResource BoolToVisibilityConverter}}" />
+                                                    </StackPanel>
+                                                    <TextBlock FontSize="10" Text="{Binding Type}" />
                                                 </StackPanel>
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
 
-                                    <GridViewColumn Width="160" Header="Mapped to">
+                                    <GridViewColumn Width="230" Header="Mapped to">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
-                                                <ComboBox Width="140" Loaded="ComboBox_Loaded"
+                                                <ComboBox Loaded="ComboBox_Loaded"
                                                           DisplayMemberPath="DisplayName"
                                                           SelectedValuePath="Id"
                                                           SelectedValue="{Binding PropertyMapping, Mode=TwoWay}"
                                                           Tag="{Binding}"
                                                           SelectionChanged="ComboBox_SelectionChanged"
+                                                          toolbox:Validation.ValueRequired="{Binding IsMandatory}"
                                                           />
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
 
-                                    <GridViewColumn Width="160" Header="Value"  >
-                                        
-                                    </GridViewColumn>
+                                    <GridViewColumn Width="230" Header="Value"  />
                                 </GridView>
                             </ListView.View>
                         </ListView>

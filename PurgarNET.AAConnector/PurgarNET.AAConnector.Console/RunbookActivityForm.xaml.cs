@@ -17,6 +17,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Microsoft.EnterpriseManagement.UI.WpfToolbox;
+using Microsoft.Windows.Controls;
+using Microsoft.EnterpriseManagement.UI.WpfControls;
 
 namespace PurgarNET.AAConnector.Console
 {
@@ -137,26 +140,78 @@ namespace PurgarNET.AAConnector.Console
         private void ComboBox_Loaded(object sender, RoutedEventArgs e)
         {
             var box = (ComboBox)sender;
-            var param = (ParameterMapping)box.Tag;
-            box.ItemsSource = PropertyDefinitions.Where(x => x.ValidForTypes.Contains(param.Type));
 
+            ((ContentPresenter)VisualTreeHelper.GetParent(box)).HorizontalAlignment = HorizontalAlignment.Stretch;
+            var param = (ParameterMapping)box.DataContext;
+            box.ItemsSource = PropertyDefinitions.Where(x => x.ValidForTypes.Contains(param.Type));
+            CreateValueEditor((ComboBox)sender);
         }
 
+        
 
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            DependencyObject obj = (ComboBox)sender;
+            CreateValueEditor((ComboBox)sender);
+        }
+
+        private void CreateValueEditor(ComboBox box)
+        {
+            var presenter = GetValuePresenterForCombo(box);
+            presenter.Content = null;
+            presenter.HorizontalAlignment = HorizontalAlignment.Stretch;
+            if (box.SelectedItem != null)
+            {
+                var pd = (PropertyDefinition)box.SelectedItem;
+                if (pd.PropertyType == PropertyDefinitionType.EnumDisplayName || pd.PropertyType == PropertyDefinitionType.EnumName || pd.PropertyType == PropertyDefinitionType.Property)
+                { 
+                    Binding b = new Binding(pd.Property.Name);
+                    b.Source = this.DataContext;
+                    b.Mode = BindingMode.TwoWay;
+
+                    if (pd.PropertyType == PropertyDefinitionType.Property)
+                    {
+                        if (pd.Property.Type == ManagementPackEntityPropertyTypes.datetime)
+                        {
+                            var dp = new DatePicker() { MinWidth = 200, SelectedDateFormat = DatePickerFormat.FullDateTime };
+                            dp.SetBinding(DatePicker.SelectedDateProperty, b);
+                            presenter.Content = dp;
+                        }
+                        else if (pd.Property.Type == ManagementPackEntityPropertyTypes.@bool)
+                        {
+                            var cb = new CheckBox() { Content = pd.Property.Name };
+                            cb.SetBinding(CheckBox.IsCheckedProperty, b);
+                            presenter.Content = cb;
+                        }
+                        else
+                        {
+                            var txt = new TextBox() { Text = "test", VerticalAlignment = VerticalAlignment.Center, HorizontalAlignment = HorizontalAlignment.Stretch, MinWidth = 200 };
+                            txt.SetBinding(TextBox.TextProperty, b);
+                            presenter.Content = txt;
+                        }
+                    }
+                    else
+                    {
+                        var lp = new ListPicker();
+                        lp.ParentCategoryId = pd.Property.EnumType.Id;
+                        //lp.ParentCategoryId = ConsoleHandler.SMCLient.GetManagementPackEnumeration("ActivityAreaEnum").Id;
+                        lp.SetBinding(ListPicker.SelectedItemProperty, b);
+                        presenter.Content = lp;
+                    }
+                }
+            }
+        }
+
+        private ContentPresenter GetValuePresenterForCombo(ComboBox box)
+        {
+            DependencyObject obj = box;
             do
             {
                 obj = VisualTreeHelper.GetParent(obj);
             } while (!(obj is GridViewRowPresenter));
 
             var row = (GridViewRowPresenter)obj;
-
-            var c = (ContentPresenter)VisualTreeHelper.GetChild(row, 2);
-            c.Content = new TextBox() { Text = "test" };
-
-
+            return (ContentPresenter)VisualTreeHelper.GetChild(row, 2);
         }
+
     }
 }

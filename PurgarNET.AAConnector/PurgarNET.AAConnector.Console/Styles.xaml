@@ -10,6 +10,7 @@
     <convert:RunbookTypeToStringConverter x:Key="RunbookTypeToStringConverter" />
     <convert:StringToVisibilityConverter x:Key="StringToVisibilityConverter" />
     <convert:StringToBoolConverter x:Key="StringToBoolConverter" />
+    <convert:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
 
 
     <LinearGradientBrush x:Key="BannerBrush" StartPoint="0.5,0" EndPoint=" 0.5,1">
