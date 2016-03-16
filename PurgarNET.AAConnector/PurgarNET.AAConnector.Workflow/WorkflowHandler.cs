@@ -1,9 +1,6 @@
-﻿using Microsoft.EnterpriseManagement.Configuration;
-using PurgarNET.AAConnector.Shared;
+﻿using PurgarNET.AAConnector.Shared;
 using PurgarNET.AAConnector.Shared.AutomationClient;
 using PurgarNET.AAConnector.Shared.AutomationClient.Models;
-using PurgarNET.AAConnector.Shared.ServiceManager;
-using PurgarNET.AAConnector.Shared.ServiceManager.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,20 +8,18 @@ using System.Text;
 
 namespace PurgarNET.AAConnector.Workflows
 {
-    public static class WorkflowHandler
+    public class WorkflowHandler : HandlerBase
     {
-        private static SMClient _smClient = null;
 
-        private static ConnectorSettings _settings = null;
-        private static AAWorkflowClient _aaClient = null;
-        private static Guid _clientId = default(Guid);
-        private static string _clientSecret = null;
+        public static WorkflowHandler Current
+        {
+            get
+            {
+                return (WorkflowHandler)GetCurrent(() => new WorkflowHandler());
+            }
+        }
 
-        private static object _lck = new object();
-
-        private static bool _isInitialized = false;
-
-        public static bool Initialize(string clientIdStr, string clientSecret)
+        public bool Initialize(string clientIdStr, string clientSecret)
         {
             Guid clientId;
             try
@@ -33,62 +28,22 @@ namespace PurgarNET.AAConnector.Workflows
             }
             catch (Exception e)
             {
-                //TODO: write event log that clientId is not guid
                 throw e;
             }
-            
-            lock (_lck)
-            {
-                if (_smClient == null)
-                    _smClient = new SMClient("localhost");
 
-                _smClient.KeepAlive();
-            }
-
-            var s = _smClient.GetSettings();
-
-            if (s.IsConfigured)
-            {
-                lock (_lck)
-                {
-                    if (_aaClient == null || _settings == null || !_settings.Equals(s) || _clientId != clientId || _clientSecret != clientSecret)
-                    { 
-                        _aaClient = new AAWorkflowClient(s.TenantId, s.SubscriptionId, s.ResourceGroupName, s.AutomationAccountName, clientId, clientSecret);
-                        _clientId = clientId;
-                        _clientSecret = clientSecret;
-                        _settings = s;
-                        _isInitialized = true;
-                    }
-                }
-                
-            }
-            else
-            {
-                //TODO: write to event log that connector is not configured
-                return false;
-            }
-            
-            return true;
+            return base.Initialize("localhost", AuthenticationType.ClientSecret, null, clientId, clientSecret);
         }
 
-        public static void CheckInitialized()
-        {
-            if (!_isInitialized)
-                throw new InvalidOperationException("WorkflowHandler is not initialized!");
-        }
 
-        public static void ProcessActivities()
+        public void ProcessActivities()
         {
             CheckInitialized();
-
 
             using (System.IO.StreamWriter outputFile = new System.IO.StreamWriter(@"C:\Windows\Temp\TestWorkflow.txt", true))
             {
                 outputFile.WriteLine(" ");
                 outputFile.WriteLine("Date: " + DateTime.Now.ToString());
-               
-                outputFile.WriteLine("Id: " + _clientId.ToString());
-                outputFile.WriteLine("Secret: " + _clientSecret);
+              
 
                 outputFile.WriteLine(" ");
             }
@@ -115,68 +70,28 @@ namespace PurgarNET.AAConnector.Workflows
             }
         }
 
-        public static void StartRunbook(Guid activityId)
+        public void StartRunbook(Guid activityId)
         {
             CheckInitialized();
 
-            var activityObj = _smClient.GetActivityObject(activityId);
+            var activityObj = GetActivityObject(activityId);
             try
             {
-                var parameters = ParameterMappings.CreateFromString(activityObj[_smClient.ActivityClass, "ParameterMappings"].Value.ToString());
-
-                var j = new Job();
-                j.Properties.Runbook.Name = activityObj[_smClient.ActivityClass, "RunbookName"].Value.ToString();
-                j.Properties.RunOn = "";
-
-                foreach (var p in parameters)
-                {
-                    bool mustSerialize = false;
-                    object value = null;
-                    if (p.PropertyMapping.StartsWith("prop:"))
-                    {
-                        var arr = p.PropertyMapping.Split(':');
-                        var propId = new Guid(arr[1]);
-                        var prop = activityObj[propId];
-
-                        if (prop.Value != null)
-                        {
-                            if (p.Type.EndsWith("[]"))
-                            {
-                                mustSerialize = true;
-                                value = new string[] { prop.Value.ToString() };
-                            }
-                            else
-                                value = prop.Value.ToString();
-                        }
-                    }
-                    else
-                    {
-                        mustSerialize = true;
-                        //ProcessActivities other
-                    }
 
 
-
-
-
-                    if (mustSerialize)
-                    {
-                        value = value; //mustSerialize to JSON
-                    }
-
-                    j.Properties.Parameters.Add(p.Name, value);
-
-                }
+                var j = WorkflowHandler.Current.CreateStartRunbookJob(activityId);
 
                 //activityObj[_smClient.ActivityClass, "JobId"].Value = jobId;
-                activityObj[_smClient.ActivityClass, "JobStatus"].Value = "Starting";
-                activityObj[_smClient.ActivityClass, "JobException"].Value = string.Empty;
-                activityObj[_smClient.ActivityClass, "JobOutput"].Value = string.Empty;
+                activityObj[ActivityClass, "JobStatus"].Value = "Starting";
+                activityObj[ActivityClass, "JobException"].Value = string.Empty;
+                activityObj[ActivityClass, "JobOutput"].Value = string.Empty;
                 activityObj.Overwrite();
+
+
             }
             catch (Exception error)
             {
-                activityObj[_smClient.ActivityClass, "JobException"].Value = error.Message;
+                activityObj[ActivityClass, "JobException"].Value = error.Message;
                 activityObj.Overwrite();
             }
 

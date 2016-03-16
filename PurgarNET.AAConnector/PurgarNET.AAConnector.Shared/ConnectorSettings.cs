@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace PurgarNET.AAConnector.Shared.ServiceManager.Models
+namespace PurgarNET.AAConnector.Shared
 {
     public class ConnectorSettings : IEquatable<ConnectorSettings>
     {

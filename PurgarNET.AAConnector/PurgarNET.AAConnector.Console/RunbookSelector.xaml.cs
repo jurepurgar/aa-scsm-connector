@@ -25,7 +25,7 @@ namespace PurgarNET.AAConnector.Console
         {
             InitializeComponent();
             RunbooksListView.DataContext = this.Runbooks;
-            ConsoleHandler.Initialize();
+            ConsoleHandler.Current.Initialize();
         }
 
         private Runbook _selectedRunbook = null;
@@ -37,7 +37,7 @@ namespace PurgarNET.AAConnector.Console
             this.IsEnabled = false;
             try
             {
-                _runbooks = await ConsoleHandler.AAClient.GetRunbooksAsync();
+                _runbooks = await ConsoleHandler.Current.AAClient.GetRunbooksAsync();
             }
             catch (Exception err)
             {

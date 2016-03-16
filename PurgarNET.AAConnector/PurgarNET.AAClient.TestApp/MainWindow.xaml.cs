@@ -1,7 +1,6 @@
 ﻿using PurgarNET.AAConnector.Console;
 using PurgarNET.AAConnector.Shared.AutomationClient;
 using PurgarNET.AAConnector.Shared.AutomationClient.Models;
-using PurgarNET.AAConnector.Shared.ServiceManager;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,27 +24,33 @@ namespace PurgarNET.AAConnector.TestApp
     /// </summary>
     public partial class MainWindow : Window
     {
-        AAWorkflowClient wcl;
-        AAUserClient cl;
         public MainWindow()
         {
             InitializeComponent();
 
-            var sm = new SMClient("SCSM02");
-            var s = sm.GetSettings();
-            wcl = new AAWorkflowClient(s.TenantId, s.SubscriptionId, s.ResourceGroupName, s.AutomationAccountName, new Guid("767125d1-5e6c-43cc-8a8d-f68aad65ad0d"), "bulabulabula");
 
-            cl = new AAUserClient(s.TenantId, s.SubscriptionId, s.ResourceGroupName, s.AutomationAccountName);
-            cl.AuthorizationCodeRequired += Cl_AuthorizationCodeRequired;
+            ConsoleHandler.Current.Initialize("SCSM02");
 
-            ConsoleHandler.Initialize("SCSM02");
+
         }
 
 
         private async void LoginButton_Click(object sender, RoutedEventArgs e)
         {
-            var w = new Window1();
-            w.Show();
+            //*var w = new Window1();
+            //w.Show();
+
+            var g = new Guid("a25bfae4-c469-98d1-3d7b-774287e28d0d");
+
+            var j = ConsoleHandler.Current.CreateStartRunbookJob(g);
+
+            var runbooks = await ConsoleHandler.Current.AAClient.GetHybridRunbookWorkerGroupsAsync();
+
+            var startedJob = await ConsoleHandler.Current.AAClient.StartJob(j);
+
+
+            var b = startedJob;
+
 
             /* var r = await cl.GetRunbookAsync("TestWorkflow");
 

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace PurgarNET.AAConnector.Shared.ServiceManager
+namespace PurgarNET.AAConnector.Shared
 {
     public static class SMHelpers
     {

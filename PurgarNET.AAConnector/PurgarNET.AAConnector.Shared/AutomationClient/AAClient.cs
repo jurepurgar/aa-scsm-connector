@@ -11,7 +11,7 @@ namespace PurgarNET.AAConnector.Shared.AutomationClient
 {
     public enum AuthenticationType { Undefined, Code, ClientSecret }
 
-    public abstract class AAClientBase
+    public class AAClient
     {
         private RestClient _client = null;
         private RestClient _tokenClient = null;
@@ -27,7 +27,7 @@ namespace PurgarNET.AAConnector.Shared.AutomationClient
 
         private Task _tokenTask = null;
 
-        public AAClientBase(Guid tenantId, Guid subscriptionId, string resourceGroup, string automationAccountName, AuthenticationType authType, Guid clientId, string clientSecret)
+        public AAClient(Guid tenantId, Guid subscriptionId, string resourceGroup, string automationAccountName, AuthenticationType authType, Guid clientId, string clientSecret)
         {
             _authType = authType;
             _clientId = clientId;
@@ -181,6 +181,16 @@ namespace PurgarNET.AAConnector.Shared.AutomationClient
             return await SendAsync<Job>($"jobs/{jobId}", Method.PUT, j);
         }
 
+
+        public async Task<List<HybridRunbookWorkerGroup>> GetHybridRunbookWorkerGroupsAsync()
+        {
+            return await GetListAsync<HybridRunbookWorkerGroup>("hybridRunbookWorkerGroups");
+        }
+
+        public async Task<List<Job>> GetJobsAsync()
+        {
+            return await GetListAsync<Job>("jobs");
+        }
 
     }
 

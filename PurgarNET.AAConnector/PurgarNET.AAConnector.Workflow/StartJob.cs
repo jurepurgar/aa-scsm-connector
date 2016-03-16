@@ -27,9 +27,9 @@ namespace PurgarNET.AAConnector.Workflows
 
         public void StartJobCodeActivity_ExecuteCode(object sender, EventArgs e)
         {
-            if (WorkflowHandler.Initialize(ClientId, ClientSecret))
+            if (WorkflowHandler.Current.Initialize(ClientId, ClientSecret))
             {
-                WorkflowHandler.StartRunbook(ActivityId);
+                WorkflowHandler.Current.StartRunbook(ActivityId);
             }
 
 

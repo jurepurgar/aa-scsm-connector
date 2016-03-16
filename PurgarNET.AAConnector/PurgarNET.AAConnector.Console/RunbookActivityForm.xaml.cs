@@ -37,23 +37,23 @@ namespace PurgarNET.AAConnector.Console
         {
             InitializeComponent();
 
-            ConsoleHandler.Initialize();
+            ConsoleHandler.Current.Initialize();
             //classes resolve
             
-            AreaListPicker.ParentCategoryId = ConsoleHandler.SMCLient.GetManagementPackEnumeration("ActivityAreaEnum").Id;
-            StageListPicker.ParentCategoryId = ConsoleHandler.SMCLient.GetManagementPackEnumeration("ActivityStageEnum").Id;
+            AreaListPicker.ParentCategoryId = ConsoleHandler.Current.GetManagementPackEnumeration("ActivityAreaEnum").Id;
+            StageListPicker.ParentCategoryId = ConsoleHandler.Current.GetManagementPackEnumeration("ActivityStageEnum").Id;
 
             AddHandler(FormEvents.PreviewSubmitEvent, new EventHandler<PreviewFormCommandEventArgs>(OnPreviewSubmit));
 
             //test
 
-            Init(new ParameterMappings(), ConsoleHandler.SMCLient.GetManagementPackClass("PurgarNET.AAConnector.RunbookActivity", ConsoleHandler.SMCLient.LibraryManagementPack).Id);
+            Init(new ParameterMappings(), ConsoleHandler.Current.GetManagementPackClass("PurgarNET.AAConnector.RunbookActivity", ConsoleHandler.Current.LibraryManagementPack).Id);
    
         }
 
         public void Init(ParameterMappings mappings, Guid mpClassId)
         {
-            PropertyDefinitions = ConsoleHandler.GetPropertyDefinitionsForClass(mpClassId).OrderBy(x => x.DisplayName).ToList();
+            PropertyDefinitions = ConsoleHandler.Current.GetPropertyDefinitionsForClass(mpClassId).OrderBy(x => x.DisplayName).ToList();
             Mappings = mappings;
             ParametersPanel.DataContext = Mappings;
         }
@@ -73,6 +73,13 @@ namespace PurgarNET.AAConnector.Console
             await RefreshRunbookParameters();
         }
 
+        private void SelectRunOnButton_Click(object sender, RoutedEventArgs e)
+        {
+            var r = RunOnSelector.SelectRunOn();
+            if (r != null)
+                RunOnTextBox.Text = r;
+        }
+
         private async void RefreshRunbookButton_Click(object sender, RoutedEventArgs e)
         {
             await RefreshRunbookParameters();
@@ -83,7 +90,7 @@ namespace PurgarNET.AAConnector.Console
             RunbookGrid.IsEnabled = false;
             if (!string.IsNullOrEmpty(RunbookNameTextBox.Text))
             {
-                var r = await ConsoleHandler.AAClient.GetRunbookAsync(RunbookNameTextBox.Text);
+                var r = await ConsoleHandler.Current.AAClient.GetRunbookAsync(RunbookNameTextBox.Text);
                 Mappings.UpdateRunbookParameters(r);
             }
             RunbookGrid.IsEnabled = true;
@@ -134,6 +141,8 @@ namespace PurgarNET.AAConnector.Console
                     JobTabItem.Visibility = Visibility.Collapsed;
                     HistoryTabItem.Visibility = Visibility.Collapsed;
                 }
+
+                var t = RefreshRunbookParameters();
             }
         }
 
@@ -147,7 +156,6 @@ namespace PurgarNET.AAConnector.Console
             CreateValueEditor((ComboBox)sender);
         }
 
-        
 
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -193,7 +201,6 @@ namespace PurgarNET.AAConnector.Console
                     {
                         var lp = new ListPicker();
                         lp.ParentCategoryId = pd.Property.EnumType.Id;
-                        //lp.ParentCategoryId = ConsoleHandler.SMCLient.GetManagementPackEnumeration("ActivityAreaEnum").Id;
                         lp.SetBinding(ListPicker.SelectedItemProperty, b);
                         presenter.Content = lp;
                     }
@@ -213,5 +220,6 @@ namespace PurgarNET.AAConnector.Console
             return (ContentPresenter)VisualTreeHelper.GetChild(row, 2);
         }
 
+       
     }
 }

@@ -3,9 +3,8 @@ using Microsoft.EnterpriseManagement.Common;
 using Microsoft.EnterpriseManagement.Configuration;
 using Microsoft.EnterpriseManagement.ConsoleFramework;
 using Microsoft.EnterpriseManagement.UI.Core.Connection;
+using PurgarNET.AAConnector.Shared;
 using PurgarNET.AAConnector.Shared.AutomationClient;
-using PurgarNET.AAConnector.Shared.ServiceManager;
-using PurgarNET.AAConnector.Shared.ServiceManager.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,26 +14,10 @@ namespace PurgarNET.AAConnector.Console
 {
     
 
-    public static class ConsoleHandler
+    public class ConsoleHandler : HandlerBase
     {
-        private static SMClient _smClient = null;
 
-        private static ConnectorSettings _settings = null;
-        private static AAUserClient _aaClient = null;
-
-        private static object _lck = new object();
-        private static bool _isInitialized = false;
-
-        public static SMClient SMCLient
-        {
-            get
-            {
-                CheckInitialized();
-                return _smClient;
-            }
-        }
-
-        public static AAUserClient AAClient
+        public AAClient AAClient
         {
             get
             {
@@ -43,71 +26,37 @@ namespace PurgarNET.AAConnector.Console
             }
         }
 
-        public static bool Initialize(string serverName = null)
+        public static ConsoleHandler Current
         {
-            lock (_lck)
+            get
             {
-                if (_smClient == null)
-                { 
-
-                    if (!string.IsNullOrEmpty(serverName)) //for testing
-                    {
-                        var mg = new EnterpriseManagementGroup(serverName);
-                        _smClient = new SMClient(mg);
-                    }
-                    else
-                    {
-                        IManagementGroupSession session = FrameworkServices.GetService<IManagementGroupSession>();
-                        var emg = session.ManagementGroup;
-                        _smClient = new SMClient(emg);
-                    }
-                }
+                return (ConsoleHandler)GetCurrent(() => new ConsoleHandler());
             }
-
-            var s = _smClient.GetSettings();
-
-            if (s.IsConfigured)
-            {
-                lock (_lck)
-                {
-                    if (_aaClient == null || _settings == null || !_settings.Equals(s))
-                    {
-                        if (_aaClient != null)
-                            _aaClient.AuthorizationCodeRequired -= _aaClient_AuthorizationCodeRequired;
-                        _aaClient = new AAUserClient(s.TenantId, s.SubscriptionId, s.ResourceGroupName, s.AutomationAccountName, s.UserAppId);
-                        _aaClient.AuthorizationCodeRequired += _aaClient_AuthorizationCodeRequired;
-
-
-                        _settings = s;
-                        _isInitialized = true;
-                    }
-                }
-
-            }
-            else
-            {
-                //TODO: show error that AAConnector is not configured
-                return false;
-            }
-
-            return true;
         }
 
-        private static void _aaClient_AuthorizationCodeRequired(object sender, AuthorizationCodeRequiredEventArgs e)
+        public bool Initialize(string serverName = null)
+        {
+
+            if (string.IsNullOrEmpty(serverName)) 
+            {
+                EnterpriseManagementGroup emg = _emg;
+                if (_emg == null)
+                    emg = FrameworkServices.GetService<IManagementGroupSession>().ManagementGroup;
+                return base.Initialize(emg, AuthenticationType.Code, AuthorizationCodeRequired);
+            }
+            else 
+                return base.Initialize(serverName, AuthenticationType.Code, AuthorizationCodeRequired);            
+        }
+
+        private void AuthorizationCodeRequired(object sender, AuthorizationCodeRequiredEventArgs e)
         {
             e.Code = LoginWindow.InitializeLogin(e.LoginUri);
         }
 
-        public static void CheckInitialized()
+        
+        public List<PropertyDefinition> GetPropertyDefinitionsForClass(Guid mpClassId)
         {
-            if (!_isInitialized)
-                throw new InvalidOperationException("WorkflowHandler is not initialized!");
-        }
-
-
-        public static List<PropertyDefinition> GetPropertyDefinitionsForClass(Guid mpClassId)
-        {
-            var c = SMCLient.GetManagementPackClass(mpClassId);
+            var c = GetManagementPackClass(mpClassId);
             return PropertyDefinitions.CreateForClass(c);
         }
 

@@ -109,6 +109,9 @@
     <Compile Include="RunbookActivityForm.xaml.cs">
       <DependentUpon>RunbookActivityForm.xaml</DependentUpon>
     </Compile>
+    <Compile Include="RunOnSelector.xaml.cs">
+      <DependentUpon>RunOnSelector.xaml</DependentUpon>
+    </Compile>
     <Compile Include="RunbookSelector.xaml.cs">
       <DependentUpon>RunbookSelector.xaml</DependentUpon>
     </Compile>
@@ -132,6 +135,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="RunbookActivityForm.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="RunOnSelector.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

@@ -5,7 +5,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 
-namespace PurgarNET.AAConnector.Console
+namespace PurgarNET.AAConnector.Shared
 {
     public enum PropertyDefinitionType
     {
@@ -97,10 +97,8 @@ namespace PurgarNET.AAConnector.Console
             get
             {
                 string id = PropertyType.ToString();
-                if (PropertyType == PropertyDefinitionType.Property)
+                if (PropertyType == PropertyDefinitionType.Property || PropertyType == PropertyDefinitionType.EnumName || PropertyType == PropertyDefinitionType.EnumDisplayName)
                     id += ":" + Property.Id.ToString();
-                else if (PropertyType == PropertyDefinitionType.EnumName || PropertyType == PropertyDefinitionType.EnumDisplayName)
-                    id += ":" + Property.EnumType.Id;
                 return id;
             }
 
