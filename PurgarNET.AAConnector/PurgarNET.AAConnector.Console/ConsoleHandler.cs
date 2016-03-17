@@ -3,6 +3,7 @@ using Microsoft.EnterpriseManagement.Common;
 using Microsoft.EnterpriseManagement.Configuration;
 using Microsoft.EnterpriseManagement.ConsoleFramework;
 using Microsoft.EnterpriseManagement.UI.Core.Connection;
+using Microsoft.EnterpriseManagement.UI.DataModel;
 using PurgarNET.AAConnector.Shared;
 using PurgarNET.AAConnector.Shared.AutomationClient;
 using System;
@@ -58,6 +59,31 @@ namespace PurgarNET.AAConnector.Console
         {
             var c = GetManagementPackClass(mpClassId);
             return PropertyDefinitions.CreateForClass(c);
+        }
+
+
+        public string GetPropertyFormNavModel(IList<NavigationModelNodeBase> nodes, string propertyName)
+        {
+            var dataItem = GetFormDataContext(nodes);
+            if(dataItem != null)
+                return (dataItem[propertyName] as string);
+            return null;
+        }
+
+        public IDataItem GetFormDataContext(IList<NavigationModelNodeBase> nodes)
+        {
+            foreach (NavigationModelNodeBase node in nodes)
+            {
+                if (Microsoft.EnterpriseManagement.GenericForm.FormUtilities.Instance.IsNodeWithinForm(nodes[0]))
+                    return Microsoft.EnterpriseManagement.GenericForm.FormUtilities.Instance.GetFormDataContext(node);
+            }
+            return null;
+        }
+
+        public void NavigateToPortal(string resource)
+        {
+            var uri = $"https://portal.azure.com/#resource/subscriptions/{_settings.SubscriptionId}/resourceGroups/{_settings.ResourceGroupName}/providers/Microsoft.Automation/automationAccounts/{_settings.AutomationAccountName}/{resource}";
+            System.Diagnostics.Process.Start(uri);
         }
 
     }

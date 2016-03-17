@@ -77,8 +77,6 @@ namespace PurgarNET.AAConnector.Workflows
             var activityObj = GetActivityObject(activityId);
             try
             {
-
-
                 var j = WorkflowHandler.Current.CreateStartRunbookJob(activityId);
 
                 //activityObj[_smClient.ActivityClass, "JobId"].Value = jobId;

@@ -1,0 +1,11 @@
+﻿<ManagementPackFragment SchemaVersion="SM2.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+  <Categories>
+    <Category ID="PurgarNET.AAConnector.Library.Category" Value="Console!Microsoft.EnterpriseManagement.ServiceManager.ManagementPack">
+      <ManagementPackName>PurgarNET.AAConnector.Library</ManagementPackName>
+      <ManagementPackVersion>1.0.0.0</ManagementPackVersion>
+      <ManagementPackPublicKeyToken>0d1c91e7209ea1fd</ManagementPackPublicKeyToken>
+    </Category>
+  </Categories>
+
+</ManagementPackFragment>

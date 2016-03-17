@@ -1,0 +1,56 @@
+﻿<ManagementPackFragment SchemaVersion="SM2.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Presentation>
+    <ConsoleTasks>
+      <ConsoleTask ID="PurgarNET.AAConnector.Task.ViewRunbook" Accessibility="Public" Enabled="true" Target="PurgarNET.AAConnector.RunbookActivity" RequireOutput="false">
+        <Assembly>Console!SdkDataAccessAssembly</Assembly>
+        <Handler>Microsoft.EnterpriseManagement.UI.SdkDataAccess.ConsoleTaskHandler</Handler>
+        <Parameters>
+          <Argument Name="Assembly">PurgarNET.AAConnector.Console</Argument>
+          <Argument Name="Type">PurgarNET.AAConnector.Console.ViewRunbookTask</Argument>
+        </Parameters>
+      </ConsoleTask>
+      <ConsoleTask ID="PurgarNET.AAConnector.Task.ViewJob" Accessibility="Public" Enabled="true" Target="PurgarNET.AAConnector.RunbookActivity" RequireOutput="false">
+        <Assembly>Console!SdkDataAccessAssembly</Assembly>
+        <Handler>Microsoft.EnterpriseManagement.UI.SdkDataAccess.ConsoleTaskHandler</Handler>
+        <Parameters>
+          <Argument Name="Assembly">PurgarNET.AAConnector.Console</Argument>
+          <Argument Name="Type">PurgarNET.AAConnector.Console.ViewJobTask</Argument>
+          <Argument>Job</Argument>
+        </Parameters>
+      </ConsoleTask>
+      <ConsoleTask ID="PurgarNET.AAConnector.Task.StartRunbook" Accessibility="Public" Enabled="true" Target="PurgarNET.AAConnector.RunbookActivity" RequireOutput="false">
+        <Assembly>Console!SdkDataAccessAssembly</Assembly>
+        <Handler>Microsoft.EnterpriseManagement.UI.SdkDataAccess.ConsoleTaskHandler</Handler>
+        <Parameters>
+          <Argument Name="Assembly">PurgarNET.AAConnector.Console</Argument>
+          <Argument Name="Type">PurgarNET.AAConnector.Console.StartRunbookTask</Argument>
+          <Argument>Job</Argument>
+        </Parameters>
+      </ConsoleTask>
+    </ConsoleTasks>
+
+    <ImageReferences>
+      <ImageReference ElementID="PurgarNET.AAConnector.Task.ViewRunbook" ImageID="Runbook!SCOLink_16" />
+      <ImageReference ElementID="PurgarNET.AAConnector.Task.ViewJob" ImageID="Runbook!SCOLink_16" />
+      <ImageReference ElementID="PurgarNET.AAConnector.Task.StartRunbook" ImageID="ReleaseManagement!ReleaseMgmt_ResumeReleaseRecord_16" />
+    </ImageReferences>
+  </Presentation>
+
+  <LanguagePacks>
+    <LanguagePack ID="ENU" >
+      <DisplayStrings>
+        <DisplayString ElementID="PurgarNET.AAConnector.Task.ViewRunbook">
+          <Name>View Runbook</Name>
+        </DisplayString>
+        <DisplayString ElementID="PurgarNET.AAConnector.Task.ViewJob">
+          <Name>View Job</Name>
+        </DisplayString>
+        <DisplayString ElementID="PurgarNET.AAConnector.Task.StartRunbook">
+          <Name>Start runbook</Name>
+        </DisplayString>
+      </DisplayStrings>
+    </LanguagePack>
+  </LanguagePacks>
+  
+  
+</ManagementPackFragment>

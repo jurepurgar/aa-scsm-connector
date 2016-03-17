@@ -37,6 +37,12 @@
       <MinVersion>7.5.3079.236</MinVersion>
       <PackageToBundle>False</PackageToBundle>
     </ManagementPackReference>
+    <ManagementPackReference Include="Microsoft.EnterpriseManagement.ServiceManager.UI.Console">
+      <HintPath>C:\Users\jure.purgar\Source\Repos\aa-scsm-connector\PurgarNET.AAConnector\MPReferences\Microsoft.EnterpriseManagement.ServiceManager.UI.Console.mpb</HintPath>
+      <Alias>Console</Alias>
+      <MinVersion>7.5.3079.0</MinVersion>
+      <PackageToBundle>False</PackageToBundle>
+    </ManagementPackReference>
     <ManagementPackReference Include="Microsoft.SystemCenter.Library">
       <Alias>Library</Alias>
       <PackageToBundle>False</PackageToBundle>
@@ -44,6 +50,18 @@
     <ManagementPackReference Include="Microsoft.SystemCenter.Subscriptions">
       <HintPath>C:\Users\jure.purgar\Source\Repos\aa-scsm-connector\PurgarNET.AAConnector\MPReferences\Microsoft.SystemCenter.Subscriptions.mp</HintPath>
       <Alias>Subscriptions</Alias>
+      <MinVersion>7.5.3079.0</MinVersion>
+      <PackageToBundle>False</PackageToBundle>
+    </ManagementPackReference>
+    <ManagementPackReference Include="ServiceManager.ReleaseManagement.Library">
+      <HintPath>C:\Users\jure.purgar\Source\Repos\aa-scsm-connector\PurgarNET.AAConnector\MPReferences\ServiceManager.ReleaseManagement.Library.mpb</HintPath>
+      <Alias>ReleaseManagement</Alias>
+      <MinVersion>7.5.3079.607</MinVersion>
+      <PackageToBundle>False</PackageToBundle>
+    </ManagementPackReference>
+    <ManagementPackReference Include="ServiceManager.Runbook.Library">
+      <HintPath>C:\Users\jure.purgar\Source\Repos\aa-scsm-connector\PurgarNET.AAConnector\MPReferences\ServiceManager.Runbook.Library.mpb</HintPath>
+      <Alias>Runbook</Alias>
       <MinVersion>7.5.3079.0</MinVersion>
       <PackageToBundle>False</PackageToBundle>
     </ManagementPackReference>
@@ -78,6 +96,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConnectorSettings.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ConsoleTasks.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ManagementPack.mpx">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="MonitorJobsWorkflow.mpx">
