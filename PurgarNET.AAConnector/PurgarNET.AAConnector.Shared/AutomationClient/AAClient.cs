@@ -192,6 +192,11 @@ namespace PurgarNET.AAConnector.Shared.AutomationClient
             return await GetListAsync<Job>("jobs");
         }
 
+        public async Task<Job> GetJobAsync(Guid jobId)
+        {
+            return await GetAsync<Job>($"jobs/{jobId.ToString()}");
+        }
+
     }
 
     public class AuthorizationCodeRequiredEventArgs : EventArgs

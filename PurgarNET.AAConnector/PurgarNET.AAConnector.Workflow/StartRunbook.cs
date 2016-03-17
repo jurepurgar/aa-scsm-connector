@@ -13,9 +13,9 @@ using System.Workflow.Activities.Rules;
 
 namespace PurgarNET.AAConnector.Workflows
 {
-    public sealed partial class StartJob : SequentialWorkflowActivity
+    public sealed partial class StartRunbook : SequentialWorkflowActivity
     {
-        public StartJob()
+        public StartRunbook()
         {
             InitializeComponent();
         }
@@ -25,14 +25,12 @@ namespace PurgarNET.AAConnector.Workflows
 
         public Guid ActivityId { get; set; }
 
-        public void StartJobCodeActivity_ExecuteCode(object sender, EventArgs e)
+        public void StartRunbookCodeActivity_ExecuteCode(object sender, EventArgs e)
         {
             if (WorkflowHandler.Current.Initialize(ClientId, ClientSecret))
             {
                 WorkflowHandler.Current.StartRunbook(ActivityId);
             }
-
-
         }
     }
 }

@@ -9,7 +9,7 @@ namespace PurgarNET.AAConnector.Console
 {
     public class StartRunbookTask : ConsoleCommand
     {
-        public override void ExecuteCommand(IList<NavigationModelNodeBase> nodes, NavigationModelNodeTask task, ICollection<string> parameters)
+        public override async void ExecuteCommand(IList<NavigationModelNodeBase> nodes, NavigationModelNodeTask task, ICollection<string> parameters)
         {
             base.ExecuteCommand(nodes, task, parameters);
 
@@ -31,6 +31,8 @@ namespace PurgarNET.AAConnector.Console
 
                             var activityId = (Guid)item["$Id$"];
                             var j = ConsoleHandler.Current.CreateStartRunbookJob(activityId);
+                            await ConsoleHandler.Current.AAClient.StartJob(j);
+                            System.Windows.MessageBox.Show("Runbook started successfully.", "Started", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Information);
                         }
                         catch (Exception e)
                         {

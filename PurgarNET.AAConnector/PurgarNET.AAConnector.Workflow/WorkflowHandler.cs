@@ -1,4 +1,5 @@
-﻿using PurgarNET.AAConnector.Shared;
+﻿using Microsoft.EnterpriseManagement.Common;
+using PurgarNET.AAConnector.Shared;
 using PurgarNET.AAConnector.Shared.AutomationClient;
 using PurgarNET.AAConnector.Shared.AutomationClient.Models;
 using System;
@@ -34,41 +35,56 @@ namespace PurgarNET.AAConnector.Workflows
             return base.Initialize("localhost", AuthenticationType.ClientSecret, null, clientId, clientSecret);
         }
 
+        public IEnumerable<EnterpriseManagementObject> GetInProgressAutomationActivities()
+        {
+            var criteria = new EnterpriseManagementObjectCriteria("Status = '" + ActivityInProgressEnum.Id + "'", ActivityClass);
+            return _emg.EntityObjects.GetObjectReader<EnterpriseManagementObject>(criteria, ObjectQueryOptions.Default);
+        }
 
         public void ProcessActivities()
         {
             CheckInitialized();
 
-            using (System.IO.StreamWriter outputFile = new System.IO.StreamWriter(@"C:\Windows\Temp\TestWorkflow.txt", true))
-            {
-                outputFile.WriteLine(" ");
-                outputFile.WriteLine("Date: " + DateTime.Now.ToString());
-              
+            var activities = GetInProgressAutomationActivities();
 
-                outputFile.WriteLine(" ");
+            foreach (var activityObj in activities)
+            {
+                try
+                {
+                    if (activityObj[ActivityClass, "JobId"].Value != null)
+                    {
+                        var jobId = (Guid)activityObj[ActivityClass, "JobId"].Value;
+
+                        var jt = _aaClient.GetJobAsync(jobId);
+                        var j = jt.Result;
+
+                        activityObj[ActivityClass, "JobStatus"].Value = j.Properties.Status;
+                        activityObj[ActivityClass, "JobException"].Value = j.Properties.Exception;
+                        activityObj[ActivityClass, "JobOutput"].Value = j.Properties.StatusDetails; //this is probably not OK
+
+                        var s = j.Properties.Status.ToLower();
+                        if (s == "completed")
+                        {
+                            activityObj[ActivityClass, "Status"].Value = ActivityCompletedEnum;
+                        }
+                        else if (s == "stopped" || s == "failed")
+                        {
+                            activityObj[ActivityClass, "Status"].Value = ActivityFailedEnum;
+                        }
+
+                        activityObj.Overwrite();
+                    }
+                }
+                catch (Exception error)
+                {
+                    activityObj[ActivityClass, "JobException"].Value = error.Message;
+                    activityObj.Overwrite();
+                }
+
             }
 
-
-            var rt = _aaClient.GetRunbooksAsync();
-            var runbooks = rt.Result;
-            string str = string.Empty;
-            foreach (var r in runbooks)
-                str += "\n\r" + r.Name;
-
-            using (System.IO.StreamWriter outputFile = new System.IO.StreamWriter(@"C:\Windows\Temp\TestWorkflowRunbooks.txt", true))
-            {
-                outputFile.WriteLine(" ");
-                outputFile.WriteLine("Date: " + DateTime.Now.ToString());
-                outputFile.WriteLine("Runbooks:");
-                
-                outputFile.WriteLine(runbooks);
-
-                //outputFile.WriteLine("Id: " + ClientId);
-                //outputFile.WriteLine("Secret: " + ClientSecret);
-
-                outputFile.WriteLine(" ");
-            }
         }
+
 
         public void StartRunbook(Guid activityId)
         {
@@ -77,19 +93,18 @@ namespace PurgarNET.AAConnector.Workflows
             var activityObj = GetActivityObject(activityId);
             try
             {
-                var j = WorkflowHandler.Current.CreateStartRunbookJob(activityId);
-
-                //activityObj[_smClient.ActivityClass, "JobId"].Value = jobId;
-                activityObj[ActivityClass, "JobStatus"].Value = "Starting";
+                var job = CreateStartRunbookJob(activityId);
+                var t = _aaClient.StartJob(job);
+                var startedJob = t.Result;
+                activityObj[ActivityClass, "JobId"].Value = startedJob.Properties.JobId;
+                activityObj[ActivityClass, "JobStatus"].Value = startedJob.Properties.Status;
                 activityObj[ActivityClass, "JobException"].Value = string.Empty;
                 activityObj[ActivityClass, "JobOutput"].Value = string.Empty;
                 activityObj.Overwrite();
-
-
             }
             catch (Exception error)
             {
-                activityObj[ActivityClass, "JobException"].Value = error.Message;
+                activityObj[ActivityClass, "JobException"].Value = error.ToString();
                 activityObj.Overwrite();
             }
 

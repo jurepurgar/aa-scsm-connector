@@ -43,6 +43,7 @@
     </Reference>
     <Reference Include="Microsoft.EnterpriseManagement.ServiceManager.Application.Common">
       <HintPath>..\..\..\..\..\..\..\Program Files\Microsoft System Center 2012 R2\Service Manager\Microsoft.EnterpriseManagement.ServiceManager.Application.Common.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Microsoft.EnterpriseManagement.ServiceManager.SharedResources">
       <HintPath>..\SDKReferences\Microsoft.EnterpriseManagement.ServiceManager.SharedResources.dll</HintPath>
@@ -58,6 +59,7 @@
     </Reference>
     <Reference Include="Microsoft.EnterpriseManagement.UI.Extensions">
       <HintPath>..\..\..\..\..\..\..\Program Files\Microsoft System Center 2012 R2\Service Manager\Microsoft.EnterpriseManagement.UI.Extensions.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Microsoft.EnterpriseManagement.UI.FormsInfra">
       <HintPath>..\..\..\..\..\..\..\Program Files\Microsoft System Center 2012 R2\Service Manager\Microsoft.EnterpriseManagement.UI.FormsInfra.dll</HintPath>
@@ -69,6 +71,7 @@
     </Reference>
     <Reference Include="Microsoft.EnterpriseManagement.UI.SdkDataAccess">
       <HintPath>..\..\..\..\..\..\..\Program Files\Microsoft System Center 2012 R2\Service Manager\Microsoft.EnterpriseManagement.UI.SdkDataAccess.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Microsoft.EnterpriseManagement.UI.SMControls">
       <HintPath>..\..\..\..\..\..\..\Program Files\Microsoft System Center 2012 R2\Service Manager\Microsoft.EnterpriseManagement.UI.SMControls.dll</HintPath>

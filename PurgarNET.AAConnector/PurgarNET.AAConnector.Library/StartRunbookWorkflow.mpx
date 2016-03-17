@@ -1,0 +1,142 @@
+﻿<ManagementPackFragment SchemaVersion="SM2.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Categories>
+    <Category ID="PurgarNET.AAConnector.StartRunbookWorkflowRuleCategory" Target="PurgarNET.AAConnector.StartRunbookWorkflowRule" Value="Administration!Microsoft.EnterpriseManagement.ServiceManager.Rules.WorkflowSubscriptions" />
+  </Categories>
+  <Monitoring>
+    <Rules>
+      <Rule ID="PurgarNET.AAConnector.StartRunbookWorkflowRule" Enabled="true" Target="Library!Microsoft.SystemCenter.SubscriptionWorkflowTarget" ConfirmDelivery="true" Remotable="true" Priority="Normal" DiscardLevel="100">
+        <Category>System</Category>
+        <DataSources>
+          <DataSource ID="DS" TypeID="Subscriptions!Microsoft.SystemCenter.CmdbInstanceSubscription.DataSourceModule">
+            <Subscription>
+              <InstanceSubscription Type="$MPElement[Name='PurgarNET.AAConnector.RunbookActivity']$">
+                <UpdateInstance>
+                  <Criteria>
+                    <Expression>
+                      <Or>
+                        <Expression>
+                          <And>
+                            <Expression>
+                              <SimpleExpression>
+                                <ValueExpression>
+                                  <Property State="Post">$Context/Property[Type='PurgarNET.AAConnector.RunbookActivity']/IsReadyForAutomation$</Property>
+                                </ValueExpression>
+                                <Operator>Equal</Operator>
+                                <ValueExpression>
+                                  <Value>True</Value>
+                                </ValueExpression>
+                              </SimpleExpression>
+                            </Expression>
+                            <Expression>
+                              <And>
+                                <Expression>
+                                  <SimpleExpression>
+                                    <ValueExpression>
+                                      <Property State="Pre">$Context/Property[Type='Activity!System.WorkItem.Activity']/Status$</Property>
+                                    </ValueExpression>
+                                    <Operator>NotEqual</Operator>
+                                    <ValueExpression>
+                                      <Value>$MPElement[Name="Activity!ActivityStatusEnum.Active"]$</Value>
+                                    </ValueExpression>
+                                  </SimpleExpression>
+                                </Expression>
+                                <Expression>
+                                  <SimpleExpression>
+                                    <ValueExpression>
+                                      <Property State="Post">$Context/Property[Type='Activity!System.WorkItem.Activity']/Status$</Property>
+                                    </ValueExpression>
+                                    <Operator>Equal</Operator>
+                                    <ValueExpression>
+                                      <Value>$MPElement[Name="Activity!ActivityStatusEnum.Active"]$</Value>
+                                    </ValueExpression>
+                                  </SimpleExpression>
+                                </Expression>
+                              </And>
+                            </Expression>
+                          </And>
+                        </Expression>
+                        <Expression>
+                          <And>
+                            <Expression>
+                              <SimpleExpression>
+                                <ValueExpression>
+                                  <Property State="Post">$Context/Property[Type='Activity!System.WorkItem.Activity']/Status$</Property>
+                                </ValueExpression>
+                                <Operator>Equal</Operator>
+                                <ValueExpression>
+                                  <Value>$MPElement[Name="Activity!ActivityStatusEnum.Active"]$</Value>
+                                </ValueExpression>
+                              </SimpleExpression>
+                            </Expression>
+                            <Expression>
+                              <And>
+                                <Expression>
+                                  <SimpleExpression>
+                                    <ValueExpression>
+                                      <Property State="Pre">$Context/Property[Type='PurgarNET.AAConnector.RunbookActivity']/IsReadyForAutomation$</Property>
+                                    </ValueExpression>
+                                    <Operator>NotEqual</Operator>
+                                    <ValueExpression>
+                                      <Value>True</Value>
+                                    </ValueExpression>
+                                  </SimpleExpression>
+                                </Expression>
+                                <Expression>
+                                  <SimpleExpression>
+                                    <ValueExpression>
+                                      <Property State="Post">$Context/Property[Type='PurgarNET.AAConnector.RunbookActivity']/IsReadyForAutomation$</Property>
+                                    </ValueExpression>
+                                    <Operator>Equal</Operator>
+                                    <ValueExpression>
+                                      <Value>True</Value>
+                                    </ValueExpression>
+                                  </SimpleExpression>
+                                </Expression>
+                              </And>
+                            </Expression>
+                          </And>
+                        </Expression>
+                      </Or>
+                    </Expression>
+                  </Criteria>
+                </UpdateInstance>
+              </InstanceSubscription>
+              <PollingIntervalInSeconds>10</PollingIntervalInSeconds>
+              <BatchSize>100</BatchSize>
+            </Subscription>
+          </DataSource>
+        </DataSources>
+        <WriteActions>
+          <WriteAction ID="WA" TypeID="Subscriptions!Microsoft.EnterpriseManagement.SystemCenter.Subscription.WindowsWorkflowTaskWriteAction">
+            <Subscription>
+              <VisibleWorkflowStatusUi>true</VisibleWorkflowStatusUi>
+              <EnableBatchProcessing>false</EnableBatchProcessing>
+              <WindowsWorkflowConfiguration>
+                <AssemblyName>PurgarNET.AAConnector.Workflows</AssemblyName>
+                <WorkflowTypeName>PurgarNET.AAConnector.Workflows.StartRunbook</WorkflowTypeName>
+                <WorkflowParameters>
+                  <WorkflowParameter Name="ClientId" Type="string">$RunAs[Name="PurgarNET.AAConnector.ConnectorCredential"]/UserName$</WorkflowParameter>
+                  <WorkflowParameter Name="ClientSecret" Type="string">$RunAs[Name="PurgarNET.AAConnector.ConnectorCredential"]/Password$</WorkflowParameter>
+                  <WorkflowParameter Name="ActivityId" Type="guid">$Data/BaseManagedEntityId$</WorkflowParameter>
+                </WorkflowParameters>
+                <RetryExceptions />
+                <RetryDelaySeconds>60</RetryDelaySeconds>
+                <MaximumRunningTimeSeconds>7200</MaximumRunningTimeSeconds>
+              </WindowsWorkflowConfiguration>
+            </Subscription>
+          </WriteAction>
+        </WriteActions>
+      </Rule>
+    </Rules>
+  </Monitoring>
+
+  <LanguagePacks>
+    <LanguagePack ID="ENU" >
+      <DisplayStrings>
+        <DisplayString ElementID="PurgarNET.AAConnector.StartRunbookWorkflowRule">
+          <Name>Azure Automation Start Runbook Workflow</Name>
+        </DisplayString>
+      </DisplayStrings>
+    </LanguagePack>
+  </LanguagePacks>
+</ManagementPackFragment>

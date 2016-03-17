@@ -67,11 +67,11 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="StartJob.cs">
+    <Compile Include="StartRunbook.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="StartJob.Designer.cs">
-      <DependentUpon>StartJob.cs</DependentUpon>
+    <Compile Include="StartRunbook.Designer.cs">
+      <DependentUpon>StartRunbook.cs</DependentUpon>
     </Compile>
     <Compile Include="WorkflowHandler.cs" />
     <None Include="packages.config" />

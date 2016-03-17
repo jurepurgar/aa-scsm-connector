@@ -42,14 +42,12 @@ namespace PurgarNET.AAConnector.TestApp
 
             var g = new Guid("a25bfae4-c469-98d1-3d7b-774287e28d0d");
 
-            var j = ConsoleHandler.Current.CreateStartRunbookJob(g);
+            var js = await ConsoleHandler.Current.AAClient.GetJobsAsync();
 
-            var runbooks = await ConsoleHandler.Current.AAClient.GetHybridRunbookWorkerGroupsAsync();
-
-            var startedJob = await ConsoleHandler.Current.AAClient.StartJob(j);
+            var j = await ConsoleHandler.Current.AAClient.GetJobAsync(new Guid("7cd3c5b3-b95b-46ec-a9a4-a88c607610c4"));
 
 
-            var b = startedJob;
+            var b = "bula";
 
 
             /* var r = await cl.GetRunbookAsync("TestWorkflow");

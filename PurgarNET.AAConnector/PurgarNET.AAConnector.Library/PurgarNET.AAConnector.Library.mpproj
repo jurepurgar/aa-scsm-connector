@@ -119,6 +119,9 @@
     <Compile Include="SecureReference.mpx">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="StartRunbookWorkflow.mpx">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\PurgarNET.AAConnector.Console\PurgarNET.AAConnector.Console.csproj">
