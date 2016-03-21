@@ -4,7 +4,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 
-namespace PurgarNET.AAConnector.Shared.AutomationClient.Models
+namespace PurgarNET.AAConnector.Shared.Client.Models
 {
     public class ApiResponse<T>
     {

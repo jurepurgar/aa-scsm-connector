@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace PurgarNET.AAConnector.Shared.AutomationClient
+namespace PurgarNET.AAConnector.Shared.Client
 {
     public class ApiException : Exception
     {

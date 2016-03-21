@@ -6,6 +6,7 @@ using Microsoft.EnterpriseManagement.UI.Core.Connection;
 using Microsoft.EnterpriseManagement.UI.DataModel;
 using PurgarNET.AAConnector.Shared;
 using PurgarNET.AAConnector.Shared.AutomationClient;
+using PurgarNET.AAConnector.Shared.Client;
 using System;
 using System.Collections.Generic;
 using System.Linq;

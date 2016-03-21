@@ -4,12 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Runtime.Serialization;
 
-namespace PurgarNET.AAConnector.Shared.AutomationClient.Models
+namespace PurgarNET.AAConnector.Shared.Client.Models
 {
     public class Token
     {
         //public string id_token { get; set; }
-        //public string resource { get; set; }
+
+        [DataMember(Name = "resource")]
+        public string Resource { get; set; }
         //public string token_type { get; set; }
         //public string expires_in { get; set; }
         //public string scope { get; set; }

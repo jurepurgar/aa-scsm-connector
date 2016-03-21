@@ -14,10 +14,20 @@ namespace PurgarNET.AAConnector.Shared
 
         internal static string AZURE_RESOURCE = "https://management.core.windows.net/";
 
-        //public static Guid CLIENT_ID = new Guid("444b22df-0f28-4ff6-831f-039c6b8565dc");
+        internal static Uri GRAPH_API_URI = new Uri("https://graph.windows.net/");
 
-        public static Guid CLIENT_ID = new Guid("71daa18d-2e2a-4417-8903-b084e0d7ae44");
-        
+        internal static string GRAPH_API_VERSION = "1.6";
+
+        internal static string GRAPH_RESOURCE = "https://graph.windows.net/";
+
+
+
+        public static Guid CLIENT_ID = new Guid("9baae959-debc-4bf2-8343-fc6efabe9d00");
+
+        //public static Guid CLIENT_ID = new Guid("71daa18d-2e2a-4417-8903-b084e0d7ae44");
+
+
+
 
         internal static string USER_LOGIN_URL = "https://login.windows.net/{0}/oauth2/authorize?resource={1}&client_id={2}&response_type=code&redirect_uri={3}&display=popup&site_id=501358";
 
@@ -40,9 +50,6 @@ namespace PurgarNET.AAConnector.Shared
             return new Uri(string.Format(TOKEN_URL, tenant));
         }
 
-        internal static string GetUrlEncodedResource()
-        {
-            return Uri.EscapeDataString(AZURE_RESOURCE);
-        }
+        
     }
 }

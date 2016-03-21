@@ -6,110 +6,78 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace PurgarNET.AAConnector.Workflows
 {
     public class WorkflowHandler : HandlerBase
     {
 
-        public static WorkflowHandler Current
-        {
-            get
-            {
-                return (WorkflowHandler)GetCurrent(() => new WorkflowHandler());
-            }
-        }
+         public static WorkflowHandler Current
+         {
+             get
+             {
+                 return (WorkflowHandler)GetCurrent(() => new WorkflowHandler());
+             }
+         }
 
-        public bool Initialize(string clientIdStr, string clientSecret)
-        {
-            Guid clientId;
-            try
-            {
-                clientId = new Guid(clientIdStr);
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
+         public bool Initialize(string clientIdStr, string clientSecret)
+         {
+             Guid clientId;
+             try
+             {
+                 clientId = new Guid(clientIdStr);
+             }
+             catch (Exception e)
+             {
+                 throw e;
+             }
 
-            return base.Initialize("localhost", AuthenticationType.ClientSecret, null, clientId, clientSecret);
-        }
+             return base.Initialize("localhost", AuthenticationType.ClientSecret, null, clientId, clientSecret);
+         }
 
-        public IEnumerable<EnterpriseManagementObject> GetInProgressAutomationActivities()
-        {
-            var criteria = new EnterpriseManagementObjectCriteria("Status = '" + ActivityInProgressEnum.Id + "'", ActivityClass);
-            return _emg.EntityObjects.GetObjectReader<EnterpriseManagementObject>(criteria, ObjectQueryOptions.Default);
-        }
+         public IEnumerable<EnterpriseManagementObject> GetInProgressAutomationActivities()
+         {
+             var criteria = new EnterpriseManagementObjectCriteria("Status = '" + ActivityInProgressEnum.Id + "'", ActivityClass);
+             return _emg.EntityObjects.GetObjectReader<EnterpriseManagementObject>(criteria, ObjectQueryOptions.Default);
+         }
 
-        public void ProcessActivities()
-        {
-            CheckInitialized();
+         public void ProcessActivities()
+         {
+             CheckInitialized();
 
-            var activities = GetInProgressAutomationActivities();
+             var activities = GetInProgressAutomationActivities();
+             var tasks = new List<Task>();
 
-            foreach (var activityObj in activities)
-            {
-                try
-                {
-                    if (activityObj[ActivityClass, "JobId"].Value != null)
-                    {
-                        var jobId = (Guid)activityObj[ActivityClass, "JobId"].Value;
-
-                        var jt = _aaClient.GetJobAsync(jobId);
-                        var j = jt.Result;
-
-                        activityObj[ActivityClass, "JobStatus"].Value = j.Properties.Status;
-                        activityObj[ActivityClass, "JobException"].Value = j.Properties.Exception;
-                        activityObj[ActivityClass, "JobOutput"].Value = j.Properties.StatusDetails; //this is probably not OK
-
-                        var s = j.Properties.Status.ToLower();
-                        if (s == "completed")
-                        {
-                            activityObj[ActivityClass, "Status"].Value = ActivityCompletedEnum;
-                        }
-                        else if (s == "stopped" || s == "failed")
-                        {
-                            activityObj[ActivityClass, "Status"].Value = ActivityFailedEnum;
-                        }
-
-                        activityObj.Overwrite();
-                    }
-                }
-                catch (Exception error)
-                {
-                    activityObj[ActivityClass, "JobException"].Value = error.Message;
-                    activityObj.Overwrite();
-                }
-
-            }
-
-        }
+             foreach (var activityObj in activities) //retry so it will do web calls in parallel
+                 tasks.Add(ProcessActivity(activityObj));
+             Task.WaitAll(tasks.ToArray()); 
+         }
 
 
-        public void StartRunbook(Guid activityId)
-        {
-            CheckInitialized();
+          
+         public void StartRunbook(Guid activityId)
+         {
+             CheckInitialized();
 
-            var activityObj = GetActivityObject(activityId);
-            try
-            {
-                var job = CreateStartRunbookJob(activityId);
-                var t = _aaClient.StartJob(job);
-                var startedJob = t.Result;
-                activityObj[ActivityClass, "JobId"].Value = startedJob.Properties.JobId;
-                activityObj[ActivityClass, "JobStatus"].Value = startedJob.Properties.Status;
-                activityObj[ActivityClass, "JobException"].Value = string.Empty;
-                activityObj[ActivityClass, "JobOutput"].Value = string.Empty;
-                activityObj.Overwrite();
-            }
-            catch (Exception error)
-            {
-                activityObj[ActivityClass, "JobException"].Value = error.ToString();
-                activityObj.Overwrite();
-            }
-
-
-        }
-
+             var activityObj = GetActivityObject(activityId);
+             try
+             {
+                 var job = CreateStartRunbookJob(activityId);
+                 var t = _aaClient.StartJob(job);
+                 var startedJob = t.Result;
+                 activityObj[ActivityClass, "JobId"].Value = startedJob.Properties.JobId;
+                 activityObj[ActivityClass, "JobStatus"].Value = startedJob.Properties.Status;
+                 activityObj[ActivityClass, "JobException"].Value = string.Empty;
+                 activityObj[ActivityClass, "JobOutput"].Value = string.Empty;
+                 activityObj.Overwrite();
+             }
+             catch (Exception error)
+             {
+                 activityObj[ActivityClass, "JobException"].Value = error.ToString();
+                 activityObj.Overwrite();
+             }
+         }
+        
     }
 }
