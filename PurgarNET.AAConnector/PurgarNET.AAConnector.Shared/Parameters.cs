@@ -10,7 +10,9 @@ namespace PurgarNET.AAConnector.Shared
         public static Uri REDIRECT_URI = new Uri("urn:ietf:wg:oauth:2.0:oob");
         internal static Uri AZURE_API_URI = new Uri("https://management.azure.com/");
         
-        internal static string AZURE_API_VERSION = "2015-10-31";
+        internal static string AUTOMATION_API_VERSION = "2015-10-31";
+        internal static string AZURE_API_VERSION = "2016-02-01";
+        
 
         internal static string AZURE_RESOURCE = "https://management.core.windows.net/";
 
@@ -20,11 +22,15 @@ namespace PurgarNET.AAConnector.Shared
 
         internal static string GRAPH_RESOURCE = "https://graph.windows.net/";
 
+        internal static Uri AACONNECTOR_APP_URI = new Uri("http://AzureAutomation.ConnectorForSCSM.local/");
 
-
-        public static Guid CLIENT_ID = new Guid("9baae959-debc-4bf2-8343-fc6efabe9d00");
+        public static Guid CLIENT_ID = new Guid("9baae959-debc-4bf2-8343-fc6efabe9d00"); //PurgarNET
 
         //public static Guid CLIENT_ID = new Guid("71daa18d-2e2a-4417-8903-b084e0d7ae44");
+        //public static Guid CLIENT_ID = new Guid("1950a258-227b-4e31-a9cf-717495945fc2"); //PowerSHell
+
+        
+
 
 
 

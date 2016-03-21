@@ -33,7 +33,7 @@ namespace PurgarNET.AAConnector.Workflows
                  throw e;
              }
 
-             return base.Initialize("localhost", AuthenticationType.ClientSecret, null, clientId, clientSecret);
+             return base.Initialize("localhost", Shared.Client.AuthenticationType.ClientSecret, null, clientId, clientSecret);
          }
 
          public IEnumerable<EnterpriseManagementObject> GetInProgressAutomationActivities()

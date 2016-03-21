@@ -19,7 +19,7 @@ namespace PurgarNET.AAConnector.Shared.AutomationClient
         private Guid _tenantId = Guid.Empty;
 
         public AAClient(Guid tenantId, Guid subscriptionId, string resourceGroup, string automationAccountName, AuthenticationType authType, Guid clientId, string clientSecret)
-            : base(GetUri(subscriptionId, resourceGroup, automationAccountName), Parameters.AZURE_RESOURCE, Parameters.AZURE_API_VERSION, authType, clientId, clientSecret)
+            : base(GetUri(subscriptionId, resourceGroup, automationAccountName), Parameters.AZURE_RESOURCE, authType, clientId, clientSecret)
         {
             _tenantId = tenantId;
         }
@@ -147,40 +147,40 @@ namespace PurgarNET.AAConnector.Shared.AutomationClient
     */
         public async Task<List<Runbook>> GetRunbooksAsync()
         {
-            return await GetListAsync<Runbook>(_tenantId, "runbooks");
+            return await GetListAsync<Runbook>(_tenantId, Parameters.AUTOMATION_API_VERSION, "runbooks");
         }
 
         public async Task<Runbook> GetRunbookAsync(string runbookName)
         {
-            return await GetAsync<Runbook>(_tenantId, $"runbooks/{runbookName}");
+            return await GetAsync<Runbook>(_tenantId, Parameters.AUTOMATION_API_VERSION, $"runbooks/{runbookName}");
         }
 
 
         public async Task<Job> StartJob(Job j)
         {
             var jobId = Guid.NewGuid();
-            return await SendAsync<Job>(_tenantId, $"jobs/{jobId}", Method.PUT, j);
+            return await SendAsync<Job>(_tenantId, Parameters.AUTOMATION_API_VERSION, $"jobs/{jobId}", Method.PUT, j);
         }
 
 
         public async Task<List<HybridRunbookWorkerGroup>> GetHybridRunbookWorkerGroupsAsync()
         {
-            return await GetListAsync<HybridRunbookWorkerGroup>(_tenantId, "hybridRunbookWorkerGroups");
+            return await GetListAsync<HybridRunbookWorkerGroup>(_tenantId, Parameters.AUTOMATION_API_VERSION, "hybridRunbookWorkerGroups");
         }
 
         public async Task<List<Job>> GetJobsAsync()
         {
-            return await GetListAsync<Job>(_tenantId, "jobs");
+            return await GetListAsync<Job>(_tenantId, Parameters.AUTOMATION_API_VERSION, "jobs");
         }
 
         public async Task<Job> GetJobAsync(Guid jobId)
         {
-            return await GetAsync<Job>(_tenantId, $"jobs/{jobId.ToString()}");
+            return await GetAsync<Job>(_tenantId, Parameters.AUTOMATION_API_VERSION, $"jobs/{jobId.ToString()}");
         }
 
         public async Task<string> GetJobOutput(Guid jobId)
         {
-            var streams = await GetListAsync<OutputItem>(_tenantId, $"jobs/{jobId}/streams?$filter=properties/streamType eq 'Output'");
+            var streams = await GetListAsync<OutputItem>(_tenantId, Parameters.AUTOMATION_API_VERSION, $"jobs/{jobId}/streams?$filter=properties/streamType eq 'Output'");
             var sb = new StringBuilder();
             streams.ForEach((x) => sb.AppendLine(x.Properties.Summary));
             return sb.ToString();

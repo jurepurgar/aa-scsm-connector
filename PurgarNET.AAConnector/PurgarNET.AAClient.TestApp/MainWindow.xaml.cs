@@ -33,9 +33,6 @@ namespace PurgarNET.AAConnector.TestApp
 
             ConsoleHandler.Current.Initialize("SCSM02");
 
-            _graphClient = new GraphClient();
-            _graphClient.AuthorizationCodeRequired += _graphClient_AuthorizationCodeRequired;
-
             _configClient = new ConfigClient();
             _configClient.AuthorizationCodeRequired += _graphClient_AuthorizationCodeRequired;
         }
@@ -45,7 +42,7 @@ namespace PurgarNET.AAConnector.TestApp
             e.Code = LoginWindow.InitializeLogin(e.LoginUri);
         }
 
-        private GraphClient _graphClient = null;
+       
         private ConfigClient _configClient = null;
 
         private async void LoginButton_Click(object sender, RoutedEventArgs e)
@@ -58,17 +55,22 @@ namespace PurgarNET.AAConnector.TestApp
             //  var js = await ConsoleHandler.Current.AAClient.GetJobsAsync();
 
 
-            var tenants = await _configClient.GetTenantsAsync();
+            var automationAccounts = await _configClient.GetAutomationAccountsAsync();
+            var tId = automationAccounts.First().TenantId;
 
-            foreach (var t in tenants)
-            {
-                var ss = await _configClient.GetSubscriptionsAsync(t.TenantId);
-            }
+            var graphClient = new GraphClient(tId);
+            graphClient.AuthorizationCodeRequired += _graphClient_AuthorizationCodeRequired;
 
 
-            var r = await _graphClient.GetApplication(tenants.First().TenantId, new Guid("9f4306f5-e3ce-fa42-37cb-137e774ba4f5"));
+            var app = await graphClient.GetApplicationAsync();
+            if (app == null)
+                app = await graphClient.CreateApplicationAsync();
 
-          //  var j = await ConsoleHandler.Current.AAClient.GetJobAsync(new Guid("7cd3c5b3-b95b-46ec-a9a4-a88c607610c4"));
+
+            var cred = await graphClient.CreateApplicationCredentialAsync(app.ObjectId, g);
+            
+
+            //  var j = await ConsoleHandler.Current.AAClient.GetJobAsync(new Guid("7cd3c5b3-b95b-46ec-a9a4-a88c607610c4"));
 
             var s = await ConsoleHandler.Current.AAClient.GetJobOutput(new Guid("5fa0add0-1b42-41cf-a581-d52ab1f11628"));
 

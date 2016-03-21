@@ -29,7 +29,7 @@ namespace PurgarNET.AAConnector.Shared.Client
 
         private static SemaphoreSlim _semaphore = new SemaphoreSlim(1);
 
-        public ClientBase(Uri baseUri, string resource, string apiVersion, AuthenticationType authType, Guid clientId, string clientSecret)
+        public ClientBase(Uri baseUri, string resource, AuthenticationType authType, Guid clientId, string clientSecret)
         {
             _authType = authType;
             _clientId = clientId;
@@ -40,7 +40,7 @@ namespace PurgarNET.AAConnector.Shared.Client
 
             _client = new RestClient(uri);
             _client.AddDefaultHeader("Accept", "application/json");
-            _client.AddDefaultParameter("api-version", apiVersion, ParameterType.QueryString);
+                       
 
             //init the tokenClient
             _tokenClient = new RestClient(Parameters.GetTokenUri());
@@ -157,11 +157,12 @@ namespace PurgarNET.AAConnector.Shared.Client
         public event EventHandler<AuthorizationCodeRequiredEventArgs> AuthorizationCodeRequired;
 
         
-        protected async Task<T> SendAsync<T>(Guid tenantId, string resource, Method method, object data = null) where T : new()
+        protected async Task<T> SendAsync<T>(Guid tenantId, string apiVersion, string resource, Method method, object data = null) where T : new()
         {
             var token = await AcquireTokenAsync(tenantId);
             var req = new RestRequest(resource, method);
             req.AddHeader("Authorization", "Bearer " + token.AccessToken);
+            req.AddParameter("api-version", apiVersion, ParameterType.QueryString);
             if (data != null)
                 req.AddJsonBody(data);
 
@@ -170,14 +171,14 @@ namespace PurgarNET.AAConnector.Shared.Client
             return res.Data;
         }
 
-        protected async Task<T> GetAsync<T>(Guid tenantId, string resource) where T : new()
+        protected async Task<T> GetAsync<T>(Guid tenantId, string apiVersion, string resource) where T : new()
         {
-            return await SendAsync<T>(tenantId, resource, Method.GET);
+            return await SendAsync<T>(tenantId, apiVersion, resource, Method.GET);
         }
 
-        protected async Task<List<T>> GetListAsync<T>(Guid tenantId, string resource)
+        protected async Task<List<T>> GetListAsync<T>(Guid tenantId, string apiVersion, string resource)
         {
-            var res = await GetAsync<ApiResponse<List<T>>>(tenantId, resource);
+            var res = await GetAsync<ApiResponse<List<T>>>(tenantId, apiVersion, resource);
 
             if (res.Error != null)
                 throw new ApiException(res.Error.Code, res.Error.Message);
