@@ -77,9 +77,6 @@
       <HintPath>..\..\..\..\..\..\..\Program Files\Microsoft System Center 2012 R2\Service Manager\Microsoft.EnterpriseManagement.UI.SMControls.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Microsoft.EnterpriseManagement.UI.WpfWizardFramework">
-      <HintPath>..\..\..\..\..\..\..\Program Files\Microsoft System Center 2012 R2\Service Manager\Microsoft.EnterpriseManagement.UI.WpfWizardFramework.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Threading, Version=1.0.2856.102, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -108,9 +105,6 @@
     <Compile Include="Converters\StringToVisibilityConverter.cs" />
     <Compile Include="LoginWindow.xaml.cs">
       <DependentUpon>LoginWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="SettingsPage.xaml.cs">
-      <DependentUpon>SettingsPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewSettingsTask.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -166,10 +160,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="RunbookSelector.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="SettingsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

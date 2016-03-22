@@ -6,9 +6,24 @@
         xmlns:local="clr-namespace:PurgarNET.AAConnector.Console"
         mc:Ignorable="d"
         Loaded="Window_Loaded"
-        Title="Select..." Width="250" Height="200" ShowInTaskbar="False" WindowStartupLocation="CenterOwner" Topmost="True" WindowStyle="ToolWindow" >
+        Title="Select..." Width="250" Height="200" ShowInTaskbar="False" WindowStartupLocation="CenterOwner" Topmost="True" 
+        ResizeMode="NoResize" >
     <Window.Resources>
-        <ResourceDictionary Source="/PurgarNET.AAConnector.Console;component/Styles.xaml" />
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/PurgarNET.AAConnector.Console;component/Styles.xaml" />
+                <ResourceDictionary Source="/Microsoft.EnterpriseManagement.UI.Controls;component/Themes/Common.Generic.xaml" />
+                <ResourceDictionary Source="/Microsoft.EnterpriseManagement.ServiceManager.SharedResources;component/CommonStyles/CommonStyles.xaml" />
+                <ResourceDictionary Source="/Microsoft.EnterpriseManagement.ServiceManager.SharedResources;component/BasicControls/BasicControlsCollection.xaml" />
+                <ResourceDictionary Source="/Microsoft.EnterpriseManagement.ServiceManager.SharedResources;component/SolutionsStyles/ApplicationCommonStyles.xaml" />
+                <ResourceDictionary Source="/Microsoft.EnterpriseManagement.ServiceManager.SharedResources;component/AdvancedControls/AdvancedControlsCollection.xaml" />
+                <ResourceDictionary Source="/Microsoft.EnterpriseManagement.ServiceManager.SharedResources;component/FormControls/FormControlsCollection.xaml" />
+                <ResourceDictionary Source="/Microsoft.EnterpriseManagement.ServiceManager.SharedResources;component/uXeControls/uXeControlsCollection.xaml" />
+                <ResourceDictionary Source="/Microsoft.EnterpriseManagement.ServiceManager.SharedResources;component/SMControls/SMControlsCollection.xaml" /> 
+                <ResourceDictionary Source="/Microsoft.EnterpriseManagement.ServiceManager.SharedResources;component/Brushes/Brushes.xaml" />
+
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Window.Resources>
 
     <Grid Margin="10">

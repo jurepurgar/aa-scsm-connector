@@ -7,61 +7,69 @@
     xmlns:local="clr-namespace:PurgarNET.AAConnector.Console" 
     x:Class="PurgarNET.AAConnector.Console.SettingsWindow" 
     mc:Ignorable="d" 
-    d:DesignHeight="450" d:DesignWidth="450" WindowStartupLocation="CenterOwner" Title="Login to Azure" 
+    d:DesignHeight="450" d:DesignWidth="450" WindowStartupLocation="CenterOwner" Title="Azure Automation Connector Settings" 
     Width="500" Height="450"
     Topmost="True"
-    Loaded="Window_Loaded" ShowInTaskbar="False" WindowStyle="ToolWindow"
+    Loaded="Window_Loaded" ShowInTaskbar="False"
+    ResizeMode="NoResize" 
     
     >
     <Window.Resources>
-        <ResourceDictionary Source="/PurgarNET.AAConnector.Console;component/Styles.xaml" />
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/PurgarNET.AAConnector.Console;component/Styles.xaml" />
+                <ResourceDictionary Source="/Microsoft.EnterpriseManagement.UI.Controls;component/Themes/Common.Generic.xaml" />
+               <ResourceDictionary Source="/Microsoft.EnterpriseManagement.ServiceManager.SharedResources;component/CommonStyles/CommonStyles.xaml" />
+                <ResourceDictionary Source="/Microsoft.EnterpriseManagement.ServiceManager.SharedResources;component/BasicControls/BasicControlsCollection.xaml" />
+                <ResourceDictionary Source="/Microsoft.EnterpriseManagement.ServiceManager.SharedResources;component/SolutionsStyles/ApplicationCommonStyles.xaml" />
+                <ResourceDictionary Source="/Microsoft.EnterpriseManagement.ServiceManager.SharedResources;component/AdvancedControls/AdvancedControlsCollection.xaml" />
+                <ResourceDictionary Source="/Microsoft.EnterpriseManagement.ServiceManager.SharedResources;component/FormControls/FormControlsCollection.xaml" />
+                <ResourceDictionary Source="/Microsoft.EnterpriseManagement.ServiceManager.SharedResources;component/uXeControls/uXeControlsCollection.xaml" />
+                <ResourceDictionary Source="/Microsoft.EnterpriseManagement.ServiceManager.SharedResources;component/SMControls/SMControlsCollection.xaml" />
+                <ResourceDictionary Source="/Microsoft.EnterpriseManagement.ServiceManager.SharedResources;component/Brushes/Brushes.xaml" />
+
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+
     </Window.Resources>
     <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
-        <StackPanel Margin="20" >
-            <TextBlock FontSize="22" Text="Azure Automation Connector Settings" Margin="0,6,0,20" />
+        <StackPanel  >
+            <Grid>
+                <Rectangle Grid.ColumnSpan="2" x:Name="imgSuperGridBrand" Fill="{StaticResource SettingsBannerBrush}" />
+                <TextBlock FontSize="20" Foreground="DarkBlue" Text="Azure Automation Connector Settings" Margin="10,10,0,14" />
+            </Grid>
+            
+            <Grid Margin="20"  Visibility="{Binding Path=Settings.IsConfigured, Converter={StaticResource BoolToVisibilityConverter}}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto"  />
+                    <ColumnDefinition Width="*"  />
+                </Grid.ColumnDefinitions>
 
-            <Expander Header="Connection" IsExpanded="True">
-                <Grid Visibility="{Binding Path=Settings.IsConfigured, Converter={StaticResource BoolToVisibilityConverter}}">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto"  />
-                        <ColumnDefinition Width="*"  />
-                    </Grid.ColumnDefinitions>
-                    
-                    <TextBlock Grid.ColumnSpan="2" Margin="0,6,0,6" Text="Currently connected to:" />
+                <TextBlock Grid.ColumnSpan="2" Margin="0,0,0,6" Text="Currently connected to:" />
 
-                    <TextBlock FontWeight="DemiBold" Grid.Row="1" Text="Tenant ID" />
-                    <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Path=Settings.TenantId}" />
-                    <TextBlock FontWeight="DemiBold" Grid.Row="2" Text="Subscription ID" />
-                    <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Path=Settings.SubscriptionId}" />
-                    <TextBlock FontWeight="DemiBold" Grid.Row="3" Text="Resource group" />
-                    <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding Path=Settings.ResourceGroupName}" />
-                    <TextBlock FontWeight="DemiBold" Margin="0,0,10,0" Grid.Row="4" Text="Automation account" />
-                    <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding Path=Settings.AutomationAccountName}" />
+                <TextBlock FontWeight="DemiBold" Grid.Row="1" Text="Tenant ID" />
+                <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Path=Settings.TenantId}" />
+                <TextBlock FontWeight="DemiBold" Grid.Row="2" Text="Subscription ID" />
+                <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Path=Settings.SubscriptionId}" />
+                <TextBlock FontWeight="DemiBold" Grid.Row="3" Text="Resource group" />
+                <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding Path=Settings.ResourceGroupName}" />
+                <TextBlock FontWeight="DemiBold" Margin="0,0,10,0" Grid.Row="4" Text="Automation account" />
+                <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding Path=Settings.AutomationAccountName}" />
 
-                    <StackPanel Margin="10,0,0,0" HorizontalAlignment="Right" x:Name="ButtonsPanel" Grid.Column="3" Grid.Row="1" Grid.RowSpan="6">
-                        <Button Content="Modify" Margin="0,0,0,6" />
-                        <Button Content="Disconnect" />
-                    </StackPanel>
+                <StackPanel Margin="10,0,0,0" HorizontalAlignment="Right" x:Name="ButtonsPanel" Grid.Column="3" Grid.Row="1" Grid.RowSpan="6">
+                    <Button Content="Modify" Width="80" Height="26" Margin="0,0,0,8" />
+                    <Button Content="Disconnect" Width="80" Height="26"/>
+                </StackPanel>
 
-                </Grid>
-            </Expander>
-
-            <Expander Margin="0,20,0,0" IsExpanded="True" Header="Settings" Visibility="{Binding Path=Settings.IsConfigured, Converter={StaticResource BoolToVisibilityConverter}}">
-                
-            </Expander>
-
-            <Border>
-                <TextBlock></TextBlock>
-            </Border>
-
+            </Grid>
         </StackPanel>
     </ScrollViewer>
 </Window>
