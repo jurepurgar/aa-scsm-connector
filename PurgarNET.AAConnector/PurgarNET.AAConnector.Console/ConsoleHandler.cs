@@ -16,9 +16,10 @@ namespace PurgarNET.AAConnector.Console
 {
     
 
-    public class ConsoleHandler : HandlerBase
+    public class ConsoleHandler : AAHandlerBase
     {
-
+        private static ConsoleHandler _current = null;
+        private static object _lck = new object();
         public AAClient AAClient
         {
             get
@@ -32,11 +33,16 @@ namespace PurgarNET.AAConnector.Console
         {
             get
             {
-                return (ConsoleHandler)GetCurrent(() => new ConsoleHandler());
+                lock (_lck)
+                {
+                    if (_current == null)
+                        _current = new ConsoleHandler();
+                }
+                return _current;
             }
         }
 
-        public bool Initialize(string serverName = null)
+        public new bool Initialize(string serverName = null)
         {
 
             if (string.IsNullOrEmpty(serverName)) 

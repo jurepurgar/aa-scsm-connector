@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EnterpriseManagement.UI.WpfWizardFramework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,21 +16,38 @@ using System.Windows.Shapes;
 namespace PurgarNET.AAConnector.Console
 {
     /// <summary>
-    /// Interaction logic for LoginWindow.xaml
+    /// Interaction logic for SettingsPage.xaml
     /// </summary>
-    public partial class SettingsWindow : Window
+    public partial class SettingsPage : WizardRegularPageBase
     {
-        public SettingsWindow()
+        /*public SettingsPage()
         {
             InitializeComponent();
+        } */
+
+        //private AdminSettingWizardData adminSettingWizardData = null;
+
+
+        public SettingsPage(WizardData wizardData)
+        {
+            InitializeComponent();
+
+//            this.DataContext = wizardData;
+//            this.adminSettingWizardData = this.DataContext as AdminSettingWizardData;
             ConfigHandler.Current.Initialize();
             DataContext = ConfigHandler.Current;
         }
 
-        private void Window_Loaded(object sender, RoutedEventArgs e)
+        
+        private void WizardRegularPageBase_Loaded(object sender, RoutedEventArgs e)
         {
             ConfigHandler.Current.Refresh();
 
         }
+
+
     }
+
+
+
 }

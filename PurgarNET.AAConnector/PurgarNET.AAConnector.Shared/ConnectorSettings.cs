@@ -12,6 +12,8 @@ namespace PurgarNET.AAConnector.Shared
         public string ResourceGroupName { get; set; }
         public string AutomationAccountName { get; set; }
         public Guid UserAppId { get; set; }
+        public DateTime LastChanged { get; set; }
+
 
         public bool IsConfigured
         {

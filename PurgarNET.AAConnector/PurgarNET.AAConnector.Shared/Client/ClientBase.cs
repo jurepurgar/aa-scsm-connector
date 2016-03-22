@@ -46,6 +46,8 @@ namespace PurgarNET.AAConnector.Shared.Client
             _tokenClient = new RestClient(Parameters.GetTokenUri());
             _tokenClient.AddDefaultHeader("Accept", "application/json;odata=verbose;charset=utf-8");
             _tokenClient.Encoding = Encoding.UTF8;
+
+            SimpleJson.CurrentJsonSerializerStrategy = new CamelJsonSerializerStrategy();
         }
 
         private string GetUrlEncodedResource(string resource)

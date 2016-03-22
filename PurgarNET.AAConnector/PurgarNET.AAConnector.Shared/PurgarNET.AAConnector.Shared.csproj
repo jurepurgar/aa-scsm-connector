@@ -59,10 +59,12 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AAHandlerBase.cs" />
     <Compile Include="AutomationClient\Models\HybridRunbookWorkerGroup.cs" />
     <Compile Include="AutomationClient\Models\Job.cs" />
     <Compile Include="AutomationClient\Models\Runbook.cs" />
     <Compile Include="AutomationClient\AAClient.cs" />
+    <Compile Include="CamelJsonSerializerStrategy.cs" />
     <Compile Include="Client\Exceptions.cs" />
     <Compile Include="Client\Models\ApiError.cs" />
     <Compile Include="Client\Models\ApiResponse.cs" />

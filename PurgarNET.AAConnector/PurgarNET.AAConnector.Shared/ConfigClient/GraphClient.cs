@@ -42,7 +42,12 @@ namespace PurgarNET.AAConnector.Shared.ConfigClient
             return resApp;
         }
 
-        public async Task<string> CreateApplicationCredentialAsync(Guid AppObjectId, Guid KeyId)
+        public async Task<Application> UpdateApplicationAsync(Application app)
+        {
+            return await SendAsync<Application>(_tenantId, Parameters.GRAPH_API_VERSION, $"/applications/{app.ObjectId}", RestSharp.Method.PATCH, app);
+        }
+
+      /*  public async Task<string> CreateApplicationCredentialAsync(Guid AppObjectId, Guid KeyId)
         {
             var app = new CredApplication()
             {
@@ -61,7 +66,7 @@ namespace PurgarNET.AAConnector.Shared.ConfigClient
             var res = await SendAsync<Application>(_tenantId, Parameters.GRAPH_API_VERSION, $"applications/{AppObjectId.ToString()}", RestSharp.Method.PATCH, app);
 
             return null;
-        }
+        }*/
 
     }
 }
