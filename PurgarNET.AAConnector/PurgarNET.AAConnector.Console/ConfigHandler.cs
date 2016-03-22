@@ -1,10 +1,14 @@
 ﻿using Microsoft.EnterpriseManagement;
 using PurgarNET.AAConnector.Shared;
+using PurgarNET.AAConnector.Shared.ConfigClient;
+using PurgarNET.AAConnector.Shared.ConfigClient.Models;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace PurgarNET.AAConnector.Console
 {
@@ -12,6 +16,19 @@ namespace PurgarNET.AAConnector.Console
     {
         private static ConfigHandler _current = null;
         private static object _lck = new object();
+        private ConfigClient _configClient = null;
+
+        public ConfigHandler()
+        {
+            _configClient = new ConfigClient();
+            _configClient.AuthorizationCodeRequired += _configClient_AuthorizationCodeRequired;
+        }
+
+        private void _configClient_AuthorizationCodeRequired(object sender, Shared.Client.AuthorizationCodeRequiredEventArgs e)
+        {
+            var code = LoginWindow.InitializeLogin(e.LoginUri);
+            e.Code = code;
+        }
 
         public static ConfigHandler Current
         {
@@ -28,14 +45,14 @@ namespace PurgarNET.AAConnector.Console
 
         public ConnectorSettings Settings { get; set; }
 
+        public List<AutomationAccountInfo> AvailableAutomationAccounts { get; set; }
+        
 
         public override void Initialize(Microsoft.EnterpriseManagement.EnterpriseManagementGroup emg)
         {
             base.Initialize(emg);
             _isInitialized = true;
         }
-
-
 
         public override void Initialize(string serverName = null)
         {
@@ -51,11 +68,16 @@ namespace PurgarNET.AAConnector.Console
         }
 
 
-        public void Refresh()
+        public void RefreshSettings()
         {
             Settings = GetSettings();
             NotifyPropertyChanged(nameof(Settings));
+        }
 
+        public async Task RefreshAccounts()
+        {
+            AvailableAutomationAccounts = (await _configClient.GetAutomationAccountsAsync()).ToList();
+            NotifyPropertyChanged(nameof(AvailableAutomationAccounts));
         }
 
         private void NotifyPropertyChanged(string propName)

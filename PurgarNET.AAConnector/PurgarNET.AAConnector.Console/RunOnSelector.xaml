@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:PurgarNET.AAConnector.Console"
         mc:Ignorable="d"
         Loaded="Window_Loaded"
-        Title="Select..." Width="250" Height="200" ShowInTaskbar="False" WindowStartupLocation="CenterOwner" Topmost="True" 
+        Title="Select..." Width="250" Height="150" ShowInTaskbar="False" WindowStartupLocation="CenterOwner" Topmost="True" 
         ResizeMode="NoResize" >
     <Window.Resources>
         <ResourceDictionary>
@@ -32,18 +32,24 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <ListView  ItemsSource="{Binding}" x:Name="RunOnsListView" MouseDoubleClick="RunOnsListView_MouseDoubleClick" SelectionChanged="RunOnsListView_SelectionChanged" >
+       <!-- <ListView  ItemsSource="{Binding}" x:Name="RunOnsListView" MouseDoubleClick="RunOnsListView_MouseDoubleClick" SelectionChanged="RunOnsListView_SelectionChanged" >
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
                     <Setter Property="Height" Value="25" />
                 </Style>
             </ListView.ItemContainerStyle>
-        </ListView>
+        </ListView>-->
+
+        <ComboBox 
+            ItemsSource="{Binding}" 
+            x:Name="RunOnsComboBox" 
+            SelectionChanged="RunOnsListView_SelectionChanged"
+            />
 
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,6,0,0">
 
-            <Button x:Name="OKButton" Height="24" Content="OK" Width="60" IsEnabled="False" HorizontalAlignment="Right" Margin="0,0,6,0" Click="OKButton_Click" />
-            <Button x:Name="CancelButton" Height="24" Content="Cancel" Width="60" HorizontalAlignment="Right" Click="CancelButton_Click" />
+            <Button x:Name="OKButton"  Height="24" Content="OK" Width="60" IsEnabled="False" HorizontalAlignment="Right" Margin="0,0,6,0" Click="OKButton_Click" />
+            <Button x:Name="CancelButton" Margin="0" Height="24" Content="Cancel" Width="60" HorizontalAlignment="Right" Click="CancelButton_Click" />
         </StackPanel>
     </Grid>
 

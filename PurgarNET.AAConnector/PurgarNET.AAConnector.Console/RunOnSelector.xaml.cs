@@ -24,12 +24,13 @@ namespace PurgarNET.AAConnector.Console
         private RunOnSelector()
         {
             InitializeComponent();
-            RunOnsListView.DataContext = this.RunOns;
+            RunOnsComboBox.DataContext = RunOns;
             ConsoleHandler.Current.Initialize();
         }
 
         private string _selectedRunOn = null;
         private ObservableCollection<string> RunOns = new ObservableCollection<string>();
+        private bool _allowDefault = false;
 
         private async void LoadRunOns()
         {
@@ -38,23 +39,34 @@ namespace PurgarNET.AAConnector.Console
             try
             {
                 var items = await ConsoleHandler.Current.AAClient.GetHybridRunbookWorkerGroupsAsync();
+                if (_allowDefault)
+                    RunOns.Add("Default");
                 RunOns.Add("Azure");
                 foreach (var i in items.OrderBy(x => x.Name))
                     RunOns.Add(i.Name);
+
+
+                var selected = RunOns.FirstOrDefault(x => x == _selectedRunOn);
+                if (!string.IsNullOrEmpty(selected))
+                    RunOnsComboBox.SelectedValue = selected;
+                else
+                    RunOnsComboBox.SelectedValue = RunOns.First();
             }
             catch (Exception err)
             {
                 MessageBox.Show("Unable to load runbooks because: " + err.Message);
 
             }
-
             this.IsEnabled = true;
         }
 
         
-        public static string SelectRunOn()
+        public static string SelectRunOn(string current, bool allowDefault)
         {
             var window = new RunOnSelector();
+            window._allowDefault = allowDefault;
+            window._selectedRunOn = current;
+            window.RunOnsComboBox.SelectedValue = current;
             window.ShowDialog();
             return window._selectedRunOn;
         }
@@ -79,21 +91,19 @@ namespace PurgarNET.AAConnector.Console
 
         private void ChooseRunbook()
         {
-            if (RunOnsListView.SelectedValue != null)
-            {
-                _selectedRunOn = ((string)RunOnsListView.SelectedValue);
-            }
+            if (RunOnsComboBox.SelectedValue != null)
+                _selectedRunOn = ((string)RunOnsComboBox.SelectedValue);
             Close();
         }
 
-        private void RunOnsListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+       /* private void RunOnsListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             ChooseRunbook();
-        }
+        } */
 
         private void RunOnsListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            OKButton.IsEnabled = (RunOnsListView.SelectedItem != null);  
+            OKButton.IsEnabled = (RunOnsComboBox.SelectedItem != null);  
         }
     }
 }

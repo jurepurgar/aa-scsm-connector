@@ -75,7 +75,7 @@ namespace PurgarNET.AAConnector.Console
 
         private void SelectRunOnButton_Click(object sender, RoutedEventArgs e)
         {
-            var r = RunOnSelector.SelectRunOn();
+            var r = RunOnSelector.SelectRunOn(RunOnTextBox.Text, true);
             if (r != null)
                 RunOnTextBox.Text = r;
         }

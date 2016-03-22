@@ -15,10 +15,6 @@ namespace PurgarNET.AAConnector.Shared.ConfigClient
         { }
 
 
-
-
-       
-
         public async Task<IEnumerable<AutomationAccountInfo>> GetAutomationAccountsAsync()
         {
             var list = new List<AutomationAccountInfo>();
@@ -39,6 +35,7 @@ namespace PurgarNET.AAConnector.Shared.ConfigClient
                             {
                                 TenantId = t.TenantId,
                                 SubscriptionId = s.SubscriptionId,
+                                SubscriptionName = s.DisplayName,
                                 ResourceGroupName = r.Name,
                                 AutomationAccountName = a.Name
                             });

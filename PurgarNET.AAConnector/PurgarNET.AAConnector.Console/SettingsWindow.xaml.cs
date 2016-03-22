@@ -28,8 +28,14 @@ namespace PurgarNET.AAConnector.Console
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            ConfigHandler.Current.Refresh();
+            ConfigHandler.Current.RefreshSettings();
 
+        }
+
+
+        private void Connect_Click(object sender, RoutedEventArgs e)
+        {
+            ConnectWindow.Connect();
         }
     }
 }

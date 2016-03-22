@@ -65,7 +65,7 @@
                 <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding Path=Settings.AutomationAccountName}" />
 
                 <StackPanel Margin="10,0,0,0" HorizontalAlignment="Right" x:Name="ButtonsPanel" Grid.Column="3" Grid.Row="1" Grid.RowSpan="6">
-                    <Button Content="Modify" Width="80" Height="26" Margin="0,0,0,8" />
+                    <Button Content="Modify" Width="80" Height="26" Margin="0,0,0,8" Click="Connect_Click" />
                     <Button Content="Disconnect" Width="80" Height="26"/>
                 </StackPanel>
 
