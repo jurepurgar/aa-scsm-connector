@@ -98,6 +98,7 @@
     <Compile Include="ConfigHandler.cs" />
     <Compile Include="ConsoleHandler.cs" />
     <Compile Include="Converters\BoolToBrushConverter.cs" />
+    <Compile Include="Converters\BoolToVisibilityReverseConverter.cs" />
     <Compile Include="Converters\ObjToBoolConverter.cs" />
     <Compile Include="Converters\RunbookTypeToStringConverter.cs" />
     <Compile Include="Converters\StringToBoolConverter.cs" />
@@ -105,9 +106,6 @@
     <Compile Include="Converters\StringToVisibilityConverter.cs" />
     <Compile Include="LoginWindow.xaml.cs">
       <DependentUpon>LoginWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="ConnectWindow.xaml.cs">
-      <DependentUpon>ConnectWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewSettingsTask.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -155,10 +153,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="RunbookActivityForm.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="ConnectWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

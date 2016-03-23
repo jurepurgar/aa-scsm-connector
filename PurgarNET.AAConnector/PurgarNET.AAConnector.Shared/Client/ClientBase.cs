@@ -158,8 +158,8 @@ namespace PurgarNET.AAConnector.Shared.Client
 
         public event EventHandler<AuthorizationCodeRequiredEventArgs> AuthorizationCodeRequired;
 
-        
-        protected async Task<T> SendAsync<T>(Guid tenantId, string apiVersion, string resource, Method method, object data = null) where T : new()
+
+        private async Task<RestRequest> CreateRequestAsync(Guid tenantId, string apiVersion, string resource, Method method, object data = null)
         {
             var token = await AcquireTokenAsync(tenantId);
             var req = new RestRequest(resource, method);
@@ -167,10 +167,28 @@ namespace PurgarNET.AAConnector.Shared.Client
             req.AddParameter("api-version", apiVersion, ParameterType.QueryString);
             if (data != null)
                 req.AddJsonBody(data);
+            return req;
+        }
 
+        private void CheckResponse(IRestResponse response)
+        {
+            if ((int)response.StatusCode >= 400)
+                throw new HttpException(response.StatusCode, $"Http error ({((int)response.StatusCode).ToString()} - {response.StatusCode.ToString()}): {response.Content}");
+        }
+
+        protected async Task<T> SendAsync<T>(Guid tenantId, string apiVersion, string resource, Method method, object data = null) where T : new()
+        {
+            var req = await CreateRequestAsync(tenantId, apiVersion, resource, method, data);
             var res = await _client.GetResponseAsync<T>(req); // TODO: handle other type of errors, like no internet, etc...
-
+            CheckResponse(res);
             return res.Data;
+        }
+
+        protected async Task SendAsync(Guid tenantId, string apiVersion, string resource, Method method, object data = null)
+        {
+            var req = await CreateRequestAsync(tenantId, apiVersion, resource, method, data);
+            var res = await _client.GetResponseAsync(req); // TODO: handle other type of errors, like no internet, etc...
+            CheckResponse(res);
         }
 
         protected async Task<T> GetAsync<T>(Guid tenantId, string apiVersion, string resource) where T : new()

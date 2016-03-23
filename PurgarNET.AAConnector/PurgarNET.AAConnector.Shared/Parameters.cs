@@ -23,16 +23,21 @@ namespace PurgarNET.AAConnector.Shared
         internal static string GRAPH_RESOURCE = "https://graph.windows.net/";
 
         internal static Uri AACONNECTOR_APP_URI = new Uri("http://AzureAutomation.ConnectorForSCSM.local/");
+        internal static string AACONNECTOR_APP_DISPLAYNAME = "Azure Automation Connector for Service Manager";
 
         public static Guid CLIENT_ID = new Guid("9baae959-debc-4bf2-8343-fc6efabe9d00"); //PurgarNET
 
         //public static Guid CLIENT_ID = new Guid("71daa18d-2e2a-4417-8903-b084e0d7ae44");
         //public static Guid CLIENT_ID = new Guid("1950a258-227b-4e31-a9cf-717495945fc2"); //PowerSHell
 
-        
+
+        public static string SECURE_REFERENCE_NAME = "PurgarNET.AAConnector.ConnectorCredential";
+        public static string SECURE_REFERENCE_OVERRIDE_NAME = $"{SECURE_REFERENCE_NAME}.Override";
 
 
-
+        public static string CONFIGMP_NAME = "PurgarNET.AAConnector.Configuration";
+        public static string CONFIGMP_DISPLAYNAME = "PurgarNET Azure Automation Connector Configuration";
+        public static Version CONFIGMP_VERSION = new Version(1, 0);
 
 
         internal static string USER_LOGIN_URL = "https://login.windows.net/{0}/oauth2/authorize?resource={1}&client_id={2}&response_type=code&redirect_uri={3}&display=popup&site_id=501358";

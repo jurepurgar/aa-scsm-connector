@@ -19,7 +19,7 @@ namespace PurgarNET.AAConnector.Console
                 var item = ConsoleHandler.Current.GetFormDataContext(nodes);
 
                 if ((bool)item["$IsNew$"])
-                    System.Windows.MessageBox.Show("You cannot star runbook from template!");
+                    System.Windows.MessageBox.Show("You cannot start runbook from template!");
                 else
                 { 
                     var res = System.Windows.MessageBox.Show("Make sure the changes you've made are commited before starting runbook. Please note that execution of this job will not be tracked. Do you still want to start runbook?", "Warning!", System.Windows.MessageBoxButton.YesNo, System.Windows.MessageBoxImage.Warning);

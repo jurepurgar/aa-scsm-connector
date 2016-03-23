@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PurgarNET.AAConnector.Shared.ConfigClient.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -26,16 +27,54 @@ namespace PurgarNET.AAConnector.Console
             DataContext = ConfigHandler.Current;
         }
 
+        private void TogglePanel(StackPanel panel)
+        {
+            ProgressPanel.Visibility = Visibility.Collapsed;
+            MainPanel.Visibility = Visibility.Collapsed;
+            ConnectPanel.Visibility = Visibility.Collapsed;
+            panel.Visibility = Visibility.Visible;
+        }
+
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             ConfigHandler.Current.RefreshSettings();
-
+            TogglePanel(MainPanel);
         }
 
-
-        private void Connect_Click(object sender, RoutedEventArgs e)
+        private async void DisconnectButton_Click(object sender, RoutedEventArgs e)
         {
-            ConnectWindow.Connect();
+            TogglePanel(ProgressPanel);
+            await ConfigHandler.Current.Disconnect();
+            ConfigHandler.Current.RefreshSettings();
+            TogglePanel(MainPanel);
         }
+
+        private async void ConnectButton_Click(object sender, RoutedEventArgs e)
+        {
+            TogglePanel(ProgressPanel);
+            await ConfigHandler.Current.RefreshAccounts();
+            TogglePanel(ConnectPanel);
+        }
+
+        private void ConnectCancelButton_Click(object sender, RoutedEventArgs e)
+        {
+            TogglePanel(MainPanel);
+        }
+
+        private async void ConnectCommitButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (AutomationAccountsComboBox.SelectedItem == null) return;
+            TogglePanel(ProgressPanel);
+            var ok = await ConfigHandler.Current.Connect((AutomationAccountInfo)AutomationAccountsComboBox.SelectedItem, new TimeSpan(365, 0, 0, 0)); //TODO: get real validity
+
+            if (ok)
+            {
+                ConfigHandler.Current.RefreshSettings();
+                TogglePanel(MainPanel);
+            }
+            else
+                TogglePanel(ConnectPanel);
+        }
+
     }
 }
