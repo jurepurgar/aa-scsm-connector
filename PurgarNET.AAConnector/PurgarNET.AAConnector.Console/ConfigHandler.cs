@@ -21,6 +21,28 @@ namespace PurgarNET.AAConnector.Console
         private static object _lck = new object();
         private ConfigClient _configClient = null;
 
+        public List<string> ValidityPeriods { get; private set; } = new List<string>()
+        {
+            "1 month",
+            "2 months",
+            "1 year",
+            "2 years",
+            "3 years",
+            "5 years",
+            "10 years"
+        };
+
+
+        public static TimeSpan ValidityToTimeSpan(string validity)
+        {
+            var arr = validity.Split(' ');
+            var days = Convert.ToInt32(arr[0]);
+            if (arr[1].StartsWith("month"))
+                days *= 30;
+            else days *= 365;
+            return new TimeSpan(days, 0, 0, 0);
+        }
+
         public ConfigHandler()
         {
             _configClient = new ConfigClient();
@@ -90,58 +112,111 @@ namespace PurgarNET.AAConnector.Console
 
         public void RefreshSettings()
         {
-            Settings = GetSettings();
+            Settings = GetSettings(true);
             NotifyPropertyChanged(nameof(Settings));
+        }
+
+        private void ShowError(Exception e)
+        {
+            MessageBox.Show($"Error occured: {e.Message}", "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
         public async Task RefreshAccounts()
         {
-            ProgressStatus = "Searching Azure Automation accounts...";
-            AvailableAutomationAccounts = (await _configClient.GetAutomationAccountsAsync()).ToList();
-            NotifyPropertyChanged(nameof(AvailableAutomationAccounts));
+            try
+            {
+                ProgressStatus = "Searching Azure Automation accounts...";
+                AvailableAutomationAccounts = (await _configClient.GetAutomationAccountsAsync()).ToList();
+                NotifyPropertyChanged(nameof(AvailableAutomationAccounts));
+                if (AvailableAutomationAccounts.Count <= 0)
+                    ShowError(new Exception("No automation accounts were found! Make sure you have one created or login with different account."));
+            }
+            catch (Exception e)
+            {
+                ShowError(e);
+            }
         }
 
         public async Task<bool> Connect(AutomationAccountInfo accountInfo, TimeSpan credValidity)
         {
-            ProgressStatus = "Configuring...";
-            var mp = AssureConfigManagementPack();
-            var client = new GraphClient(accountInfo.TenantId);
-            client.AuthorizationCodeRequired += client_AuthorizationCodeRequired;
+            try
+            {
+                ProgressStatus = "Configuring...";
+                var mp = AssureConfigManagementPack();
+                var client = new GraphClient(accountInfo.TenantId);
+                client.AuthorizationCodeRequired += client_AuthorizationCodeRequired;
 
-            var app = await AssureAzureAdAppAndPrincipal(client, accountInfo.TenantId);
+                ProgressStatus = "Configuring service principal...";
+                var app = await AssureAzureAdAppAndPrincipal(client, accountInfo.TenantId);
 
-            if (app == null) return false;
+                if (app == null) return false;
+                await RenewServiceCredential(client, mp, app, credValidity);
 
-            await RenewServiceCredential(client, mp, app, credValidity);
+                ProgressStatus = "Setting service principal permissions...";
+                await _configClient.SetServicePrincipalPermission(accountInfo, app.AppId);
 
-            return true;
+                ProgressStatus = "Saving changes...";
+                Settings.TenantId = accountInfo.TenantId;
+                Settings.SubscriptionId = accountInfo.SubscriptionId;
+                Settings.ResourceGroupName = accountInfo.ResourceGroupName;
+                Settings.AutomationAccountName = accountInfo.AutomationAccountName;
+                SaveSettings(Settings);
+                RefreshSettings();
+                return true;
+            }
+            catch (Exception e)
+            {
+                ShowError(e);
+                return false;
+            }
         }
-
-        
 
         public async Task Disconnect()
         {
-            var res = MessageBox.Show("Are you sure you want to disconnect?", "Please confirm", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
-            if (res != MessageBoxResult.OK) return;
+            try
+            {
+                var res = MessageBox.Show("Are you sure you want to disconnect?", "Please confirm", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
+                if (res != MessageBoxResult.OK) return;
 
-            var r = MessageBox.Show("Do you also want to delete application in Azure AD? If you have other management groups connected to the same tenant this will break the connection", "Delete application", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                var r = MessageBox.Show("Do you also want to delete application in Azure AD? If you have other management groups connected to the same tenant this will break the connection", "Delete application", MessageBoxButton.YesNo, MessageBoxImage.Question);
 
-            ProgressStatus = "Removing configuration...";
-            var mp = AssureConfigManagementPack();
-            var client = new GraphClient(Settings.TenantId);
-            client.AuthorizationCodeRequired += client_AuthorizationCodeRequired;
+                ProgressStatus = "Removing configuration...";
+                var mp = AssureConfigManagementPack();
+                var client = new GraphClient(Settings.TenantId);
+                client.AuthorizationCodeRequired += client_AuthorizationCodeRequired;
 
-            await RemoveServiceCredential(client, mp);
+                await RemoveServiceCredential(client, mp);
 
-            if (r == MessageBoxResult.Yes)
-                await client.DeleteServicePrincipalAndApplicationAsync();
-            ClearSettings();
-            RefreshSettings();
+                if (r == MessageBoxResult.Yes)
+                    await client.DeleteServicePrincipalAndApplicationAsync();
+                ClearSettings();
+                RefreshSettings();
+            }
+            catch (Exception e)
+            {
+                ShowError(e);
+            }
         }
 
-        public async Task RenewServiceCredential()
+        public async Task RenewServiceCredential(TimeSpan credValidity)
         {
-            //to be called from form
+            try
+            {
+                ProgressStatus = "Renewing workflow credentials...";
+                var mp = AssureConfigManagementPack();
+                var client = new GraphClient(Settings.TenantId);
+                client.AuthorizationCodeRequired += client_AuthorizationCodeRequired;
+
+                var app = await AssureAzureAdAppAndPrincipal(client, Settings.TenantId);
+                if (app == null) return;
+                await RenewServiceCredential(client, mp, app, credValidity);
+                SaveSettings(Settings);
+                RefreshSettings();
+            }
+            catch (Exception e)
+            {
+                ShowError(e);
+            }
         }
 
         private async Task RenewServiceCredential(GraphClient cl, ManagementPack configMp, AdApplication app, TimeSpan credValidity)
@@ -157,15 +232,16 @@ namespace PurgarNET.AAConnector.Console
                 await cl.UpdateApplicationAsync(app);
             }
 
-            //TODO: generate secure password
             var pass = RandomString();
             var securePass = new System.Security.SecureString();
             foreach (char c in pass)
                 securePass.AppendChar(c);
 
+            var endDate = DateTime.UtcNow + credValidity;
+
             app.PasswordCredentials.Add(new PasswordCredential()
             {
-                EndDate = DateTime.UtcNow + credValidity,
+                EndDate = endDate,
                 StartDate = DateTime.UtcNow,
                 KeyId = Guid.NewGuid(),
                 Value = pass,
@@ -200,7 +276,10 @@ namespace PurgarNET.AAConnector.Console
             secRefOverride.Value = BitConverter.ToString(secData.SecureStorageId, 0, secData.SecureStorageId.Length).Replace("-", "");
 
             secRefOverride.GetManagementPack().AcceptChanges();
+
+            Settings.CredentialExpirationDate = endDate;
         }
+
 
         private string RandomString(int length = 30)
         {   

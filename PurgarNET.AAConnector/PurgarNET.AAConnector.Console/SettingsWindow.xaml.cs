@@ -32,6 +32,8 @@ namespace PurgarNET.AAConnector.Console
             ProgressPanel.Visibility = Visibility.Collapsed;
             MainPanel.Visibility = Visibility.Collapsed;
             ConnectPanel.Visibility = Visibility.Collapsed;
+            RenewPanel.Visibility = Visibility.Collapsed;
+
             panel.Visibility = Visibility.Visible;
         }
 
@@ -56,16 +58,17 @@ namespace PurgarNET.AAConnector.Console
             TogglePanel(ConnectPanel);
         }
 
-        private void ConnectCancelButton_Click(object sender, RoutedEventArgs e)
+        private void RenewButton_Click(object sender, RoutedEventArgs e)
         {
-            TogglePanel(MainPanel);
+            TogglePanel(RenewPanel);
         }
 
         private async void ConnectCommitButton_Click(object sender, RoutedEventArgs e)
         {
             if (AutomationAccountsComboBox.SelectedItem == null) return;
+            var validity = ConfigHandler.ValidityToTimeSpan((string)RenewValidityComboBox.SelectedValue);
             TogglePanel(ProgressPanel);
-            var ok = await ConfigHandler.Current.Connect((AutomationAccountInfo)AutomationAccountsComboBox.SelectedItem, new TimeSpan(365, 0, 0, 0)); //TODO: get real validity
+            var ok = await ConfigHandler.Current.Connect((AutomationAccountInfo)AutomationAccountsComboBox.SelectedItem, validity);
 
             if (ok)
             {
@@ -76,5 +79,17 @@ namespace PurgarNET.AAConnector.Console
                 TogglePanel(ConnectPanel);
         }
 
+        private async void RenewCommitButton_Click(object sender, RoutedEventArgs e)
+        {
+            TogglePanel(ProgressPanel);
+            var validity = ConfigHandler.ValidityToTimeSpan((string)RenewValidityComboBox.SelectedValue);
+            await ConfigHandler.Current.RenewServiceCredential(validity);
+            TogglePanel(MainPanel);
+        }
+
+        private void CancelButton_Click(object sender, RoutedEventArgs e)
+        {
+            TogglePanel(MainPanel);
+        }
     }
 }

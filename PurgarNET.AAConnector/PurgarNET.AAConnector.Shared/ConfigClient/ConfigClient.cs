@@ -45,5 +45,11 @@ namespace PurgarNET.AAConnector.Shared.ConfigClient
             }
             return list;
         }
+
+        public async Task SetServicePrincipalPermission(AutomationAccountInfo account, Guid principalId)
+        {
+            //await SendAsync();
+            throw new NotImplementedException("Implement this!!!");
+        }
     }
 }

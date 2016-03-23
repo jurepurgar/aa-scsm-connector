@@ -10,7 +10,7 @@
     xmlns:toolkit="clr-namespace:Microsoft.Windows.Controls;assembly=wpfToolKit"
     mc:Ignorable="d" 
     d:DesignHeight="450" d:DesignWidth="450" WindowStartupLocation="CenterOwner" Title="Azure Automation Connector Settings" 
-    Width="500" Height="450"
+    Width="520" Height="450"
     Topmost="False"
     Loaded="Window_Loaded" ShowInTaskbar="True"
     ResizeMode="NoResize" 
@@ -43,20 +43,46 @@
 
             </StackPanel>
 
-            <StackPanel x:Name="ConnectPanel" Margin="20" VerticalAlignment="Center" Visibility="Collapsed">
+            <StackPanel x:Name="ConnectPanel" Margin="20" VerticalAlignment="Center" Visibility="Visible">
+                <TextBlock Text="Select automation account:" />
                 <ComboBox 
+                    Margin="0,6,0,12"
                     ItemsSource="{Binding Path=AvailableAutomationAccounts}" 
                     x:Name="AutomationAccountsComboBox" 
                     DisplayMemberPath="DisplayName"
+                    SelectedIndex="0"
+                    />
+
+                <TextBlock Text="Workflow ServicePrincipal credential validity:" />
+                <ComboBox 
+                    Margin="0,6,0,12"
+                    ItemsSource="{Binding Path=ValidityPeriods}" 
+                    x:Name="ValidityComboBox"
+                    SelectedIndex="0"
                     />
 
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,20,0,0">
                     <Button x:Name="ConnectCommitButton" Content="Connect" Click="ConnectCommitButton_Click" IsEnabled="{Binding ElementName=AutomationAccountsComboBox, Path=SelectedItem, Converter={StaticResource ObjToBoolConverter}}" />
-                    <Button x:Name="ConnectCancelButton" Content="Cancel" Click="ConnectCancelButton_Click" />
+                    <Button x:Name="ConnectCancelButton" Content="Cancel" Click="CancelButton_Click" />
                 </StackPanel>
             </StackPanel>
-            
-            <StackPanel x:Name="MainPanel" Visibility="Collapsed">
+
+            <StackPanel x:Name="RenewPanel" Margin="20" VerticalAlignment="Center" Visibility="Visible">
+                <TextBlock Text="Workflow ServicePrincipal credential validity:" />
+                <ComboBox 
+                    Margin="0,6,0,12"
+                    ItemsSource="{Binding Path=ValidityPeriods}" 
+                    x:Name="RenewValidityComboBox"
+                    SelectedIndex="0"
+                    />
+
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,20,0,0">
+                    <Button x:Name="RenewCommitButton" Content="Renew" Click="RenewCommitButton_Click"  />
+                    <Button x:Name="RenewCancelButton" Content="Cancel" Click="CancelButton_Click" />
+                </StackPanel>
+            </StackPanel>
+
+            <StackPanel x:Name="MainPanel" Visibility="Visible">
                 <Grid>
                     <Rectangle Grid.ColumnSpan="2" x:Name="imgSuperGridBrand" Fill="{StaticResource SettingsBannerBrush}" />
                     <TextBlock FontSize="20" Foreground="DarkBlue" Text="Azure Automation Connector Settings" Margin="10,10,0,14" />
@@ -69,6 +95,11 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
@@ -76,26 +107,37 @@
                         <ColumnDefinition Width="*"  />
                     </Grid.ColumnDefinitions>
 
-                    <TextBlock Grid.ColumnSpan="2" Margin="0,0,0,6" Text="Currently connected to:" />
-
-                    <TextBlock FontWeight="DemiBold" Grid.Row="1" Text="Tenant ID" />
+                    <TextBlock Margin="0,0,0,10" Grid.ColumnSpan="2" Text="Azure Automation account:" FontWeight="Bold" />
+                    
+                    <TextBlock FontWeight="DemiBold" Margin="0,0,10,0" Grid.Row="1" Text="Tenant ID" />
                     <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Path=Settings.TenantId}" />
-                    <TextBlock FontWeight="DemiBold" Grid.Row="2" Text="Subscription ID" />
+                    <TextBlock FontWeight="DemiBold" Margin="0,0,10,0" Grid.Row="2" Text="Subscription ID" />
                     <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Path=Settings.SubscriptionId}" />
-                    <TextBlock FontWeight="DemiBold" Grid.Row="3" Text="Resource group" />
+                    <TextBlock FontWeight="DemiBold" Margin="0,0,10,0" Grid.Row="3" Text="Resource group" />
                     <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding Path=Settings.ResourceGroupName}" />
                     <TextBlock FontWeight="DemiBold" Margin="0,0,10,0" Grid.Row="4" Text="Automation account" />
                     <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding Path=Settings.AutomationAccountName}" />
 
                     <StackPanel Margin="10,0,0,0" HorizontalAlignment="Right" x:Name="ButtonsPanel" Grid.Column="3" Grid.Row="1" Grid.RowSpan="6">
-                        <Button x:Name="ModifyConnectionButton" Content="Modify" Width="80" Height="26" Margin="0,0,0,8" Click="ConnectButton_Click"  />
-                        <Button x:Name="DisconnectButton" Content="Disconnect" Width="80" Height="26" Click="DisconnectButton_Click"/>
+                        <Button x:Name="ModifyConnectionButton" Content="Modify" Width="70" Height="26" Margin="0,0,0,8" Click="ConnectButton_Click"  />
+                        <Button x:Name="DisconnectButton" Content="Disconnect" Width="70" Height="26" Click="DisconnectButton_Click"/>
                     </StackPanel>
+
+                    <TextBlock Margin="0,40,0,10" Grid.Row="6" Grid.ColumnSpan="2" Text="Workflow AzureAD ServicePrincipal credential:" FontWeight="Bold" />
+
+                    <TextBlock FontWeight="DemiBold" Margin="0,0,10,0" Grid.Row="7" Text="AzureAD App ID" />
+                    <TextBlock Grid.Row="7" Grid.Column="1" Text="{Binding Path=Settings.WorkflowAppId}" />
+                    <TextBlock FontWeight="DemiBold" Margin="0,0,10,0" Grid.Row="8" Text="Expiration date" />
+                    <TextBlock Grid.Row="8" Grid.Column="1" Text="{Binding Path=Settings.CredentialExpirationDate}" />
+
+                    <Button 
+                        x:Name="RenewCredentialButton" Content="Renew" Width="70" Height="26" Click="RenewButton_Click" 
+                        HorizontalAlignment="Right" Grid.Column="3" Grid.Row="7" Grid.RowSpan="2"/>
 
                 </Grid>
 
                 <Grid Margin="30"  Visibility="{Binding Path=Settings.IsConfigured, Converter={StaticResource BoolToVisibilityReverseConverter}}">
-                    <TextBlock Grid.ColumnSpan="2" Margin="0,0,0,6" Text="You are not connected!" />
+                    <TextBlock Grid.ColumnSpan="2" Margin="0,0,0,6" Text="Sevice Manage is not connected to Azure Automation account!" />
                     <!-- TODO: write more text -->
                     <Button HorizontalAlignment="Left" x:Name="ConnectButton" Content="Connect" Width="80" Height="26" Margin="0,30,0,8" Click="ConnectButton_Click"  />
                 </Grid>
