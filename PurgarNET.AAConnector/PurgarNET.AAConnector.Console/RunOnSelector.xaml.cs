@@ -96,11 +96,6 @@ namespace PurgarNET.AAConnector.Console
             Close();
         }
 
-       /* private void RunOnsListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            ChooseRunbook();
-        } */
-
         private void RunOnsListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             OKButton.IsEnabled = (RunOnsComboBox.SelectedItem != null);  

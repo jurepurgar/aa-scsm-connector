@@ -25,8 +25,8 @@ namespace PurgarNET.AAConnector.Workflows
 
         public void MonitorJobsCodeActivity_ExecuteCode(object sender, EventArgs e)
         {
-       /*     if (WorkflowHandler.Current.Initialize(ClientId, ClientSecret))
-                WorkflowHandler.Current.ProcessActivities(); */
+            if (WorkflowHandler.Current.Initialize(ClientId, ClientSecret))
+                WorkflowHandler.Current.ProcessActivities(); 
         }
 
     }

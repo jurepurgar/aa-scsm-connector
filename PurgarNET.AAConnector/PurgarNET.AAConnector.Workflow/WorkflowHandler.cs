@@ -60,8 +60,6 @@ namespace PurgarNET.AAConnector.Workflows
             Task.WaitAll(tasks.ToArray()); 
         }
 
-
-          
         public void StartRunbook(Guid activityId)
         {
             CheckInitialized();

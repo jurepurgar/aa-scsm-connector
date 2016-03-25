@@ -116,6 +116,12 @@ namespace PurgarNET.AAConnector.Console
             NotifyPropertyChanged(nameof(Settings));
         }
 
+        public void CommitSettings()
+        {
+            SaveSettings(Settings);
+            RefreshSettings();
+        }
+
         private void ShowError(Exception e)
         {
             MessageBox.Show($"Error occured: {e.Message}", "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -161,8 +167,10 @@ namespace PurgarNET.AAConnector.Console
                 Settings.SubscriptionId = accountInfo.SubscriptionId;
                 Settings.ResourceGroupName = accountInfo.ResourceGroupName;
                 Settings.AutomationAccountName = accountInfo.AutomationAccountName;
-                SaveSettings(Settings);
-                RefreshSettings();
+                if (string.IsNullOrEmpty(Settings.DefaultRunOn))
+                    Settings.DefaultRunOn = "Azure";
+                //EnableWorkflows();
+                CommitSettings();
                 return true;
             }
             catch (Exception e)
@@ -190,6 +198,8 @@ namespace PurgarNET.AAConnector.Console
 
                 if (r == MessageBoxResult.Yes)
                     await client.DeleteServicePrincipalAndApplicationAsync();
+
+                //DisableWorkflows();
                 ClearSettings();
                 RefreshSettings();
             }
@@ -211,8 +221,7 @@ namespace PurgarNET.AAConnector.Console
                 var app = await AssureAzureAdAppAndPrincipal(client, Settings.TenantId);
                 if (app == null) return;
                 await RenewServiceCredential(client, mp, app, credValidity);
-                SaveSettings(Settings);
-                RefreshSettings();
+                CommitSettings();
             }
             catch (Exception e)
             {
@@ -313,6 +322,50 @@ namespace PurgarNET.AAConnector.Console
             }
         }
 
+        /*
+        public void DisableWorkflows()
+        {
+            var mp = AssureConfigManagementPack();
+            DisableWorkflow(mp, Parameters.WORKFLOW_NAME_MONITORJOBS);
+            DisableWorkflow(mp, Parameters.WORKFLOW_NAME_STARTRUNBOOK);
+            mp.AcceptChanges();
+        }
+
+        public void DisableWorkflow(ManagementPack mp, string ruleName)
+        {
+            var overrideName = $"{ruleName}.Override";
+            var ruleOverride = (ManagementPackRulePropertyOverride)_emg.Overrides.GetOverrides(new ManagementPackOverrideCriteria($"Name = '{overrideName}'")).FirstOrDefault();
+            if (ruleOverride != null)
+                ruleOverride.Status = ManagementPackElementStatus.PendingDelete;
+        }
+
+        public void EnableWorkflows()
+        {
+            var mp = AssureConfigManagementPack();
+            EnableWorkflow(mp, Parameters.WORKFLOW_NAME_MONITORJOBS);
+            EnableWorkflow(mp, Parameters.WORKFLOW_NAME_STARTRUNBOOK);
+            mp.AcceptChanges();
+        }
+
+        public void EnableWorkflow(ManagementPack mp, string ruleName)
+        {
+            var rule = _emg.Monitoring.GetRules(new ManagementPackRuleCriteria($"Name = '{ruleName}'")).FirstOrDefault();
+            var overrideName = $"{ruleName}.Override";
+
+            var ruleOverride = (ManagementPackRulePropertyOverride)_emg.Overrides.GetOverrides(new ManagementPackOverrideCriteria($"Name = '{overrideName}'")).FirstOrDefault();
+
+            if (ruleOverride == null)
+                ruleOverride = new ManagementPackRulePropertyOverride(mp, overrideName);
+            
+            ruleOverride.Rule = rule;
+            ruleOverride.Property = ManagementPackWorkflowProperty.Enabled;
+            ruleOverride.Value = "true";
+            ruleOverride.Context = EntityClass;
+            ruleOverride.Enforced = true;
+            ruleOverride.DisplayName = $"Enable {ruleName}";
+        }
+        */
+
         public ManagementPack AssureConfigManagementPack()
         {
             var mp = _emg.ManagementPacks.GetManagementPacks(new ManagementPackCriteria($"Name = '{Parameters.CONFIGMP_NAME}'")).FirstOrDefault();
@@ -343,7 +396,11 @@ namespace PurgarNET.AAConnector.Console
                     if (app == null)
                         app = await cl.CreateApplicationAsync();
                     if (principal == null)
+                    {
                         principal = await cl.CreateServicePrincipalAsync(app.AppId);
+                        await Task.Factory.StartNew(() => System.Threading.Thread.Sleep(30)); //sleep for 30 secconds so principal is available
+                    }
+                    
                 }
                 else
                     return null;

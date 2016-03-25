@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:PurgarNET.AAConnector.TestApp"
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
-    <Grid>
-        <Button Name="LoginButton" Content="Login" Click="LoginButton_Click"  />
-    </Grid>
+    <StackPanel >
+        <Button Height="80" Name="LoginButton" Content="Login" Click="LoginButton_Click"  />
+        <Button Height="80" Name="Workflow" Content="Workflow" Click="WorkflowButton_Click"  />
+    </StackPanel>
 </Window>

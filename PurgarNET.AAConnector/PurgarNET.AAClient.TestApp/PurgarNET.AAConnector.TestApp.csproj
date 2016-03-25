@@ -134,6 +134,10 @@
       <Project>{c023ea8d-d9ec-4a7e-a877-def4b9ed345c}</Project>
       <Name>PurgarNET.AAConnector.Shared</Name>
     </ProjectReference>
+    <ProjectReference Include="..\PurgarNET.AAConnector.Workflow\PurgarNET.AAConnector.Workflows.csproj">
+      <Project>{2e442f44-c726-4174-9353-47c773688059}</Project>
+      <Name>PurgarNET.AAConnector.Workflows</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />

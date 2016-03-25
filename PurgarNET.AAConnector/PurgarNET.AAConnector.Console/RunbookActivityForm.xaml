@@ -76,7 +76,7 @@
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
 
-                        <CheckBox Margin="0,0,14,-8" Content="Ready for automation" IsChecked="{Binding IsReadyForAutomation, Mode=OneWay}" HorizontalAlignment="Right" Grid.ColumnSpan="2" />
+                        <CheckBox Margin="0,0,14,-8" Content="Ready for automation" IsChecked="{Binding IsReadyForAutomation, Mode=TwoWay}" HorizontalAlignment="Right" Grid.ColumnSpan="2" />
 
                         <StackPanel Grid.Row="1" Style="{StaticResource InputPanelStyle}" Grid.ColumnSpan="2">
                             <Label Content="Title:" />

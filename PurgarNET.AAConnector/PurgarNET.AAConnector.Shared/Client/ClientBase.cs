@@ -15,7 +15,6 @@ namespace PurgarNET.AAConnector.Shared.Client
     public abstract class ClientBase
     {
         private RestClient _client = null;
-        private RestClient _tokenClient = null;
         private string _clientSecret = null;
         protected Guid _clientId = Guid.Empty;
         //protected Guid _tenantId = default(Guid);
@@ -41,11 +40,6 @@ namespace PurgarNET.AAConnector.Shared.Client
             _client = new RestClient(uri);
             _client.AddDefaultHeader("Accept", "application/json");
                        
-
-            //init the tokenClient
-            _tokenClient = new RestClient(Parameters.GetTokenUri());
-            _tokenClient.AddDefaultHeader("Accept", "application/json;odata=verbose;charset=utf-8");
-            _tokenClient.Encoding = Encoding.UTF8;
 
             SimpleJson.CurrentJsonSerializerStrategy = new CamelJsonSerializerStrategy();
         }
@@ -85,7 +79,7 @@ namespace PurgarNET.AAConnector.Shared.Client
                         var refreshReq = new RestRequest(Method.POST);
                         refreshReq.AddParameter("grant_type", "refresh_token");
                         refreshReq.AddParameter("refresh_token", refreshToken.RefreshToken);
-                        token = await AcquireTokenByRequestAsync(refreshReq);
+                        token = await AcquireTokenByRequestAsync(tenantId, refreshReq);
                     }
                 }
                 catch { }
@@ -94,7 +88,7 @@ namespace PurgarNET.AAConnector.Shared.Client
             { 
                 var req = new RestRequest(Method.POST);
                 AddTokenRequestParameters(req, tenantId);
-                token = await AcquireTokenByRequestAsync(req);
+                token = await AcquireTokenByRequestAsync(tenantId, req);
             }
 
 
@@ -111,11 +105,15 @@ namespace PurgarNET.AAConnector.Shared.Client
 
         }
 
-        private async Task<Token> AcquireTokenByRequestAsync(RestRequest request)
+        private async Task<Token> AcquireTokenByRequestAsync(Guid tenantId, RestRequest request)
         {
             request.AddParameter("resource", _resource);
 
-            var res = await _tokenClient.GetResponseAsync<Token>(request);
+            var tokenClient = new RestClient(Parameters.GetTokenUri(tenantId));
+            tokenClient.AddDefaultHeader("Accept", "application/json;odata=verbose;charset=utf-8");
+            tokenClient.Encoding = Encoding.UTF8;
+
+            var res = await tokenClient.GetResponseAsync<Token>(request);
             CheckResponse(res);
             return res.Data;
            

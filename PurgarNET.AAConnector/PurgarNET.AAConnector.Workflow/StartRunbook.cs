@@ -27,10 +27,10 @@ namespace PurgarNET.AAConnector.Workflows
 
         public void StartRunbookCodeActivity_ExecuteCode(object sender, EventArgs e)
         {
-      /*      if (WorkflowHandler.Current.Initialize(ClientId, ClientSecret))
+            if (WorkflowHandler.Current.Initialize(ClientId, ClientSecret))
             {
                 WorkflowHandler.Current.StartRunbook(ActivityId);
-            }*/
+            }
         }
     }
 }

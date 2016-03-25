@@ -37,13 +37,14 @@
 
     <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
         <Grid>
-            <StackPanel x:Name="ProgressPanel" VerticalAlignment="Center">
+            <StackPanel x:Name="ProgressPanel" VerticalAlignment="Center" Visibility="Collapsed">
                 <ProgressBar IsIndeterminate="True" Height="16" Width="220" />
                 <TextBlock Margin="0,10,0,0" x:Name="ProgressTextBlock" Text="{Binding Path=ProgressStatus}" HorizontalAlignment="Center" />
 
             </StackPanel>
 
-            <StackPanel x:Name="ConnectPanel" Margin="20" VerticalAlignment="Center" Visibility="Visible">
+            <!-- connect panel -->
+            <StackPanel x:Name="ConnectPanel" Margin="20" VerticalAlignment="Center" Visibility="Collapsed">
                 <TextBlock Text="Select automation account:" />
                 <ComboBox 
                     Margin="0,6,0,12"
@@ -67,7 +68,8 @@
                 </StackPanel>
             </StackPanel>
 
-            <StackPanel x:Name="RenewPanel" Margin="20" VerticalAlignment="Center" Visibility="Visible">
+            <!-- Renew cred panel -->
+            <StackPanel x:Name="RenewPanel" Margin="20" VerticalAlignment="Center" Visibility="Collapsed">
                 <TextBlock Text="Workflow ServicePrincipal credential validity:" />
                 <ComboBox 
                     Margin="0,6,0,12"
@@ -82,7 +84,29 @@
                 </StackPanel>
             </StackPanel>
 
-            <StackPanel x:Name="MainPanel" Visibility="Visible">
+            <!--Settings Panel-->
+            <StackPanel x:Name="SettingsPanel" Margin="20" VerticalAlignment="Center" Visibility="Visible">
+
+                <TextBlock Text="Default RunOn:" Margin="0,0,0,4" />
+                <Grid >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <TextBox Grid.Column="0" Name="RunOnTextBox" Text="{Binding Path=Settings.DefaultRunOn, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" Style="{StaticResource InputBoxStyle}" />
+                    <Button Margin="4,0,0,0" Grid.Column="1" x:Name="SelectRunOnButton" Content="..." VerticalAlignment="Top" MinWidth="20" MaxWidth="20"  Height="24" Click="SelectRunOnButton_Click" />
+                </Grid>
+
+
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,20,0,0">
+                    <Button x:Name="SettingsCommitButton" Content="Save" Click="SettingsCommitButton_Click"  />
+                    <Button x:Name="SettingsCancelButton" Content="Cancel" Click="CancelButton_Click" />
+                </StackPanel>
+            </StackPanel>
+
+            <!-- MainPanel -->
+            <StackPanel x:Name="MainPanel" Visibility="Collapsed">
                 <Grid>
                     <Rectangle Grid.ColumnSpan="2" x:Name="imgSuperGridBrand" Fill="{StaticResource SettingsBannerBrush}" />
                     <Image HorizontalAlignment="Left" Margin="16,0,0,0" Source="gear32.png" Width="32" Height="32" />
@@ -101,6 +125,9 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
+
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
@@ -108,6 +135,7 @@
                         <ColumnDefinition Width="*"  />
                     </Grid.ColumnDefinitions>
 
+                    <!-- connect-->
                     <TextBlock Margin="0,0,0,10" Grid.ColumnSpan="2" Text="Azure Automation account:" FontWeight="Bold" />
                     
                     <TextBlock FontWeight="DemiBold" Margin="0,0,10,0" Grid.Row="1" Text="Tenant ID" />
@@ -124,6 +152,7 @@
                         <Button x:Name="DisconnectButton" Content="Disconnect" Width="70" Height="26" Click="DisconnectButton_Click"/>
                     </StackPanel>
 
+                    <!-- creds-->
                     <TextBlock Margin="0,40,0,10" Grid.Row="6" Grid.ColumnSpan="2" Text="Workflow AzureAD ServicePrincipal credential:" FontWeight="Bold" />
 
                     <TextBlock FontWeight="DemiBold" Margin="0,0,10,0" Grid.Row="7" Text="AzureAD App ID" />
@@ -135,6 +164,15 @@
                         x:Name="RenewCredentialButton" Content="Renew" Width="70" Height="26" Click="RenewButton_Click" 
                         HorizontalAlignment="Right" Grid.Column="3" Grid.Row="7" Grid.RowSpan="2"/>
 
+                    <!-- Settings -->
+                    <TextBlock Margin="0,40,0,10" Grid.Row="8" Grid.ColumnSpan="2" Text="Settings:" FontWeight="Bold" />
+
+                    <TextBlock FontWeight="DemiBold" Margin="0,0,10,0" Grid.Row="9" Text="Default run on:" />
+                    <TextBlock Grid.Row="9" Grid.Column="1" Text="{Binding Path=Settings.DefaultRunOn}" />
+
+                    <Button 
+                        x:Name="ModifySettingsButton" Content="Modify" Width="70" Height="26" Click="ModifySettingsButton_Click" 
+                        HorizontalAlignment="Right" Grid.Column="3" Grid.Row="9" Grid.RowSpan="2"/>
                 </Grid>
 
                 <Grid Margin="30"  Visibility="{Binding Path=Settings.IsConfigured, Converter={StaticResource BoolToVisibilityReverseConverter}}">

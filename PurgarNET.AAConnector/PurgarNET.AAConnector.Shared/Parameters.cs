@@ -45,6 +45,8 @@ namespace PurgarNET.AAConnector.Shared
 
         internal static string TOKEN_URL = "https://login.microsoftonline.com/{0}/oauth2/token?api-version=1.0";
 
+        public static readonly string WORKFLOW_NAME_STARTRUNBOOK = "PurgarNET.AAConnector.StartRunbookWorkflowRule";
+        public static readonly string WORKFLOW_NAME_MONITORJOBS = "PurgarNET.AAConnector.MonitorJobsWorkflowRule";
 
         internal static Uri GetTokenUri(Guid tenantId)
         {

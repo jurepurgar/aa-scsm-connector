@@ -33,6 +33,7 @@ namespace PurgarNET.AAConnector.Console
             MainPanel.Visibility = Visibility.Collapsed;
             ConnectPanel.Visibility = Visibility.Collapsed;
             RenewPanel.Visibility = Visibility.Collapsed;
+            SettingsPanel.Visibility = Visibility.Collapsed;
 
             panel.Visibility = Visibility.Visible;
         }
@@ -66,7 +67,7 @@ namespace PurgarNET.AAConnector.Console
         private async void ConnectCommitButton_Click(object sender, RoutedEventArgs e)
         {
             if (AutomationAccountsComboBox.SelectedItem == null) return;
-            var validity = ConfigHandler.ValidityToTimeSpan((string)RenewValidityComboBox.SelectedValue);
+            var validity = ConfigHandler.ValidityToTimeSpan((string)ValidityComboBox.SelectedValue);
             TogglePanel(ProgressPanel);
             var ok = await ConfigHandler.Current.Connect((AutomationAccountInfo)AutomationAccountsComboBox.SelectedItem, validity);
 
@@ -90,6 +91,25 @@ namespace PurgarNET.AAConnector.Console
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
             TogglePanel(MainPanel);
+        }
+
+        private void ModifySettingsButton_Click(object sender, RoutedEventArgs e)
+        {
+            TogglePanel(SettingsPanel);
+        }
+
+        private void SettingsCommitButton_Click(object sender, RoutedEventArgs e)
+        {
+            ConfigHandler.Current.CommitSettings();
+            TogglePanel(MainPanel);
+        }
+
+        private void SelectRunOnButton_Click(object sender, RoutedEventArgs e)
+        {
+            ConsoleHandler.Current.Initialize();
+            var r = RunOnSelector.SelectRunOn(RunOnTextBox.Text, false);
+            if (r != null)
+                RunOnTextBox.Text = r;
         }
     }
 }
