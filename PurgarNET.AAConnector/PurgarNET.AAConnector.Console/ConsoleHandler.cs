@@ -69,12 +69,16 @@ namespace PurgarNET.AAConnector.Console
         }
 
 
-        public string GetPropertyFormNavModel(IList<NavigationModelNodeBase> nodes, string propertyName)
+        public T GetPropertyFormNavModel<T>(IList<NavigationModelNodeBase> nodes, string propertyName)
         {
             var dataItem = GetFormDataContext(nodes);
-            if(dataItem != null)
-                return (dataItem[propertyName] as string);
-            return null;
+            if (dataItem != null)
+            {
+                var s = dataItem[propertyName];
+                var s1 = dataItem["JobId"];
+                return (T)dataItem[propertyName];
+            }
+            return default(T);
         }
 
         public IDataItem GetFormDataContext(IList<NavigationModelNodeBase> nodes)

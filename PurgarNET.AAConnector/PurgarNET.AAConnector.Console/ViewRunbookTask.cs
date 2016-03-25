@@ -16,7 +16,7 @@ namespace PurgarNET.AAConnector.Console
 
             if (ConsoleHandler.Current.Initialize())
             {
-                var runbookName = ConsoleHandler.Current.GetPropertyFormNavModel(nodes, "RunbookName");
+                var runbookName = ConsoleHandler.Current.GetPropertyFormNavModel<string>(nodes, "RunbookName");
                 if (string.IsNullOrEmpty(runbookName))
                     System.Windows.MessageBox.Show("Runbook is not assigned to activity!");
                 else
