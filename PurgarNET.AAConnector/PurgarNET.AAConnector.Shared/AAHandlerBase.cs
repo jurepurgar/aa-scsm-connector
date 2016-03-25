@@ -267,7 +267,6 @@ namespace PurgarNET.AAConnector.Shared
                         activityObj[ActivityClass, "Status"].Value = ActivityFailedEnum;
 
                     activityObj[ActivityClass, "JobOutput"].Value = await ot;
-
                     activityObj.Overwrite();
                 }
             }

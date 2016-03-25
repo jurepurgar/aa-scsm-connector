@@ -55,7 +55,7 @@ namespace PurgarNET.AAConnector.Workflows
             var activities = GetInProgressAutomationActivities();
             var tasks = new List<Task>();
 
-            foreach (var activityObj in activities) //retry so it will do web calls in parallel
+            foreach (var activityObj in activities) 
                 tasks.Add(ProcessActivity(activityObj));
             Task.WaitAll(tasks.ToArray()); 
         }
