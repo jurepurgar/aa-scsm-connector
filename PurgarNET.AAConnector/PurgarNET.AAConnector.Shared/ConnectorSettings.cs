@@ -16,6 +16,9 @@ namespace PurgarNET.AAConnector.Shared
 
         public Guid WorkflowAppId { get; set; }
         public DateTime CredentialExpirationDate { get; set; }
+
+        public string DefaultRunOn { get; set; }
+
         public bool IsConfigured
         {
             get
