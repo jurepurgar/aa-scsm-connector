@@ -18,7 +18,7 @@
     </Window.Resources>
     <Grid >
         <ProgressBar x:Name="Progress" IsIndeterminate="True" VerticalAlignment="Center" Height="15" Width="220" Visibility="Collapsed" />
-        <WebBrowser Visibility="Collapsed" x:Name="LoginBrowser" Margin="2" Navigating="LoginBrowser_Navigating" Navigated="LoginBrowser_Navigated"/>
+        <WebBrowser Visibility="Collapsed" x:Name="LoginBrowser" Margin="2" Navigating="LoginBrowser_Navigating" Navigated="LoginBrowser_Navigated" />
     </Grid>
 </Window>
 

@@ -56,6 +56,11 @@
     </EntityTypes>
   </TypeDefinitions>
 
+  <Presentation>
+    <ImageReferences>
+      <ImageReference ElementID="PurgarNET.AAConnector.RunbookActivity" ImageID="PurgarNET.AAConnector.Image.Gear16" />
+    </ImageReferences>
+  </Presentation>
  
   <LanguagePacks>
     <LanguagePack ID="ENU" IsDefault="true">

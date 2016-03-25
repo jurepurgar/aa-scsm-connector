@@ -153,7 +153,8 @@ namespace PurgarNET.AAConnector.Console
                 await RenewServiceCredential(client, mp, app, credValidity);
 
                 ProgressStatus = "Setting service principal permissions...";
-                await _configClient.SetServicePrincipalPermission(accountInfo, app.AppId);
+                var principal = await client.GetServicePrincipalAsync(app.AppId);
+                await _configClient.SetServicePrincipalPermission(accountInfo, principal.ObjectId);
 
                 ProgressStatus = "Saving changes...";
                 Settings.TenantId = accountInfo.TenantId;

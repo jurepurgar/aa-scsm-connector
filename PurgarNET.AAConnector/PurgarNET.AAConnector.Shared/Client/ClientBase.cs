@@ -116,6 +116,7 @@ namespace PurgarNET.AAConnector.Shared.Client
             request.AddParameter("resource", _resource);
 
             var res = await _tokenClient.GetResponseAsync<Token>(request);
+            CheckResponse(res);
             return res.Data;
            
             //TODO: throw error if not successuf

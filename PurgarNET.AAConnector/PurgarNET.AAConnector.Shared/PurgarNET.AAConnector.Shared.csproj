@@ -78,6 +78,8 @@
     <Compile Include="ConfigClient\Models\AutomationAccountInfo.cs" />
     <Compile Include="ConfigClient\Models\PasswordCredential.cs" />
     <Compile Include="ConfigClient\Models\ResourceGroup.cs" />
+    <Compile Include="ConfigClient\Models\RoleAsignment.cs" />
+    <Compile Include="ConfigClient\Models\RoleDefinition.cs" />
     <Compile Include="ConfigClient\Models\ServicePrincipal.cs" />
     <Compile Include="ConfigClient\Models\Subscription.cs" />
     <Compile Include="ConfigClient\Models\Tenant.cs" />

@@ -75,27 +75,5 @@ namespace PurgarNET.AAConnector.Shared.ConfigClient
             return await SendAsync<AdApplication>(_tenantId, Parameters.GRAPH_API_VERSION, $"/applications/{app.ObjectId}", RestSharp.Method.PATCH, app);
         }        
 
-
-      /*  public async Task<string> CreateApplicationCredentialAsync(Guid AppObjectId, Guid KeyId)
-        {
-            var app = new CredApplication()
-            {
-                
-            };
-
-            app.PasswordCredentials.Add(new PasswordCredential()
-            {
-                //CustomKeyIdentifier = KeyId.ToString(),
-                KeyId = KeyId,
-                StartDate = DateTime.UtcNow,
-                EndDate = DateTime.UtcNow.AddDays(365),
-                Value = "BulaBula1A"
-            });
-
-            var res = await SendAsync<Application>(_tenantId, Parameters.GRAPH_API_VERSION, $"applications/{AppObjectId.ToString()}", RestSharp.Method.PATCH, app);
-
-            return null;
-        }*/
-
     }
 }

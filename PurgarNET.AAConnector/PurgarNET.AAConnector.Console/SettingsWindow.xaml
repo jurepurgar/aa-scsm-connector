@@ -85,7 +85,8 @@
             <StackPanel x:Name="MainPanel" Visibility="Visible">
                 <Grid>
                     <Rectangle Grid.ColumnSpan="2" x:Name="imgSuperGridBrand" Fill="{StaticResource SettingsBannerBrush}" />
-                    <TextBlock FontSize="20" Foreground="DarkBlue" Text="Azure Automation Connector Settings" Margin="10,10,0,14" />
+                    <Image HorizontalAlignment="Left" Margin="16,0,0,0" Source="gear32.png" Width="32" Height="32" />
+                    <TextBlock Margin="54,10,0,14" FontSize="20" Foreground="DarkBlue" Text="Azure Automation Connector Settings"  />
                 </Grid>
 
                 <Grid Margin="20"  Visibility="{Binding Path=Settings.IsConfigured, Converter={StaticResource BoolToVisibilityConverter}}">

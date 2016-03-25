@@ -1,5 +1,9 @@
 ﻿<ManagementPackFragment SchemaVersion="SM2.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Resources>
+
+    <Image ID="PurgarNET.AAConnector.Image.Gear16" Accessibility="Public" FileName="gear16.png" HasNullStream="false" />
+    <Image ID="PurgarNET.AAConnector.Image.Gear32" Accessibility="Public" FileName="gear32.png" HasNullStream="false" />
+    
     <DeployableAssembly ID="PurgarNET.AAConnector.Shared" Accessibility="Public" FileName="PurgarNET.AAConnector.Shared.dll" HasNullStream="false" QualifiedName="PurgarNET.AAConnector.Shared, Version=1.0.0.0" />
     <DeployableAssembly ID="PurgarNET.AAConnector.Console" Accessibility="Public" FileName="PurgarNET.AAConnector.Console.dll" HasNullStream="false" QualifiedName="PurgarNET.AAConnector.Console, Version=1.0.0.0" />
     

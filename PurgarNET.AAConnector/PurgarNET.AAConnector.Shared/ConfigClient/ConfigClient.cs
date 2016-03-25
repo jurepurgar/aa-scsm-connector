@@ -48,8 +48,20 @@ namespace PurgarNET.AAConnector.Shared.ConfigClient
 
         public async Task SetServicePrincipalPermission(AutomationAccountInfo account, Guid principalId)
         {
-            //await SendAsync();
-            throw new NotImplementedException("Implement this!!!");
+            var uri = $"subscriptions/{account.SubscriptionId.ToString()}/resourceGroups/{account.ResourceGroupName}/providers/Microsoft.Automation/automationAccounts/{account.AutomationAccountName}/providers/Microsoft.Authorization/roleDefinitions?$filter=roleName eq 'Automation Operator'";
+            var role = (await GetListAsync<RoleDefinition>(account.TenantId, "2015-07-01", uri)).FirstOrDefault();
+
+            uri = $"subscriptions/{account.SubscriptionId.ToString()}/resourceGroups/{account.ResourceGroupName}/providers/Microsoft.Automation/automationAccounts/{account.AutomationAccountName}/providers/Microsoft.Authorization/roleAssignments?$filter=principalId eq '{principalId.ToString()}'";
+
+            var existing = await GetListAsync<RoleAsignment>(account.TenantId, "2015-07-01", uri);
+            if (existing.FirstOrDefault(x => x.Properties.RoleDefinitionId == role.Id) == null)
+            { 
+                var assignment = new RoleAsignment();
+                assignment.Properties.PrincipalId = principalId;
+                assignment.Properties.RoleDefinitionId = role.Id;
+                uri = $"subscriptions/{account.SubscriptionId.ToString()}/resourceGroups/{account.ResourceGroupName}/providers/Microsoft.Automation/automationAccounts/{account.AutomationAccountName}/providers/Microsoft.Authorization/roleAssignments/{Guid.NewGuid()}";
+                await SendAsync(account.TenantId, "2015-07-01", uri, RestSharp.Method.PUT, assignment);
+            }
         }
     }
 }

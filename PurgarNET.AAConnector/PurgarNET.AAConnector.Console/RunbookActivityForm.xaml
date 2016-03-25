@@ -31,7 +31,8 @@
             </Grid.ColumnDefinitions>
             <Rectangle Grid.ColumnSpan="2" x:Name="imgSuperGridBrand" Fill="{StaticResource BannerBrush}" />
 
-            <Label Content="{Binding DisplayName}" Style="{StaticResource BannerLabelStyle}"  />
+            <Image HorizontalAlignment="Left" Margin="6,0,0,0" Source="gear32.png" Width="32" Height="32" />
+            <Label Content="{Binding DisplayName}" Margin="42,0,0,0" Style="{StaticResource BannerLabelStyle}"  />
 
             <Grid Grid.Column="1" Margin="0,10,0,0">
                 <Grid.ColumnDefinitions>

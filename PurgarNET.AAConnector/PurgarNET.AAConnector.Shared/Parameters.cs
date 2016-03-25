@@ -39,10 +39,11 @@ namespace PurgarNET.AAConnector.Shared
         public static string CONFIGMP_DISPLAYNAME = "PurgarNET Azure Automation Connector Configuration";
         public static Version CONFIGMP_VERSION = new Version(1, 0);
 
+        internal static string USER_LOGIN_URL = "https://login.microsoftonline.com/{0}/oauth2/authorize?resource={1}&client_id={2}&response_type=code&redirect_uri={3}&display=popup&site_id=501358&prompt=login";
 
-        internal static string USER_LOGIN_URL = "https://login.windows.net/{0}/oauth2/authorize?resource={1}&client_id={2}&response_type=code&redirect_uri={3}&display=popup&site_id=501358";
+        //internal static string USER_LOGIN_URL = "https://login.microsoftonline.com/{0}/oauth2/authorize?resource={1}&client_id={2}&response_type=code&redirect_uri={3}&display=popup&site_id=501358";
 
-        internal static string TOKEN_URL = "https://login.windows.net/{0}/oauth2/token?api-version=1.0";
+        internal static string TOKEN_URL = "https://login.microsoftonline.com/{0}/oauth2/token?api-version=1.0";
 
 
         internal static Uri GetTokenUri(Guid tenantId)

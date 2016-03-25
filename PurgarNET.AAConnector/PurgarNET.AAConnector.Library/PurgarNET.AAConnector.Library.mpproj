@@ -160,5 +160,13 @@
       <PackageToBundle>True</PackageToBundle>
     </Reference>
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="gear16.png">
+      <SubType>Content</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="gear32.png">
+      <SubType>Content</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\VSAC\Microsoft.SystemCenter.OperationsManager.targets" />
 </Project>
