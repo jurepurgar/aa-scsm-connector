@@ -16,7 +16,7 @@ namespace PurgarNET.AAConnector.Console
             if (ConsoleHandler.Current.Initialize())
             {
                 var jobId = ConsoleHandler.Current.GetPropertyFormNavModel<Guid>(nodes, "JobId");
-                if (jobId != default(Guid))
+                if (jobId == default(Guid))
                     System.Windows.MessageBox.Show("Runbook was not started yet!", "Error!", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
                 else
                     ConsoleHandler.Current.NavigateToPortal($"jobs/{jobId}");
