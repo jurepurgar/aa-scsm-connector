@@ -5,9 +5,6 @@ using System.Text;
 
 namespace PurgarNET.AAConnector.Shared.ConfigClient.Models
 {
-
-    
-
     public class RoleAsignment
     {
         public RoleAsignment()
