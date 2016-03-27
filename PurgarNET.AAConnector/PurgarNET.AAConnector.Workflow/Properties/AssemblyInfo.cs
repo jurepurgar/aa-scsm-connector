@@ -8,8 +8,8 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("PurgarNET.AAConnector.Workflow")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("PurgarNET.AAConnector.Workflow")]
+[assembly: AssemblyCompany("PurgarNET")]
+[assembly: AssemblyProduct("Azure Automation Connector for SCSM")]
 [assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -23,8 +23,9 @@ using System.Runtime.InteropServices;
 //
 // You can specify all the values or you can default the Revision and Build Numbers 
 // by using '*'.
-[assembly: AssemblyVersion("1.0.0.0")]
+[assembly: AssemblyVersion("2.0.0.0")]
 [assembly: ComVisible(false)]
+[assembly: AssemblyFileVersion("2.0.0.0")]
 
 
 //NOTE: When updating the namespaces in the project please add new or update existing the XmlnsDefinitionAttribute
