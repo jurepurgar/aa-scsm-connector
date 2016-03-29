@@ -63,7 +63,6 @@ if ($go) {
         Write-Host "All files are up to date."
     }
 
-
     if ($importMP) {
         Import-SCManagementPack -Fullname $newMPPath
         Write-Host "Management pack imported successfully."
@@ -71,7 +70,6 @@ if ($go) {
     else {
         Write-Host "Management pack is up to date."
     }
-
 }
 
 Write-Host "Press enter to continue..."
