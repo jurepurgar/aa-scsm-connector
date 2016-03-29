@@ -48,11 +48,11 @@ namespace PurgarNET.AAConnector.TestApp
 
         private async void LoginButton_Click(object sender, RoutedEventArgs e)
         {
-            //var w = new Window1();
-            //w.Show();
+            var w = new Window1();
+            w.Show();
 
-            var sw = new SettingsWindow();
-            sw.Show();
+            //var sw = new SettingsWindow();
+            //sw.Show();
 
 
         }

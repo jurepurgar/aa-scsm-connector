@@ -35,6 +35,7 @@ namespace PurgarNET.AAConnector.Console
         private async void LoadRunOns()
         {
             this.IsEnabled = false;
+            Progress.Visibility = Visibility.Visible;
             RunOns.Clear();
             try
             {
@@ -55,9 +56,10 @@ namespace PurgarNET.AAConnector.Console
             catch (Exception err)
             {
                 MessageBox.Show("Unable to load runbooks because: " + err.Message);
-
+                Close();
             }
             this.IsEnabled = true;
+            Progress.Visibility = Visibility.Collapsed;
         }
 
         

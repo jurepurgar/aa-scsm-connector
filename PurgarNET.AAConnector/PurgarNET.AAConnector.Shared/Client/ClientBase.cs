@@ -85,10 +85,17 @@ namespace PurgarNET.AAConnector.Shared.Client
                 catch { }
             }
             else
-            { 
-                var req = new RestRequest(Method.POST);
-                AddTokenRequestParameters(req, tenantId);
-                token = await AcquireTokenByRequestAsync(tenantId, req);
+            {
+                try
+                {
+                    var req = new RestRequest(Method.POST);
+                    AddTokenRequestParameters(req, tenantId);
+                    token = await AcquireTokenByRequestAsync(tenantId, req);
+                }
+                finally
+                {
+                    _semaphore.Release();
+                }
             }
 
 
@@ -102,7 +109,6 @@ namespace PurgarNET.AAConnector.Shared.Client
             _tokens[tenantId].Add(token);
             _semaphore.Release();
             return token;
-
         }
 
         private async Task<Token> AcquireTokenByRequestAsync(Guid tenantId, RestRequest request)
@@ -204,7 +210,6 @@ namespace PurgarNET.AAConnector.Shared.Client
             else
                 return res.Value;
         }
-
     }
 
     public class AuthorizationCodeRequiredEventArgs : EventArgs

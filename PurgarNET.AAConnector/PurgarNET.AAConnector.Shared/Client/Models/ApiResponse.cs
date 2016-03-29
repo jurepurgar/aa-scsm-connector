@@ -8,13 +8,10 @@ namespace PurgarNET.AAConnector.Shared.Client.Models
 {
     public class ApiResponse<T>
     {
-        [DataMember(Name = "error")]
         public ApiError Error { get; set; }
 
-        [DataMember(Name = "value")]
         public T Value { get; set; }
 
-        [DataMember(Name = "nextLink")]
         public Uri NextLink { get; set; }
     }
 }

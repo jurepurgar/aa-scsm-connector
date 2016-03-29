@@ -35,17 +35,19 @@ namespace PurgarNET.AAConnector.Console
         private async void LoadRunbooks()
         {
             this.IsEnabled = false;
+            Progress.Visibility = Visibility.Visible;
             try
             {
                 _runbooks = await ConsoleHandler.Current.AAClient.GetRunbooksAsync();
             }
             catch (Exception err)
             {
-                MessageBox.Show("Unable to load runbooks because: " + err.Message);
-
+                MessageBox.Show("Unable to load runbooks because: " + err.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                Close();
             }
             UpdateRunbooks();
             this.IsEnabled = true;
+            Progress.Visibility = Visibility.Collapsed;
         }
 
         private void UpdateRunbooks()

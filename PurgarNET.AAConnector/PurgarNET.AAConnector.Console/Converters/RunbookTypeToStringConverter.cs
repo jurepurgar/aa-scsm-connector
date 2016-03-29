@@ -16,7 +16,7 @@ namespace PurgarNET.AAConnector.Console.Converters
             {
                 switch ((RunbookType)value)
                 {
-                    case RunbookType.Graph:
+                    case RunbookType.GraphPowerShellWorkflow:
                         return "Graphical";
                     case RunbookType.PowerShell:
                         return "Workflow";

@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:PurgarNET.AAConnector.Console"
         mc:Ignorable="d"
         Loaded="Window_Loaded"
-        Title="Select..." Width="250" Height="150" ShowInTaskbar="False" WindowStartupLocation="CenterOwner" Topmost="True" 
+        Title="Select..." Width="300" Height="150" ShowInTaskbar="False" WindowStartupLocation="CenterOwner" Topmost="True" 
         ResizeMode="NoResize" >
     <Window.Resources>
         <ResourceDictionary>
@@ -46,11 +46,19 @@
             SelectionChanged="RunOnsListView_SelectionChanged"
             />
 
-        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,6,0,0">
+        <Grid Grid.Row="1" Margin="7,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
 
-            <Button x:Name="OKButton"  Height="24" Content="OK" Width="60" IsEnabled="False" HorizontalAlignment="Right" Margin="0,0,6,0" Click="OKButton_Click" />
-            <Button x:Name="CancelButton" Margin="0" Height="24" Content="Cancel" Width="60" HorizontalAlignment="Right" Click="CancelButton_Click" />
-        </StackPanel>
+            <ProgressBar x:Name="Progress" IsIndeterminate="True" HorizontalAlignment="Left" Height="16" Visibility="Visible" Width="80" />
+            <Button Grid.Column="1" x:Name="OKButton"  Height="24" Content="OK" Width="60" IsEnabled="False" HorizontalAlignment="Right" Margin="0,0,6,0" Click="OKButton_Click" />
+            <Button Grid.Column="2" x:Name="CancelButton" Margin="0" Height="24" Content="Cancel" Width="60" HorizontalAlignment="Right" Click="CancelButton_Click" />
+        </Grid>
+
+        
     </Grid>
 
 </Window>
