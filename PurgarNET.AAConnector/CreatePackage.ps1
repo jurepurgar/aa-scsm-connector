@@ -49,6 +49,7 @@ $packagesFolder = New-Item -ItemType Directory -Name $PackagesFolderName -Force
 $packagePath = Join-Path $packagesFolder $("AAConnector-$version.zip")
 
 Compress-Archive -Path $mpPath -DestinationPath $packagePath -Force 
+Compress-Archive -Path "install.ps1" -DestinationPath $packagePath -Update
 
 $fwBinFolder = Join-Path $(Split-Path $wfProject.FullName) "bin\$Config"
 Join-Path $fwBinFolder "*.dll" | Get-ChildItem  | foreach {
@@ -56,10 +57,4 @@ Join-Path $fwBinFolder "*.dll" | Get-ChildItem  | foreach {
 }
 
 Write-Output "done."
-
-
-
-
-
-
 

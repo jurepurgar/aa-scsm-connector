@@ -23,9 +23,9 @@ using System.Runtime.InteropServices;
 //
 // You can specify all the values or you can default the Revision and Build Numbers 
 // by using '*'.
-[assembly: AssemblyVersion("2.0.0.0")]
+[assembly: AssemblyVersion("1.0.0.1")]
 [assembly: ComVisible(false)]
-[assembly: AssemblyFileVersion("2.0.0.0")]
+[assembly: AssemblyFileVersion("1.0.0.1")]
 
 
 //NOTE: When updating the namespaces in the project please add new or update existing the XmlnsDefinitionAttribute

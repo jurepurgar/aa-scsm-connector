@@ -18,6 +18,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8DF0A800-BEC6-422B-8E25-61E9CBCEC2FE}"
 	ProjectSection(SolutionItems) = preProject
 		CreatePackage.ps1 = CreatePackage.ps1
+		Install.ps1 = Install.ps1
 	EndProjectSection
 EndProject
 Global
