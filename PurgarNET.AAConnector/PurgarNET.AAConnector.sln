@@ -9,8 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PurgarNET.AAConnector.Share
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PurgarNET.AAConnector.TestApp", "PurgarNET.AAClient.TestApp\PurgarNET.AAConnector.TestApp.csproj", "{832DE145-CBFD-4D67-9170-C60813846EDD}"
 EndProject
-Project("{F5034706-568F-408A-B7B3-4D38C6DB8A32}") = "PurgarNET.AAConnector.PowerShell", "PurgarNET.AAConnector.PowerShell\PurgarNET.AAConnector.PowerShell.pssproj", "{6CAFC0C6-A428-4D30-A9F9-700E829FEA51}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PurgarNET.AAConnector.Workflows", "PurgarNET.AAConnector.Workflow\PurgarNET.AAConnector.Workflows.csproj", "{2E442F44-C726-4174-9353-47C773688059}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PurgarNET.AAConnector.Console", "PurgarNET.AAConnector.Console\PurgarNET.AAConnector.Console.csproj", "{20D5E827-69C5-41A4-BCCF-EA13CCA794BC}"
@@ -53,14 +51,6 @@ Global
 		{832DE145-CBFD-4D67-9170-C60813846EDD}.Release|Any CPU.Build.0 = Release|Any CPU
 		{832DE145-CBFD-4D67-9170-C60813846EDD}.Release|x86.ActiveCfg = Release|Any CPU
 		{832DE145-CBFD-4D67-9170-C60813846EDD}.Release|x86.Build.0 = Release|Any CPU
-		{6CAFC0C6-A428-4D30-A9F9-700E829FEA51}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6CAFC0C6-A428-4D30-A9F9-700E829FEA51}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6CAFC0C6-A428-4D30-A9F9-700E829FEA51}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{6CAFC0C6-A428-4D30-A9F9-700E829FEA51}.Debug|x86.Build.0 = Debug|Any CPU
-		{6CAFC0C6-A428-4D30-A9F9-700E829FEA51}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6CAFC0C6-A428-4D30-A9F9-700E829FEA51}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6CAFC0C6-A428-4D30-A9F9-700E829FEA51}.Release|x86.ActiveCfg = Release|Any CPU
-		{6CAFC0C6-A428-4D30-A9F9-700E829FEA51}.Release|x86.Build.0 = Release|Any CPU
 		{2E442F44-C726-4174-9353-47C773688059}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2E442F44-C726-4174-9353-47C773688059}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2E442F44-C726-4174-9353-47C773688059}.Debug|x86.ActiveCfg = Debug|Any CPU
