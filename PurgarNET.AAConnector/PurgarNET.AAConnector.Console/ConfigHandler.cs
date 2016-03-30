@@ -124,7 +124,7 @@ namespace PurgarNET.AAConnector.Console
 
         private void ShowError(Exception e)
         {
-            MessageBox.Show($"Error occured: {e.Message}\n\r\n\r{e.Message.ToString()}", "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
+            MessageBox.Show($"Error occured: {e.Message}\n\r\n\r{e.StackTrace}", "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
         public async Task RefreshAccounts()
