@@ -16,11 +16,8 @@ namespace PurgarNET.AAConnector.Shared.Client
 
             var handle = client.ExecuteAsync<T>(request, (response) =>
             {
-                //if ((int)response.StatusCode >= 400)
-                //    throw new HttpException(response.StatusCode, $"Call to {response.Request.Resource} completed with http error: {response.ResponseStatus}");
-
                 if (response.ErrorException != null)
-                    throw response.ErrorException; //todo handle 407 - proxy authentication required
+                    throw response.ErrorException; 
 
                 tsc.SetResult(response);
             });
@@ -34,12 +31,8 @@ namespace PurgarNET.AAConnector.Shared.Client
 
             var handle = client.ExecuteAsync(request, (response) =>
             {
-                //if ((int)response.StatusCode >= 400)
-                //    throw new HttpException(response.StatusCode, $"Call to {response.Request.Resource} completed with http error: {response.ResponseStatus}");
-
                 if (response.ErrorException != null)
-                    throw response.ErrorException; //todo handle 407 - proxy authentication required  
-
+                    throw response.ErrorException;  
                 tsc.SetResult(response);
             });
 
