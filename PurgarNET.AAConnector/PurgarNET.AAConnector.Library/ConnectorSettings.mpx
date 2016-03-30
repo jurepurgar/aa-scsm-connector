@@ -1,0 +1,46 @@
+﻿<ManagementPackFragment SchemaVersion="SM2.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <TypeDefinitions>
+    <EntityTypes>
+      <ClassTypes>
+        <ClassType ID="PurgarNET.AAConnector.ConnectorSettings" Base="AdminItem!System.SolutionSettings" Accessibility="Internal" Abstract="false" Hosted="false" Singleton="true">
+          <Property ID="TenantId" Type="guid" AutoIncrement="false" Key="false" CaseSensitive="false" MaxLength="256" MinLength="0" Required="false" />
+          <Property ID="SubscriptionId" Type="guid" AutoIncrement="false" Key="false" CaseSensitive="false" MaxLength="256" MinLength="0" Required="false" />
+          <Property ID="ResourceGroup" Type="string" AutoIncrement="false" Key="false" CaseSensitive="false" MaxLength="1024" MinLength="0" Required="false" />
+          <Property ID="AutomationAccountName" Type="string" AutoIncrement="false" Key="false" CaseSensitive="false" MaxLength="1024" MinLength="0" Required="false" />
+          <Property ID="UserAppId" Type="guid" AutoIncrement="false" Key="false" CaseSensitive="false" MaxLength="256" MinLength="0" Required="false" />
+          <Property ID="LastChanged" Type="datetime" AutoIncrement="false" Key="false" CaseSensitive="false" MaxLength="256" MinLength="0" Required="false" />
+          <Property ID="CredentialExpirationDate" Type="datetime" AutoIncrement="false" Key="false" CaseSensitive="false" MaxLength="256" MinLength="0" Required="false" />
+          <Property ID="DefaultRunOn" Key="false" Type="string" MinLength="0" MaxLength="1024" DefaultValue="Azure" />
+        </ClassType>    
+      </ClassTypes>
+    </EntityTypes>
+
+    
+  </TypeDefinitions>
+
+  <Presentation>
+    <ImageReferences>
+      <ImageReference ElementID="PurgarNET.AAConnector.ConnectorSettings" ImageID="PurgarNET.AAConnector.Image.Gear16" />
+    </ImageReferences>
+  </Presentation>
+    
+  <LanguagePacks>
+    <LanguagePack ID="ENU" IsDefault="true">
+      <DisplayStrings>
+
+        <DisplayString ElementID="PurgarNET.AAConnector.ConnectorSettings">
+          <Name>Azure Automation Connector Settings</Name>
+          <Description>Settings for PurgarNET Azure Automation Connector</Description>
+        </DisplayString>
+
+        <!-- Uncomment the below section if you need to add a user friendly string for each property. -->
+        <!--
+        <DisplayString ElementID="PurgarNET.AAConnector.Library.PurgarNET" SubElementID="Property1">
+          <Name>Property1 Property</Name>
+          <Description></Description>
+        </DisplayString>
+        -->
+      </DisplayStrings>
+    </LanguagePack>
+  </LanguagePacks>
+</ManagementPackFragment>
