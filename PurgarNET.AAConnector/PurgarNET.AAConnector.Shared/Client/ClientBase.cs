@@ -17,15 +17,12 @@ namespace PurgarNET.AAConnector.Shared.Client
         private RestClient _client = null;
         private string _clientSecret = null;
         protected Guid _clientId = Guid.Empty;
-        //protected Guid _tenantId = default(Guid);
         private string _resource = null;
-        //private string _resource = null;
-
+ 
         private AuthenticationType _authType = AuthenticationType.Undefined;
 
         private static Dictionary<Guid, List<Token>> _tokens = new Dictionary<Guid, List<Token>>();
-        //private static List<Token> _tokens = new List<Token>();
-
+  
         private static SemaphoreSlim _semaphore = new SemaphoreSlim(1);
 
         public ClientBase(Uri baseUri, string resource, AuthenticationType authType, Guid clientId, string clientSecret)
@@ -53,62 +50,63 @@ namespace PurgarNET.AAConnector.Shared.Client
         {
             await Task.Factory.StartNew(() => _semaphore.Wait());
 
-            Token token = null;
-            Token refreshToken = null;
-            if (_tokens.ContainsKey(tenantId))
+            try
             {
-                token = _tokens[tenantId].FirstOrDefault(x => x.Resource == _resource);
-                refreshToken = _tokens[tenantId].FirstOrDefault();
-            }
-
-            if (refreshToken == null && _tokens.ContainsKey(default(Guid)))
-                refreshToken = _tokens[default(Guid)].FirstOrDefault();
-
-
-            if (!force && (token != null || refreshToken != null ))
-            {
-                if (token != null && token.ExpiresOn > DateTime.UtcNow.AddMinutes(1)) //we make token invalid one minute before epiration date
+                Token token = null;
+                Token refreshToken = null;
+                if (_tokens.ContainsKey(tenantId))
                 {
-                    _semaphore.Release();
-                    return token;
+                    token = _tokens[tenantId].FirstOrDefault(x => x.Resource == _resource);
+                    refreshToken = _tokens[tenantId].FirstOrDefault();
                 }
-                try
+
+                if (refreshToken == null && _tokens.ContainsKey(default(Guid))) //if current token does not have refresh token, we get it from any other token for the same tenant (multi-resource refresh token)
+                    refreshToken = _tokens[default(Guid)].FirstOrDefault();
+
+
+                if (force || token == null || token.ExpiresOn < DateTime.UtcNow.AddMinutes(-1)) //if we dont have token or it is expired we set it to null so it will be retreived
+                    token = null;
+
+
+                if (!force && token == null && refreshToken != null && refreshToken.RefreshToken != null) // if we dont have token we try to get it by refresh token if we have it
                 {
-                    if (refreshToken != null && refreshToken.RefreshToken != null)
+                    try
                     {
                         var refreshReq = new RestRequest(Method.POST);
                         refreshReq.AddParameter("grant_type", "refresh_token");
                         refreshReq.AddParameter("refresh_token", refreshToken.RefreshToken);
                         token = await AcquireTokenByRequestAsync(tenantId, refreshReq);
                     }
+                    catch
+                    {
+                        token = null; // if refresh token does not work we continue
+                    }
                 }
-                catch { }
-            }
-            else
-            {
-                try
+
+                if (token == null) //get token by login or client secret
                 {
                     var req = new RestRequest(Method.POST);
                     AddTokenRequestParameters(req, tenantId);
                     token = await AcquireTokenByRequestAsync(tenantId, req);
                 }
-                finally
+
+                if (!_tokens.ContainsKey(tenantId))
+                    _tokens.Add(tenantId, new List<Token>());
+
+                var existingToken = _tokens[tenantId].FirstOrDefault(x => x.Resource == _resource);
+                if (existingToken == null || existingToken.AccessToken != token.AccessToken) //if we have new token we save it to cache
                 {
-                    _semaphore.Release();
+                    if (existingToken != null)
+                        _tokens[tenantId].Remove(existingToken);
+                    _tokens[tenantId].Add(token);
                 }
+
+                return token;
             }
-
-
-            if (!_tokens.ContainsKey(tenantId))
-                _tokens.Add(tenantId, new List<Token>());
-
-            var existingToken = _tokens[tenantId].FirstOrDefault(x => x.Resource == _resource);
-            if (existingToken != null)
-                _tokens[tenantId].Remove(existingToken);
-                
-            _tokens[tenantId].Add(token);
-            _semaphore.Release();
-            return token;
+            finally
+            {
+                _semaphore.Release();
+            }
         }
 
         private async Task<Token> AcquireTokenByRequestAsync(Guid tenantId, RestRequest request)
@@ -122,8 +120,6 @@ namespace PurgarNET.AAConnector.Shared.Client
             var res = await tokenClient.GetResponseAsync<Token>(request);
             CheckResponse(res);
             return res.Data;
-           
-            //TODO: throw error if not successuf
         }
 
 
@@ -166,6 +162,11 @@ namespace PurgarNET.AAConnector.Shared.Client
 
         private async Task<RestRequest> CreateRequestAsync(Guid tenantId, string apiVersion, string resource, Method method, object data = null)
         {
+            if (string.IsNullOrEmpty(apiVersion))
+                throw new ArgumentNullException(nameof(apiVersion));
+            if (string.IsNullOrEmpty(resource))
+                throw new ArgumentNullException(nameof(resource));
+
             var token = await AcquireTokenAsync(tenantId);
             var req = new RestRequest(resource, method);
             req.AddHeader("Authorization", "Bearer " + token.AccessToken);
@@ -178,7 +179,8 @@ namespace PurgarNET.AAConnector.Shared.Client
         private void CheckResponse(IRestResponse response)
         {
             if ((int)response.StatusCode >= 400)
-                throw new HttpException(response.StatusCode, $"Http error ({((int)response.StatusCode).ToString()} - {response.StatusCode.ToString()}): {response.Content}");
+                throw new HttpException(response.StatusCode, 
+                    $"Http error ({((int)response.StatusCode).ToString()} - {response.StatusCode.ToString()}) for resource '/{response.Request.Resource}'\n\r: {response.Content}");
         }
 
         protected async Task<T> SendAsync<T>(Guid tenantId, string apiVersion, string resource, Method method, object data = null) where T : new()

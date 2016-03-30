@@ -48,28 +48,14 @@ namespace PurgarNET.AAConnector.TestApp
 
         private async void LoginButton_Click(object sender, RoutedEventArgs e)
         {
-            var w = new Window1();
-            w.Show();
-
-            //var sw = new SettingsWindow();
-            //sw.Show();
-
+ 
+            await ConfigHandler.Current.RefreshAccounts();
 
         }
 
-        private async void WorkflowButton_Click(object sender, RoutedEventArgs e)
+        private void WorkflowButton_Click(object sender, RoutedEventArgs e)
         {
-            ConfigHandler.Current.RefreshSettings();
-            var s = ConfigHandler.Current.Settings;
-
-            var cl = new AAClient(s.TenantId, s.SubscriptionId, s.ResourceGroupName, s.AutomationAccountName, AuthenticationType.ClientSecret, new Guid("75d12a6b-0fb7-4fd1-bc51-f25c02c79e49"), "XOP5n#C1VPs4kwl9#I$Tw$f_qG7;nS");
-            var t1 = cl.GetRunbooksAsync();
-            var t2 = cl.GetRunbooksAsync();
-
-            var r1 = await t1;
-            var r2 = await t2;
-
-
+            
 
         }
     }
