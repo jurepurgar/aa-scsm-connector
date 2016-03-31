@@ -40,22 +40,26 @@
     </Reference>
     <Reference Include="Microsoft.EnterpriseManagement.Core, Version=7.0.5000.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\..\Program Files\Microsoft System Center 2012 R2\Service Manager\SDK Binaries\Microsoft.EnterpriseManagement.Core.dll</HintPath>
+      <HintPath>..\SDKReferences\Microsoft.EnterpriseManagement.Core.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.EnterpriseManagement.ServiceManager.SharedResources">
       <HintPath>..\SDKReferences\Microsoft.EnterpriseManagement.ServiceManager.SharedResources.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.EnterpriseManagement.UI.Core">
-      <HintPath>..\..\..\..\..\..\..\Program Files\Microsoft System Center 2012 R2\Service Manager\Microsoft.EnterpriseManagement.UI.Core.dll</HintPath>
+      <HintPath>..\SDKReferences\Microsoft.EnterpriseManagement.UI.Core.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.EnterpriseManagement.UI.FormsInfra">
-      <HintPath>..\..\..\..\..\..\..\Program Files\Microsoft System Center 2012 R2\Service Manager\Microsoft.EnterpriseManagement.UI.FormsInfra.dll</HintPath>
+      <HintPath>..\SDKReferences\Microsoft.EnterpriseManagement.UI.FormsInfra.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.EnterpriseManagement.UI.Foundation">
-      <HintPath>..\..\..\..\..\..\..\Program Files\Microsoft System Center 2012 R2\Service Manager\Microsoft.EnterpriseManagement.UI.Foundation.dll</HintPath>
+      <HintPath>..\SDKReferences\Microsoft.EnterpriseManagement.UI.Foundation.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.EnterpriseManagement.UI.SdkDataAccess, Version=7.0.5000.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\SDKReferences\Microsoft.EnterpriseManagement.UI.SdkDataAccess.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.EnterpriseManagement.UI.SMControls">
-      <HintPath>..\..\..\..\..\..\..\Program Files\Microsoft System Center 2012 R2\Service Manager\Microsoft.EnterpriseManagement.UI.SMControls.dll</HintPath>
+      <HintPath>..\SDKReferences\Microsoft.EnterpriseManagement.UI.SMControls.dll</HintPath>
     </Reference>
     <Reference Include="RestSharp, Version=105.2.3.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\RestSharp.105.2.3\lib\net35\RestSharp.dll</HintPath>

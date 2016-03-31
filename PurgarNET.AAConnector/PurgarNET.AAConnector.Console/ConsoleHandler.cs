@@ -14,8 +14,6 @@ using System.Text;
 
 namespace PurgarNET.AAConnector.Console
 {
-    
-
     public class ConsoleHandler : AAHandlerBase
     {
         private static ConsoleHandler _current = null;
