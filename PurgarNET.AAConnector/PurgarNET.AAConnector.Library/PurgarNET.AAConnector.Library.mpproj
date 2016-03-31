@@ -32,13 +32,13 @@
   </PropertyGroup>
   <ItemGroup>
     <ManagementPackReference Include="Microsoft.EnterpriseManagement.ServiceManager.UI.Administration">
-      <HintPath>C:\Users\jure.purgar\Source\Repos\aa-scsm-connector\PurgarNET.AAConnector\MPReferences\Microsoft.EnterpriseManagement.ServiceManager.UI.Administration.mpb</HintPath>
+      <HintPath>..\MPReferences\Microsoft.EnterpriseManagement.ServiceManager.UI.Administration.mpb</HintPath>
       <Alias>Administration</Alias>
       <MinVersion>7.5.3079.236</MinVersion>
       <PackageToBundle>False</PackageToBundle>
     </ManagementPackReference>
     <ManagementPackReference Include="Microsoft.EnterpriseManagement.ServiceManager.UI.Console">
-      <HintPath>C:\Users\jure.purgar\Source\Repos\aa-scsm-connector\PurgarNET.AAConnector\MPReferences\Microsoft.EnterpriseManagement.ServiceManager.UI.Console.mpb</HintPath>
+      <HintPath>..\MPReferences\Microsoft.EnterpriseManagement.ServiceManager.UI.Console.mpb</HintPath>
       <Alias>Console</Alias>
       <MinVersion>7.5.3079.0</MinVersion>
       <PackageToBundle>False</PackageToBundle>
@@ -48,31 +48,31 @@
       <PackageToBundle>False</PackageToBundle>
     </ManagementPackReference>
     <ManagementPackReference Include="Microsoft.SystemCenter.Subscriptions">
-      <HintPath>C:\Users\jure.purgar\Source\Repos\aa-scsm-connector\PurgarNET.AAConnector\MPReferences\Microsoft.SystemCenter.Subscriptions.mp</HintPath>
+      <HintPath>..\MPReferences\Microsoft.SystemCenter.Subscriptions.mp</HintPath>
       <Alias>Subscriptions</Alias>
       <MinVersion>7.5.3079.0</MinVersion>
       <PackageToBundle>False</PackageToBundle>
     </ManagementPackReference>
     <ManagementPackReference Include="ServiceManager.ReleaseManagement.Library">
-      <HintPath>C:\Users\jure.purgar\Source\Repos\aa-scsm-connector\PurgarNET.AAConnector\MPReferences\ServiceManager.ReleaseManagement.Library.mpb</HintPath>
+      <HintPath>..\MPReferences\ServiceManager.ReleaseManagement.Library.mpb</HintPath>
       <Alias>ReleaseManagement</Alias>
       <MinVersion>7.5.3079.607</MinVersion>
       <PackageToBundle>False</PackageToBundle>
     </ManagementPackReference>
     <ManagementPackReference Include="ServiceManager.Runbook.Library">
-      <HintPath>C:\Users\jure.purgar\Source\Repos\aa-scsm-connector\PurgarNET.AAConnector\MPReferences\ServiceManager.Runbook.Library.mpb</HintPath>
+      <HintPath>..\MPReferences\ServiceManager.Runbook.Library.mpb</HintPath>
       <Alias>Runbook</Alias>
       <MinVersion>7.5.3079.0</MinVersion>
       <PackageToBundle>False</PackageToBundle>
     </ManagementPackReference>
     <ManagementPackReference Include="System.AdminItem.Library">
-      <HintPath>C:\Users\jure.purgar\Source\Repos\aa-scsm-connector\PurgarNET.AAConnector\MPReferences\System.AdminItem.Library.mp</HintPath>
+      <HintPath>..\MPReferences\System.AdminItem.Library.mp</HintPath>
       <Alias>AdminItem</Alias>
       <MinVersion>7.5.8501.0</MinVersion>
       <PackageToBundle>False</PackageToBundle>
     </ManagementPackReference>
     <ManagementPackReference Include="System.Knowledge.Library">
-      <HintPath>C:\Users\jure.purgar\Source\Repos\aa-scsm-connector\PurgarNET.AAConnector\MPReferences\System.Knowledge.Library.mp</HintPath>
+      <HintPath>..\MPReferences\System.Knowledge.Library.mp</HintPath>
       <Alias>Knowledge</Alias>
       <MinVersion>7.5.3079.0</MinVersion>
       <PackageToBundle>False</PackageToBundle>
@@ -82,13 +82,13 @@
       <PackageToBundle>False</PackageToBundle>
     </ManagementPackReference>
     <ManagementPackReference Include="System.WorkItem.Activity.Library">
-      <HintPath>C:\Users\jure.purgar\Source\Repos\aa-scsm-connector\PurgarNET.AAConnector\MPReferences\System.WorkItem.Activity.Library.mp</HintPath>
+      <HintPath>..\MPReferences\System.WorkItem.Activity.Library.mp</HintPath>
       <Alias>Activity</Alias>
       <MinVersion>7.5.3079.0</MinVersion>
       <PackageToBundle>False</PackageToBundle>
     </ManagementPackReference>
     <ManagementPackReference Include="System.WorkItem.Library">
-      <HintPath>C:\Users\jure.purgar\Source\Repos\aa-scsm-connector\PurgarNET.AAConnector\MPReferences\System.WorkItem.Library.mp</HintPath>
+      <HintPath>..\MPReferences\System.WorkItem.Library.mp</HintPath>
       <Alias>WorkItem</Alias>
       <MinVersion>7.5.3079.607</MinVersion>
       <PackageToBundle>False</PackageToBundle>
