@@ -38,11 +38,10 @@
     </Reference>
     <Reference Include="Microsoft.EnterpriseManagement.Core, Version=7.0.5000.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\..\Program Files\Microsoft System Center 2012 R2\Service Manager\SDK Binaries\Microsoft.EnterpriseManagement.Core.dll</HintPath>
-      <Private>False</Private>
+      <HintPath>..\SDKReferences\Microsoft.EnterpriseManagement.Core.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.EnterpriseManagement.ServiceManager.Application.Common">
-      <HintPath>..\..\..\..\..\..\..\Program Files\Microsoft System Center 2012 R2\Service Manager\Microsoft.EnterpriseManagement.ServiceManager.Application.Common.dll</HintPath>
+      <HintPath>..\SDKReferences\Microsoft.EnterpriseManagement.ServiceManager.Application.Common.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Microsoft.EnterpriseManagement.ServiceManager.SharedResources">
@@ -50,31 +49,31 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="Microsoft.EnterpriseManagement.UI.Controls">
-      <HintPath>..\..\..\..\..\..\..\Program Files\Microsoft System Center 2012 R2\Service Manager\Microsoft.EnterpriseManagement.UI.Controls.dll</HintPath>
+      <HintPath>..\SDKReferences\Microsoft.EnterpriseManagement.UI.Controls.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Microsoft.EnterpriseManagement.UI.Core">
-      <HintPath>..\..\..\..\..\..\..\Program Files\Microsoft System Center 2012 R2\Service Manager\Microsoft.EnterpriseManagement.UI.Core.dll</HintPath>
+      <HintPath>..\SDKReferences\Microsoft.EnterpriseManagement.UI.Core.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Microsoft.EnterpriseManagement.UI.Extensions">
-      <HintPath>..\..\..\..\..\..\..\Program Files\Microsoft System Center 2012 R2\Service Manager\Microsoft.EnterpriseManagement.UI.Extensions.dll</HintPath>
+      <HintPath>..\SDKReferences\Microsoft.EnterpriseManagement.UI.Extensions.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Microsoft.EnterpriseManagement.UI.FormsInfra">
-      <HintPath>..\..\..\..\..\..\..\Program Files\Microsoft System Center 2012 R2\Service Manager\Microsoft.EnterpriseManagement.UI.FormsInfra.dll</HintPath>
+      <HintPath>..\SDKReferences\Microsoft.EnterpriseManagement.UI.FormsInfra.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Microsoft.EnterpriseManagement.UI.Foundation">
-      <HintPath>..\..\..\..\..\..\..\Program Files\Microsoft System Center 2012 R2\Service Manager\Microsoft.EnterpriseManagement.UI.Foundation.dll</HintPath>
+      <HintPath>..\SDKReferences\Microsoft.EnterpriseManagement.UI.Foundation.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Microsoft.EnterpriseManagement.UI.SdkDataAccess">
-      <HintPath>..\..\..\..\..\..\..\Program Files\Microsoft System Center 2012 R2\Service Manager\Microsoft.EnterpriseManagement.UI.SdkDataAccess.dll</HintPath>
+      <HintPath>..\SDKReferences\Microsoft.EnterpriseManagement.UI.SdkDataAccess.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Microsoft.EnterpriseManagement.UI.SMControls">
-      <HintPath>..\..\..\..\..\..\..\Program Files\Microsoft System Center 2012 R2\Service Manager\Microsoft.EnterpriseManagement.UI.SMControls.dll</HintPath>
+      <HintPath>..\SDKReferences\Microsoft.EnterpriseManagement.UI.SMControls.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />
@@ -91,7 +90,7 @@
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="WPFToolKit">
-      <HintPath>..\..\..\..\..\..\..\Program Files\Microsoft System Center 2012 R2\Service Manager\WPFToolKit.dll</HintPath>
+      <HintPath>..\SDKReferences\WPFToolKit.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

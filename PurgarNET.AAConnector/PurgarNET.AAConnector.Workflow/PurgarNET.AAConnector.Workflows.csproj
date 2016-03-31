@@ -34,8 +34,7 @@
     </Reference>
     <Reference Include="Microsoft.EnterpriseManagement.Core, Version=7.0.5000.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\..\Program Files\Microsoft System Center 2012 R2\Service Manager\SDK Binaries\Microsoft.EnterpriseManagement.Core.dll</HintPath>
-      <Private>False</Private>
+      <HintPath>..\SDKReferences\Microsoft.EnterpriseManagement.Core.dll</HintPath>
     </Reference>
     <Reference Include="System.Threading, Version=1.0.2856.102, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\TaskParallelLibrary.1.0.2856.0\lib\Net35\System.Threading.dll</HintPath>
